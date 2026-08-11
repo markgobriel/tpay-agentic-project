@@ -1,0 +1,155 @@
+import { execFileSync } from "node:child_process";
+import { mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+import request from "supertest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import {
+  createDbClient,
+  MOCK_ACCOUNT_ID,
+  seedMockFinanceData,
+  type DbClient,
+} from "@save-and-spend/db";
+import { createApp } from "./app.js";
+
+const dbPackageRoot = fileURLToPath(new URL("../../../packages/db", import.meta.url));
+const migrationSqlPath = join(
+  dbPackageRoot,
+  "prisma",
+  "migrations",
+  "20260811180000_init",
+  "migration.sql",
+);
+
+function applyInitMigration(databaseFile: string): void {
+  const sql = readFileSync(migrationSqlPath, "utf8");
+  execFileSync("sqlite3", [databaseFile], {
+    input: sql,
+    stdio: ["pipe", "pipe", "pipe"],
+  });
+}
+
+describe("API-001 finance HTTP contracts", () => {
+  let dbDir: string;
+  let db: DbClient;
+  let app: ReturnType<typeof createApp>;
+
+  beforeAll(async () => {
+    dbDir = mkdtempSync(join(tmpdir(), "save-spend-api-"));
+    const dbFile = join(dbDir, "test.db");
+    applyInitMigration(dbFile);
+    db = createDbClient(`file:${dbFile}`);
+    await seedMockFinanceData(db);
+    app = createApp({
+      db,
+      now: () => new Date("2026-07-15T12:00:00.000Z"),
+    });
+  });
+
+  afterAll(async () => {
+    await db.$disconnect();
+    rmSync(dbDir, { recursive: true, force: true });
+  });
+
+  it("returns the mock account summary", async () => {
+    const response = await request(app).get("/account").expect(200);
+    expect(response.body).toMatchObject({
+      id: MOCK_ACCOUNT_ID,
+      name: "Everyday Checking",
+      currencyCode: "USD",
+      currentBalanceMinor: 245_000,
+    });
+  });
+
+  it("returns seeded transactions without embedding domain math in the route", async () => {
+    const response = await request(app).get("/transactions").expect(200);
+    expect(response.body.accountId).toBe(MOCK_ACCOUNT_ID);
+    expect(response.body.transactions).toHaveLength(12);
+    expect(response.body.transactions[0]).toMatchObject({
+      type: "income",
+      category: "salary",
+      amountMinor: 500_000,
+    });
+  });
+
+  it("returns monthly analytics for a valid UTC month", async () => {
+    const response = await request(app).get("/analytics").query({ month: "2026-07" }).expect(200);
+    expect(response.body.yearMonth).toBe("2026-07");
+    expect(response.body.incomeMinor).toBe(500_000);
+    expect(response.body.spendingMinor).toBeGreaterThan(0);
+    expect(response.body.currentMonthlySavingsMinor).toBe(
+      response.body.incomeMinor - response.body.spendingMinor,
+    );
+    expect(Array.isArray(response.body.categorySpending)).toBe(true);
+  });
+
+  it("rejects missing or invalid analytics months with client-safe errors", async () => {
+    const missing = await request(app).get("/analytics").expect(400);
+    expect(missing.body.error.code).toBe("missing_month");
+
+    const invalid = await request(app).get("/analytics").query({ month: "2026-13" }).expect(400);
+    expect(invalid.body.error.code).toBe("invalid_year_month");
+    expect(typeof invalid.body.error.message).toBe("string");
+  });
+
+  it("returns the savings goal with domain-projected pace fields", async () => {
+    const response = await request(app).get("/savings-goal").expect(200);
+    expect(response.body).toMatchObject({
+      accountId: MOCK_ACCOUNT_ID,
+      name: "Emergency Fund",
+      targetAmountMinor: 600_000,
+      currentSavedMinor: 120_000,
+      analyticsYearMonth: "2026-07",
+      isComplete: false,
+    });
+    expect(response.body.requiredMonthlySavingsMinor).toBeGreaterThan(0);
+    expect(Number.isInteger(response.body.savingsGapMinor)).toBe(true);
+    expect(typeof response.body.onPace).toBe("boolean");
+  });
+
+  it("updates the savings goal and rejects invalid payloads without mutating state", async () => {
+    const before = await request(app).get("/savings-goal").expect(200);
+
+    const updated = await request(app)
+      .put("/savings-goal")
+      .send({
+        name: "Vacation Fund",
+        targetAmountMinor: 300_000,
+        currentSavedMinor: 50_000,
+        targetDate: "2026-12-31T00:00:00.000Z",
+      })
+      .expect(200);
+    expect(updated.body.name).toBe("Vacation Fund");
+    expect(updated.body.targetAmountMinor).toBe(300_000);
+    expect(updated.body.currentSavedMinor).toBe(50_000);
+
+    const invalid = await request(app)
+      .put("/savings-goal")
+      .send({
+        name: "Bad",
+        targetAmountMinor: -1,
+        currentSavedMinor: 0,
+        targetDate: "2026-12-31T00:00:00.000Z",
+      })
+      .expect(400);
+    expect(invalid.body.error.code).toBe("invalid_target_amount");
+
+    const pastTarget = await request(app)
+      .put("/savings-goal")
+      .send({
+        name: "Too Soon",
+        targetAmountMinor: 100_000,
+        currentSavedMinor: 0,
+        targetDate: "2026-01-01T00:00:00.000Z",
+      })
+      .expect(400);
+    expect(pastTarget.body.error.code).toBe("invalid_target_date");
+
+    const afterReject = await request(app).get("/savings-goal").expect(200);
+    expect(afterReject.body.name).toBe("Vacation Fund");
+    expect(afterReject.body.targetAmountMinor).toBe(300_000);
+    expect(afterReject.body.name).not.toBe("Too Soon");
+    expect(before.body.name).toBe("Emergency Fund");
+  });
+});

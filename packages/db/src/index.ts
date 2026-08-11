@@ -11,9 +11,11 @@ export {
   listTransactionsByAccount,
   listTransactionsByAccountAndCategory,
   listTransactionsByAccountAndType,
+  upsertSavingsGoalForAccount,
   type AccountRecord,
   type SavingsGoalRecord,
   type TransactionRecord,
+  type UpsertSavingsGoalInput,
 } from "./repositories.js";
 
 export const DB_PACKAGE_NAME = "@save-and-spend/db" as const;

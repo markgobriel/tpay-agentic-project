@@ -65,3 +65,33 @@ export async function findSavingsGoalByAccountId(
 ): Promise<SavingsGoalRecord | null> {
   return db.savingsGoal.findUnique({ where: { accountId } });
 }
+
+export interface UpsertSavingsGoalInput {
+  accountId: string;
+  name: string;
+  targetAmountMinor: number;
+  currentSavedMinor: number;
+  targetDate: Date;
+}
+
+export async function upsertSavingsGoalForAccount(
+  db: PrismaClient,
+  input: UpsertSavingsGoalInput,
+): Promise<SavingsGoalRecord> {
+  return db.savingsGoal.upsert({
+    where: { accountId: input.accountId },
+    create: {
+      accountId: input.accountId,
+      name: input.name,
+      targetAmountMinor: input.targetAmountMinor,
+      currentSavedMinor: input.currentSavedMinor,
+      targetDate: input.targetDate,
+    },
+    update: {
+      name: input.name,
+      targetAmountMinor: input.targetAmountMinor,
+      currentSavedMinor: input.currentSavedMinor,
+      targetDate: input.targetDate,
+    },
+  });
+}

@@ -11,11 +11,14 @@
   },
   "dependencies": {
     "@save-and-spend/contracts": "0.1.0",
+    "@save-and-spend/db": "0.1.0",
     "@save-and-spend/domain": "0.1.0",
     "express": "^5.1.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
+    "@types/supertest": "^6.0.3",
+    "supertest": "^7.1.4",
     "tsx": "^4.20.3"
   }
 }
