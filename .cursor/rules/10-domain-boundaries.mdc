@@ -1,0 +1,10 @@
+---
+description: TPay product boundaries and financial-domain safety
+alwaysApply: true
+---
+
+Implement only the mock, one-account MVP in `docs/PRODUCT.md`.
+
+Domain calculations must be deterministic, tested, and located in the domain layer. UI components render data and collect input; route handlers validate/coordinate; Prisma persists data. Neither UI nor controllers may embed savings, pace, category, or recommendation calculations.
+
+Use integer minor currency units or a decimal-safe library chosen during foundation work; never IEEE-754 floating-point arithmetic for stored or calculated money. Never recommend reductions to essential categories. This is a budgeting tool with mock data, not personalized financial advice.

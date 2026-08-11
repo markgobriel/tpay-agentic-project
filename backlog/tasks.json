@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "project": "Save & Spend MVP",
+  "selectionRule": "Select the lowest priority number among todo, unblocked tasks. Do not begin product work until .agent/state.json projectStatus is active.",
+  "tasks": [
+    {
+      "id": "FOUND-001",
+      "priority": 10,
+      "status": "done",
+      "title": "Initialize modular-monolith workspace and quality tooling",
+      "acceptanceCriteria": [
+        "React TypeScript web, Node TypeScript API, shared domain, and Prisma package boundaries exist.",
+        "The single npm run validate command runs format/lint/type/unit/build gates.",
+        "No finance product feature is claimed as complete by this foundation task."
+      ],
+      "browserValidation": false,
+      "dependsOn": [],
+      "notes": "Completed FOUND-001: npm workspaces with apps/web (Vite React), apps/api (Express), packages/domain, packages/db (Prisma), packages/contracts. validate runs format/lint/typecheck/unit/build. UTC timezone policy selected. Dependencies: TypeScript toolchain, Vite/React, Express, Vitest, ESLint/Prettier, Prisma (boundary only). Verifier PASS. No finance feature claimed complete."
+    },
+    {
+      "id": "DATA-001",
+      "priority": 20,
+      "status": "todo",
+      "title": "Model mock account, transactions, and one savings goal with Prisma",
+      "acceptanceCriteria": [
+        "Schema represents the documented entity intent and money precision rules.",
+        "Deterministic mock seed data covers income, essential, and discretionary expenses.",
+        "Persistence tests run without real banking data."
+      ],
+      "browserValidation": false,
+      "dependsOn": ["FOUND-001"]
+    },
+    {
+      "id": "DOMAIN-001",
+      "priority": 30,
+      "status": "todo",
+      "title": "Implement deterministic monthly analytics and savings-goal calculations",
+      "acceptanceCriteria": [
+        "Income, spending, savings, category totals, required savings, pace, and gap follow DOMAIN_RULES.md.",
+        "Boundary tests cover rounding, completed goals, invalid dates, and unavailable months.",
+        "Domain code has no React, HTTP, or Prisma dependency."
+      ],
+      "browserValidation": false,
+      "dependsOn": ["DATA-001"]
+    },
+    {
+      "id": "API-001",
+      "priority": 40,
+      "status": "todo",
+      "title": "Expose account, transactions, monthly analytics, and savings-goal REST API",
+      "acceptanceCriteria": [
+        "HTTP contracts return validated, client-safe responses for documented resources.",
+        "Routes coordinate services without embedding financial calculations.",
+        "Integration tests cover happy paths and invalid input."
+      ],
+      "browserValidation": false,
+      "dependsOn": ["DOMAIN-001"]
+    },
+    {
+      "id": "WEB-001",
+      "priority": 50,
+      "status": "todo",
+      "title": "Build account dashboard and transaction history",
+      "acceptanceCriteria": [
+        "User sees current balance, monthly income/spending/savings, categorized spending, and transaction history.",
+        "Values are rendered from API data and format money correctly.",
+        "Primary browser flow has no console or network errors."
+      ],
+      "browserValidation": true,
+      "dependsOn": ["API-001"]
+    },
+    {
+      "id": "GOAL-001",
+      "priority": 60,
+      "status": "todo",
+      "title": "Build savings-goal input and pace display",
+      "acceptanceCriteria": [
+        "User can set/update one goal with target amount and date.",
+        "UI displays current savings, required monthly savings, gap, and on-pace status accurately.",
+        "Invalid inputs are understandable and do not create invalid data."
+      ],
+      "browserValidation": true,
+      "dependsOn": ["WEB-001"]
+    },
+    {
+      "id": "REC-001",
+      "priority": 70,
+      "status": "todo",
+      "title": "Implement and present deterministic discretionary-spending recommendations",
+      "acceptanceCriteria": [
+        "Recommendations follow the priority, cap, and essential-category invariants in DOMAIN_RULES.md.",
+        "Reductions total the feasible amount needed to close a savings gap and disclose any unresolved amount.",
+        "User can see the recommendation math in the browser."
+      ],
+      "browserValidation": true,
+      "dependsOn": ["GOAL-001"]
+    },
+    {
+      "id": "QUALITY-001",
+      "priority": 80,
+      "status": "todo",
+      "title": "Complete end-to-end, accessibility, responsive, and release review",
+      "acceptanceCriteria": [
+        "Playwright covers the core account-to-goal-to-recommendation flow.",
+        "Key keyboard, labels, and responsive behavior are tested or documented with evidence.",
+        "Full validation and final read-only verifier review pass."
+      ],
+      "browserValidation": true,
+      "dependsOn": ["REC-001"]
+    }
+  ]
+}

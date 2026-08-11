@@ -1,0 +1,15 @@
+// Prisma schema boundary for FOUND-001.
+// Entity fields, money precision rules, and seed data land in DATA-001.
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model WorkspaceBootstrap {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+}

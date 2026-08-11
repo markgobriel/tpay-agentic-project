@@ -1,0 +1,14 @@
+---
+description: TPay autonomous development and review-gate rules
+alwaysApply: true
+---
+
+Read `AGENTS.md` before doing any work. Treat it as the governing contract.
+
+Read `.agent/state.json` and `backlog/tasks.json` at the beginning and end of every turn. If projectStatus is `awaiting_initial_review`, do not implement product code; only answer review questions or improve the harness if explicitly asked.
+
+When projectStatus is `active`, follow the complete autonomous loop in `AGENTS.md`. Select the highest-priority task that is todo and unblocked. Do not stop after a single feature: plan, build, test, browser-validate where required, request a read-only verifier subagent, fix findings, update state, commit, and continue.
+
+Run `npm run validate` before marking any task done. Never claim success if it fails. Never weaken tests or documented constraints to pass validation.
+
+Only ask the human for a harness-level decision or a genuine blocker that has exhausted the documented retry policy. Record the blocker with reproducible evidence before stopping.

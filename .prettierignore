@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-types
+coverage
+playwright-report
+test-results
+package-lock.json
+*.tsbuildinfo
+.git
+.agent

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "projectStatus": "active",
+  "initialReview": {
+    "status": "approved",
+    "approvedAt": "2026-08-11T14:41:14Z"
+  },
+  "currentTaskId": "DATA-001",
+  "currentPlan": [
+    "Replace Prisma bootstrap placeholder with Account, Transaction, and SavingsGoal models using integer minor units.",
+    "Add deterministic mock seed covering income, essential, and discretionary expenses for one account and one goal.",
+    "Add persistence/repository tests that run against an isolated DB without real banking data (SQLite or testcontainers/Postgres as chosen).",
+    "Keep domain policy out of packages/db; expose repository interfaces only.",
+    "Validate, verify, mark DATA-001 done, commit, continue."
+  ],
+  "iteration": 2,
+  "consecutiveFailures": 0,
+  "strategyCount": 0,
+  "lastFailure": null,
+  "lastValidation": {
+    "status": "pass",
+    "at": "2026-08-11T14:53:52Z",
+    "summary": "FOUND-001: format, lint, typecheck, 3 unit tests, and workspace builds passed via npm run validate."
+  },
+  "lastVerifier": {
+    "status": "pass",
+    "at": "2026-08-11T14:55:00Z",
+    "summary": "FOUND-001 verifier PASS: package boundaries, validate gates, and no finance feature falsely claimed complete."
+  },
+  "blocker": null,
+  "hookPolicy": {
+    "maxFollowupsPerRun": 12,
+    "purpose": "Bound one Cursor hook-driven run; do not infer project completion from this limit."
+  },
+  "evidence": [
+    {
+      "taskId": "FOUND-001",
+      "kind": "validation",
+      "summary": "npm run validate passed (format/lint/type/unit/build)."
+    },
+    {
+      "taskId": "FOUND-001",
+      "kind": "verifier",
+      "summary": "Read-only verifier returned PASS."
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+:root {
+  color-scheme: light;
+  --ink: #1a2330;
+  --paper: #f7f3ea;
+  --accent: #0f6a5a;
+  --haze:
+    radial-gradient(circle at 12% 18%, #d9efe8 0%, transparent 42%),
+    radial-gradient(circle at 88% 8%, #f0e2c8 0%, transparent 36%),
+    linear-gradient(160deg, #f7f3ea 0%, #e8f0ec 55%, #f4eee3 100%);
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  color: var(--ink);
+  background: var(--haze);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+.shell {
+  min-height: 100vh;
+  display: grid;
+  align-content: center;
+  gap: 0.75rem;
+  padding: 2rem;
+}
+
+.brand {
+  margin: 0;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  letter-spacing: -0.03em;
+  color: var(--accent);
+}
+
+.lede {
+  margin: 0;
+  max-width: 34rem;
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
