@@ -10,6 +10,7 @@ test-results/
 .env.*
 !.env.example
 .agent/logs/
+.agent/evidence/
 *.db
 *.db-journal
 packages/db/dev.db*

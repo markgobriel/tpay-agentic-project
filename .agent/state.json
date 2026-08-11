@@ -5,25 +5,25 @@
     "status": "approved",
     "approvedAt": "2026-08-11T14:41:14Z"
   },
-  "currentTaskId": "API-001",
+  "currentTaskId": "WEB-001",
   "currentPlan": [
-    "Define contracts for account, transactions, monthly analytics, and savings goal responses.",
-    "Wire Express routes that load persistence and call domain services without embedding finance math.",
-    "Add API integration tests for happy paths and invalid input; validate; verifier; commit; continue WEB-001."
+    "Build React dashboard fetching account, analytics, and transactions from the API.",
+    "Format money at presentation boundary only; no domain calculations in UI.",
+    "Add component tests; run browser validation for primary flow; validate; verifier; commit; continue GOAL-001."
   ],
-  "iteration": 5,
+  "iteration": 6,
   "consecutiveFailures": 0,
   "strategyCount": 0,
   "lastFailure": null,
   "lastValidation": {
     "status": "pass",
-    "at": "2026-08-11T15:06:57Z",
-    "summary": "DOMAIN-001: format, lint, prisma generate, typecheck, 14 unit tests, and builds passed via npm run validate."
+    "at": "2026-08-11T15:12:18Z",
+    "summary": "API-001: format, lint, prisma generate, typecheck, 20 tests (including 6 API integration), builds passed."
   },
   "lastVerifier": {
     "status": "pass",
-    "at": "2026-08-11T15:08:00Z",
-    "summary": "DOMAIN-001 verifier PASS: DOMAIN_RULES formulas, boundary tests, no React/HTTP/Prisma in domain."
+    "at": "2026-08-11T15:13:30Z",
+    "summary": "API-001 verifier PASS after validate-before-persist fix for PUT /savings-goal."
   },
   "blocker": null,
   "hookPolicy": {
@@ -60,6 +60,16 @@
       "taskId": "DOMAIN-001",
       "kind": "verifier",
       "summary": "Read-only verifier returned PASS for domain formulas and boundaries."
+    },
+    {
+      "taskId": "API-001",
+      "kind": "validation",
+      "summary": "npm run validate passed with 6 API integration tests."
+    },
+    {
+      "taskId": "API-001",
+      "kind": "verifier",
+      "summary": "Read-only verifier PASS after PUT validate-before-persist fix."
     }
   ]
 }

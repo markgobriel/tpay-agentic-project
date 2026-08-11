@@ -48,7 +48,7 @@
     {
       "id": "API-001",
       "priority": 40,
-      "status": "todo",
+      "status": "done",
       "title": "Expose account, transactions, monthly analytics, and savings-goal REST API",
       "acceptanceCriteria": [
         "HTTP contracts return validated, client-safe responses for documented resources.",
@@ -56,12 +56,13 @@
         "Integration tests cover happy paths and invalid input."
       ],
       "browserValidation": false,
-      "dependsOn": ["DOMAIN-001"]
+      "dependsOn": ["DOMAIN-001"],
+      "notes": "Completed API-001: GET /account|/transactions|/analytics|/savings-goal and PUT /savings-goal. FinanceService coordinates db+domain; routes do not embed math. Domain projection validates before goal persist. Dependencies: @save-and-spend/db, supertest (+types) for HTTP tests. npm run validate PASS (20 tests). Verifier PASS after validate-before-persist fix."
     },
     {
       "id": "WEB-001",
       "priority": 50,
-      "status": "todo",
+      "status": "done",
       "title": "Build account dashboard and transaction history",
       "acceptanceCriteria": [
         "User sees current balance, monthly income/spending/savings, categorized spending, and transaction history.",
@@ -69,7 +70,8 @@
         "Primary browser flow has no console or network errors."
       ],
       "browserValidation": true,
-      "dependsOn": ["API-001"]
+      "dependsOn": ["API-001"],
+      "notes": "Completed WEB-001: dashboard renders balance, July analytics, categories, and 12 transactions from API via Vite proxy. formatMinorAsCurrency is presentation-only. Browser evidence: scripts/browser-web-001.mjs -> .agent/evidence/WEB-001/browser-report.json (pass; $2,450.00/$5,000.00/$2,795.00/$2,205.00; no console/network errors). Dependency: playwright for browser evidence script. npm run validate PASS (22 tests). Verifier PASS."
     },
     {
       "id": "GOAL-001",
