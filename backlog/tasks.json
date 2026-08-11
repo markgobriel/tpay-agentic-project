@@ -20,7 +20,7 @@
     {
       "id": "DATA-001",
       "priority": 20,
-      "status": "todo",
+      "status": "done",
       "title": "Model mock account, transactions, and one savings goal with Prisma",
       "acceptanceCriteria": [
         "Schema represents the documented entity intent and money precision rules.",
@@ -28,7 +28,8 @@
         "Persistence tests run without real banking data."
       ],
       "browserValidation": false,
-      "dependsOn": ["FOUND-001"]
+      "dependsOn": ["FOUND-001"],
+      "notes": "Completed DATA-001: Account/Transaction/SavingsGoal Prisma models with Int minor units; deterministic seed covers income + all essential + all discretionary categories + one goal; persistence tests use temp SQLite + in-repo migration (no banking/network). SQLite chosen for isolated local/test (no Docker); production target remains PostgreSQL. Dependency: tsx for prisma seed CLI only. Domain policy kept out of packages/db. npm run validate PASS. Verifier PASS."
     },
     {
       "id": "DOMAIN-001",

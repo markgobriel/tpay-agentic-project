@@ -43,8 +43,11 @@ It currently runs harness/structure checks, format, lint, TypeScript, unit tests
 
 After Harness v1 approval (`projectStatus: active`), use `bash scripts/run-autonomous.sh` for hands-off development. It refuses to run before approval and automatically starts up to 50 bounded Cursor runs, stopping early only when the state becomes `complete` or `blocked`.
 
+Run `npm run status` for a concise live readout of task, validation, verifier, and intervention status. The controller streams Cursor events into `.agent/logs/controller.ndjson`, which can be followed in the terminal while it works.
+
 ## Foundation notes
 
 - Monthly analysis timezone policy: **UTC** (selected in FOUND-001).
 - Monetary amounts use non-negative integer minor units at domain and persistence boundaries.
+- Local/test persistence uses **SQLite** via Prisma (no Docker). Architecture still targets PostgreSQL for production deployment.
 - No finance product feature is complete until its backlog task is marked done with validation and verifier evidence.

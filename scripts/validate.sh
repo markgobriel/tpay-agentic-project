@@ -45,6 +45,9 @@ npm run format:check
 echo "==> lint"
 npm run lint
 
+echo "==> prisma generate"
+npm run db:generate -w @save-and-spend/db
+
 echo "==> typecheck"
 npm run typecheck
 

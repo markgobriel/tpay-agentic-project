@@ -12,13 +12,21 @@
     }
   },
   "scripts": {
-    "build": "tsc -b",
-    "typecheck": "tsc -b --pretty false"
+    "build": "prisma generate && tsc -b",
+    "typecheck": "prisma generate && tsc -b --pretty false",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "prisma db seed"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma",
+    "seed": "node --import tsx prisma/seed-cli.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.13.0"
   },
   "devDependencies": {
-    "prisma": "^6.13.0"
+    "prisma": "^6.13.0",
+    "tsx": "^4.20.3"
   }
 }

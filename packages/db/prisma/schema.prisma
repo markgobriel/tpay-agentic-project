@@ -1,15 +1,74 @@
-// Prisma schema boundary for FOUND-001.
-// Entity fields, money precision rules, and seed data land in DATA-001.
+// Persistence schema for Save & Spend MVP.
+// Money is stored as non-negative integer minor units (no floating-point currency).
+// SQLite is used for isolated local/test persistence (no Docker). Production target remains PostgreSQL per ARCHITECTURE.md.
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
-model WorkspaceBootstrap {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
+enum TransactionType {
+  income
+  expense
+}
+
+/// Persistence vocabulary aligned with DOMAIN_RULES category names.
+/// Eligibility / recommendation policy lives in packages/domain, not here.
+enum TransactionCategory {
+  salary
+  rent
+  utilities
+  groceries
+  transportation
+  healthcare
+  debt_minimum_payments
+  restaurants
+  shopping
+  entertainment
+  subscriptions
+  other
+}
+
+model Account {
+  id                  String         @id @default(cuid())
+  name                String
+  /// ISO 4217 currency code; amounts are always integer minor units of this currency.
+  currencyCode        String         @default("USD")
+  currentBalanceMinor Int
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  transactions        Transaction[]
+  savingsGoal         SavingsGoal?
+}
+
+model Transaction {
+  id          String              @id @default(cuid())
+  accountId   String
+  account     Account             @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  /// Non-negative integer minor units. Sign is represented by `type`, never by a signed float.
+  amountMinor Int
+  type        TransactionType
+  category    TransactionCategory
+  merchant    String
+  occurredAt  DateTime
+  createdAt   DateTime            @default(now())
+
+  @@index([accountId, occurredAt])
+}
+
+/// One savings goal per account for the MVP.
+model SavingsGoal {
+  id                String   @id @default(cuid())
+  accountId         String   @unique
+  account           Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  name              String
+  targetAmountMinor Int
+  currentSavedMinor Int
+  /// Calendar target date; domain validates it is after the calculation date.
+  targetDate        DateTime
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }

@@ -9,3 +9,8 @@ test-results/
 .env
 .env.*
 !.env.example
+.agent/logs/
+*.db
+*.db-journal
+packages/db/dev.db*
+packages/db/prisma/dev.db*

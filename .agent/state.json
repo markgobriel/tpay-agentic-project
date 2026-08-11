@@ -5,27 +5,25 @@
     "status": "approved",
     "approvedAt": "2026-08-11T14:41:14Z"
   },
-  "currentTaskId": "DATA-001",
+  "currentTaskId": "DOMAIN-001",
   "currentPlan": [
-    "Replace Prisma bootstrap placeholder with Account, Transaction, and SavingsGoal models using integer minor units.",
-    "Add deterministic mock seed covering income, essential, and discretionary expenses for one account and one goal.",
-    "Add persistence/repository tests that run against an isolated DB without real banking data (SQLite or testcontainers/Postgres as chosen).",
-    "Keep domain policy out of packages/db; expose repository interfaces only.",
-    "Validate, verify, mark DATA-001 done, commit, continue."
+    "Implement money helpers, category eligibility, monthly analytics, and savings-goal pace/gap calculations per DOMAIN_RULES.md.",
+    "Add boundary unit tests: rounding (ceil), completed goals, invalid dates, unavailable months, essential never recommended.",
+    "Keep packages/domain free of React/HTTP/Prisma; validate; verifier; mark done; commit; continue to API-001."
   ],
-  "iteration": 2,
+  "iteration": 4,
   "consecutiveFailures": 0,
   "strategyCount": 0,
   "lastFailure": null,
   "lastValidation": {
     "status": "pass",
-    "at": "2026-08-11T14:53:52Z",
-    "summary": "FOUND-001: format, lint, typecheck, 3 unit tests, and workspace builds passed via npm run validate."
+    "at": "2026-08-11T15:02:57Z",
+    "summary": "DATA-001: format, lint, prisma generate, typecheck, 5 unit tests (including persistence), and workspace builds passed via npm run validate."
   },
   "lastVerifier": {
     "status": "pass",
-    "at": "2026-08-11T14:55:00Z",
-    "summary": "FOUND-001 verifier PASS: package boundaries, validate gates, and no finance feature falsely claimed complete."
+    "at": "2026-08-11T15:04:00Z",
+    "summary": "DATA-001 verifier PASS: schema/money precision, seed coverage, isolated SQLite persistence tests, no domain policy in packages/db."
   },
   "blocker": null,
   "hookPolicy": {
@@ -42,6 +40,16 @@
       "taskId": "FOUND-001",
       "kind": "verifier",
       "summary": "Read-only verifier returned PASS."
+    },
+    {
+      "taskId": "DATA-001",
+      "kind": "validation",
+      "summary": "npm run validate passed including persistence tests against isolated SQLite."
+    },
+    {
+      "taskId": "DATA-001",
+      "kind": "verifier",
+      "summary": "Read-only verifier returned PASS for schema, seed, and boundary checks."
     }
   ]
 }
