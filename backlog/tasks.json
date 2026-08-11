@@ -34,7 +34,7 @@
     {
       "id": "DOMAIN-001",
       "priority": 30,
-      "status": "todo",
+      "status": "done",
       "title": "Implement deterministic monthly analytics and savings-goal calculations",
       "acceptanceCriteria": [
         "Income, spending, savings, category totals, required savings, pace, and gap follow DOMAIN_RULES.md.",
@@ -42,7 +42,8 @@
         "Domain code has no React, HTTP, or Prisma dependency."
       ],
       "browserValidation": false,
-      "dependsOn": ["DATA-001"]
+      "dependsOn": ["DATA-001"],
+      "notes": "Completed DOMAIN-001: calculateMonthlyAnalytics + projectSavingsGoal with UTC inclusive months-remaining policy, ceilDiv required savings, completed-goal short-circuit, DomainValidationError for invalid dates/months. Category eligibility helpers included (essentials never recommendable). 12 domain unit tests + persistence suite; npm run validate PASS; verifier PASS. No new runtime dependencies."
     },
     {
       "id": "API-001",

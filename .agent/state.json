@@ -5,25 +5,25 @@
     "status": "approved",
     "approvedAt": "2026-08-11T14:41:14Z"
   },
-  "currentTaskId": "DOMAIN-001",
+  "currentTaskId": "API-001",
   "currentPlan": [
-    "Implement money helpers, category eligibility, monthly analytics, and savings-goal pace/gap calculations per DOMAIN_RULES.md.",
-    "Add boundary unit tests: rounding (ceil), completed goals, invalid dates, unavailable months, essential never recommended.",
-    "Keep packages/domain free of React/HTTP/Prisma; validate; verifier; mark done; commit; continue to API-001."
+    "Define contracts for account, transactions, monthly analytics, and savings goal responses.",
+    "Wire Express routes that load persistence and call domain services without embedding finance math.",
+    "Add API integration tests for happy paths and invalid input; validate; verifier; commit; continue WEB-001."
   ],
-  "iteration": 4,
+  "iteration": 5,
   "consecutiveFailures": 0,
   "strategyCount": 0,
   "lastFailure": null,
   "lastValidation": {
     "status": "pass",
-    "at": "2026-08-11T15:02:57Z",
-    "summary": "DATA-001: format, lint, prisma generate, typecheck, 5 unit tests (including persistence), and workspace builds passed via npm run validate."
+    "at": "2026-08-11T15:06:57Z",
+    "summary": "DOMAIN-001: format, lint, prisma generate, typecheck, 14 unit tests, and builds passed via npm run validate."
   },
   "lastVerifier": {
     "status": "pass",
-    "at": "2026-08-11T15:04:00Z",
-    "summary": "DATA-001 verifier PASS: schema/money precision, seed coverage, isolated SQLite persistence tests, no domain policy in packages/db."
+    "at": "2026-08-11T15:08:00Z",
+    "summary": "DOMAIN-001 verifier PASS: DOMAIN_RULES formulas, boundary tests, no React/HTTP/Prisma in domain."
   },
   "blocker": null,
   "hookPolicy": {
@@ -50,6 +50,16 @@
       "taskId": "DATA-001",
       "kind": "verifier",
       "summary": "Read-only verifier returned PASS for schema, seed, and boundary checks."
+    },
+    {
+      "taskId": "DOMAIN-001",
+      "kind": "validation",
+      "summary": "npm run validate passed with domain analytics/goal unit tests."
+    },
+    {
+      "taskId": "DOMAIN-001",
+      "kind": "verifier",
+      "summary": "Read-only verifier returned PASS for domain formulas and boundaries."
     }
   ]
 }
