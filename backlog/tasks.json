@@ -114,6 +114,21 @@
       "browserValidation": true,
       "dependsOn": ["REC-001"],
       "notes": "Completed QUALITY-001: e2e/core-flow.spec.ts in npm run validate via scripts/e2e.sh; docs/QUALITY_EVIDENCE.md; portable Chromium install; HARNESS_EVOLUTION entry. npm run validate PASS (29 unit + 1 e2e). Final verifier PASS. Dependencies: @playwright/test."
+    },
+    {
+      "id": "DESIGN-001",
+      "priority": 90,
+      "status": "done",
+      "title": "Create an Apple-inspired visual system and improve the end-to-end financial UX",
+      "acceptanceCriteria": [
+        "The dashboard uses an original Apple-inspired system UI language: system typography, calm neutral surfaces, restrained semantic color, rounded components, and a clear financial hierarchy, as specified in docs/EXPERIENCE.md.",
+        "Balance, monthly position, goal health, recommendations, categories, and transaction activity have a more legible visual hierarchy without changing financial calculations or API contracts.",
+        "Desktop and narrow-mobile Playwright user flows cover dashboard review, invalid/valid goal updates, recommendations, keyboard focus, console/network failures, and no unintended overflow; screenshot evidence is saved.",
+        "A read-only verifier reviews the implementation and screenshots against docs/EXPERIENCE.md, and npm run validate passes."
+      ],
+      "browserValidation": true,
+      "dependsOn": ["QUALITY-001"],
+      "notes": "Completed DESIGN-001: Apple-inspired system UI (styles/App/panels); hierarchy overview + goal/recs/activity; e2e/design-experience.spec.ts with desktop/mobile screenshots in .agent/evidence/DESIGN-001/; HARNESS_EVOLUTION entry. No finance math/API changes. npm run validate PASS (29 unit + 3 e2e). Verifier PASS."
     }
   ]
 }

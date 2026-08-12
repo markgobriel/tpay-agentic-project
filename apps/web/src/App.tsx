@@ -50,10 +50,10 @@ export function App() {
   }, [month]);
 
   return (
-    <main className="shell">
+    <main className="shell" data-testid="app-shell">
       <header className="hero">
         <p className="brand">Save &amp; Spend</p>
-        <p className="lede">One account. Clear monthly spending. A plan you can follow.</p>
+        <p className="lede">Balance, monthly position, and a calm plan for your goal.</p>
       </header>
 
       {loading ? <p role="status">Loading account…</p> : null}
@@ -63,55 +63,66 @@ export function App() {
         </p>
       ) : null}
 
-      {account ? (
-        <section className="panel" aria-labelledby="balance-heading">
-          <h1 id="balance-heading" className="panel-title">
-            {account.name}
-          </h1>
-          <p className="balance" data-testid="current-balance">
-            {formatMinorAsCurrency(account.currentBalanceMinor, account.currencyCode)}
-          </p>
-          <p className="muted">Current balance</p>
-        </section>
-      ) : null}
+      <section className="overview" aria-label="Financial overview">
+        {account ? (
+          <section className="panel" aria-labelledby="balance-heading" data-testid="balance-panel">
+            <p className="panel-kicker">Account</p>
+            <h1 id="balance-heading" className="panel-title">
+              {account.name}
+            </h1>
+            <p className="balance money" data-testid="current-balance">
+              {formatMinorAsCurrency(account.currentBalanceMinor, account.currencyCode)}
+            </p>
+            <p className="muted">Current balance</p>
+          </section>
+        ) : (
+          <section className="panel" aria-hidden="true" />
+        )}
 
-      <section className="panel" aria-labelledby="month-heading">
-        <div className="panel-head">
-          <h2 id="month-heading" className="panel-title">
-            Monthly summary
-          </h2>
-          <label className="month-label">
-            Month
-            <input
-              type="month"
-              value={month}
-              onChange={(event) => setMonth(event.target.value)}
-              aria-label="Selected UTC month"
-            />
-          </label>
-        </div>
-        {analytics ? (
-          <dl className="metrics">
+        <section className="panel" aria-labelledby="month-heading" data-testid="month-panel">
+          <div className="panel-head">
             <div>
-              <dt>Income</dt>
-              <dd data-testid="monthly-income">
-                {formatMinorAsCurrency(analytics.incomeMinor, account?.currencyCode)}
-              </dd>
+              <p className="panel-kicker">This month</p>
+              <h2 id="month-heading" className="panel-title">
+                Monthly position
+              </h2>
             </div>
-            <div>
-              <dt>Spending</dt>
-              <dd data-testid="monthly-spending">
-                {formatMinorAsCurrency(analytics.spendingMinor, account?.currencyCode)}
-              </dd>
-            </div>
-            <div>
-              <dt>Net savings</dt>
-              <dd data-testid="monthly-savings">
-                {formatMinorAsCurrency(analytics.currentMonthlySavingsMinor, account?.currencyCode)}
-              </dd>
-            </div>
-          </dl>
-        ) : null}
+            <label className="month-label">
+              Month
+              <input
+                type="month"
+                value={month}
+                onChange={(event) => setMonth(event.target.value)}
+                aria-label="Selected UTC month"
+              />
+            </label>
+          </div>
+          {analytics ? (
+            <dl className="metrics">
+              <div>
+                <dt>Income</dt>
+                <dd className="money" data-testid="monthly-income">
+                  {formatMinorAsCurrency(analytics.incomeMinor, account?.currencyCode)}
+                </dd>
+              </div>
+              <div>
+                <dt>Spending</dt>
+                <dd className="money" data-testid="monthly-spending">
+                  {formatMinorAsCurrency(analytics.spendingMinor, account?.currencyCode)}
+                </dd>
+              </div>
+              <div>
+                <dt>Net savings</dt>
+                <dd className="money" data-testid="monthly-savings">
+                  {formatMinorAsCurrency(
+                    analytics.currentMonthlySavingsMinor,
+                    account?.currencyCode,
+                  )}
+                </dd>
+              </div>
+            </dl>
+          ) : null}
+        </section>
       </section>
 
       <SavingsGoalPanel
@@ -124,55 +135,63 @@ export function App() {
         refreshKey={recommendationsRefreshKey}
       />
 
-      {analytics && analytics.categorySpending.length > 0 ? (
-        <section className="panel" aria-labelledby="categories-heading">
-          <h2 id="categories-heading" className="panel-title">
-            Spending by category
-          </h2>
-          <ul className="category-list">
-            {analytics.categorySpending.map((row) => (
-              <li key={row.category}>
-                <span>{row.category.replaceAll("_", " ")}</span>
-                <span>{formatMinorAsCurrency(row.amountMinor, account?.currencyCode)}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+      <div className="secondary-stack">
+        {analytics && analytics.categorySpending.length > 0 ? (
+          <section className="panel" aria-labelledby="categories-heading">
+            <p className="panel-kicker">Breakdown</p>
+            <h2 id="categories-heading" className="panel-title">
+              Spending by category
+            </h2>
+            <ul className="category-list">
+              {analytics.categorySpending.map((row) => (
+                <li key={row.category}>
+                  <span>{row.category.replaceAll("_", " ")}</span>
+                  <span className="money">
+                    {formatMinorAsCurrency(row.amountMinor, account?.currencyCode)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
 
-      <section className="panel" aria-labelledby="transactions-heading">
-        <h2 id="transactions-heading" className="panel-title">
-          Transaction history
-        </h2>
-        {transactions.length === 0 && !loading ? (
-          <p className="muted">No transactions yet.</p>
-        ) : (
-          <div className="table-wrap">
-            <table className="transactions">
-              <thead>
-                <tr>
-                  <th scope="col">Date</th>
-                  <th scope="col">Merchant</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Type</th>
-                  <th scope="col">Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                {transactions.map((txn) => (
-                  <tr key={txn.id}>
-                    <td>{txn.occurredAt.slice(0, 10)}</td>
-                    <td>{txn.merchant}</td>
-                    <td>{txn.category.replaceAll("_", " ")}</td>
-                    <td>{txn.type}</td>
-                    <td>{formatMinorAsCurrency(txn.amountMinor, account?.currencyCode)}</td>
+        <section className="panel" aria-labelledby="transactions-heading">
+          <p className="panel-kicker">Activity</p>
+          <h2 id="transactions-heading" className="panel-title">
+            Transaction history
+          </h2>
+          {transactions.length === 0 && !loading ? (
+            <p className="muted">No transactions yet.</p>
+          ) : (
+            <div className="table-wrap">
+              <table className="transactions">
+                <thead>
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Merchant</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Amount</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </section>
+                </thead>
+                <tbody>
+                  {transactions.map((txn) => (
+                    <tr key={txn.id}>
+                      <td>{txn.occurredAt.slice(0, 10)}</td>
+                      <td>{txn.merchant}</td>
+                      <td>{txn.category.replaceAll("_", " ")}</td>
+                      <td>{txn.type}</td>
+                      <td className="money">
+                        {formatMinorAsCurrency(txn.amountMinor, account?.currencyCode)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+      </div>
     </main>
   );
 }

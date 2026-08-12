@@ -100,7 +100,8 @@ export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsG
   }
 
   return (
-    <section className="panel" aria-labelledby="goal-heading">
+    <section className="panel" aria-labelledby="goal-heading" data-testid="goal-panel">
+      <p className="panel-kicker">Goal health</p>
       <h2 id="goal-heading" className="panel-title">
         Savings goal
       </h2>
@@ -120,25 +121,32 @@ export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsG
         <dl className="metrics goal-metrics" data-testid="goal-pace">
           <div>
             <dt>Current saved</dt>
-            <dd data-testid="goal-current-saved">
+            <dd className="money" data-testid="goal-current-saved">
               {formatMinorAsCurrency(goal.currentSavedMinor, currencyCode)}
             </dd>
           </div>
           <div>
             <dt>Required monthly</dt>
-            <dd data-testid="goal-required-monthly">
+            <dd className="money" data-testid="goal-required-monthly">
               {formatMinorAsCurrency(goal.requiredMonthlySavingsMinor, currencyCode)}
             </dd>
           </div>
           <div>
             <dt>Savings gap</dt>
-            <dd data-testid="goal-gap">
+            <dd className="money" data-testid="goal-gap">
               {formatMinorAsCurrency(goal.savingsGapMinor, currencyCode)}
             </dd>
           </div>
           <div>
             <dt>Pace</dt>
-            <dd data-testid="goal-on-pace">{goal.onPace ? "On pace" : "Behind pace"}</dd>
+            <dd>
+              <span
+                className={`pace-pill ${goal.onPace ? "on-pace" : "behind-pace"}`}
+                data-testid="goal-on-pace"
+              >
+                {goal.onPace ? "On pace" : "Behind pace"}
+              </span>
+            </dd>
           </div>
         </dl>
       ) : null}

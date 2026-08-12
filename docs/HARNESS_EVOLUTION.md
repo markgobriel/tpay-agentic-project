@@ -20,9 +20,9 @@ For every entry, record:
 - **Enforced by:** `AGENTS.md`, `docs/*.md`, `backlog/tasks.json`, `.agent/state.json`, `scripts/validate.sh`, and `.cursor/hooks/continue-loop.mjs`.
 - **Scope:** defines the development process; it does not implement or change a product capability.
 
-### QUALITY-001 — Playwright gate in validate
+### DESIGN-001 — experience evidence gate
 
-- **Observed evidence:** browser-validation scripts existed per feature task, but the repository gate could still pass without a durable E2E covering account → goal → recommendations, and Chromium launch was tied to a machine-specific path.
-- **Safeguard added:** Playwright core-flow E2E, a11y/responsive evidence doc, `npm run test:e2e` wired after build in `validate`, portable Chromium install via `npx playwright install chromium` (optional `CHROME_PATH` override only).
-- **Enforced by:** `e2e/core-flow.spec.ts`, `playwright.config.ts`, `scripts/e2e.sh`, `scripts/validate.sh`, `docs/QUALITY_EVIDENCE.md`.
-- **Scope:** strengthens release evidence and CI portability; does not change product financial policy.
+- **Observed evidence:** visual UX work can pass functional E2E without proving hierarchy, invalid-input paths, overflow, or screenshot evidence against `docs/EXPERIENCE.md`.
+- **Safeguard added:** dedicated Playwright experience suite with desktop/mobile screenshots, invalid/valid goal flows, focus and overflow checks; screenshots under `.agent/evidence/DESIGN-001/`.
+- **Enforced by:** `e2e/design-experience.spec.ts`, `docs/EXPERIENCE.md`, `npm run test:e2e` / `scripts/validate.sh`.
+- **Scope:** strengthens user-experience validation; does not change financial formulas or API contracts.

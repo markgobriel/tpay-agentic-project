@@ -40,8 +40,9 @@ export function RecommendationsPanel({
 
   return (
     <section className="panel" aria-labelledby="recommendations-heading">
+      <p className="panel-kicker">Discretionary help</p>
       <h2 id="recommendations-heading" className="panel-title">
-        Discretionary cut suggestions
+        Cut suggestions
       </h2>
       <p className="muted">
         Rule-based insights from mock spending — not professional financial advice. Essentials are
@@ -56,28 +57,28 @@ export function RecommendationsPanel({
 
       {plan ? (
         <div data-testid="recommendations-panel">
-          <dl className="metrics">
+          <dl className="metrics rec-metrics">
             <div>
               <dt>Savings gap</dt>
-              <dd data-testid="rec-gap">
+              <dd className="money" data-testid="rec-gap">
                 {formatMinorAsCurrency(plan.savingsGapMinor, currencyCode)}
               </dd>
             </div>
             <div>
               <dt>Proposed cuts</dt>
-              <dd data-testid="rec-total-cuts">
+              <dd className="money" data-testid="rec-total-cuts">
                 {formatMinorAsCurrency(plan.totalProposedReductionMinor, currencyCode)}
               </dd>
             </div>
             <div>
               <dt>Unresolved gap</dt>
-              <dd data-testid="rec-unresolved">
+              <dd className="money" data-testid="rec-unresolved">
                 {formatMinorAsCurrency(plan.unresolvedGapMinor, currencyCode)}
               </dd>
             </div>
             <div>
               <dt>Projected monthly savings</dt>
-              <dd data-testid="rec-projected-savings">
+              <dd className="money" data-testid="rec-projected-savings">
                 {formatMinorAsCurrency(plan.projectedMonthlySavingsMinor, currencyCode)}
               </dd>
             </div>
