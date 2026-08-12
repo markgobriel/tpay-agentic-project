@@ -6,6 +6,7 @@ import type {
 } from "@save-and-spend/contracts";
 import { fetchAccount, fetchMonthlyAnalytics, fetchTransactions } from "./api.js";
 import { formatMinorAsCurrency } from "./formatMoney.js";
+import { RecommendationsPanel } from "./RecommendationsPanel.js";
 import { SavingsGoalPanel } from "./SavingsGoalPanel.js";
 
 const DEFAULT_MONTH = "2026-07";
@@ -17,6 +18,7 @@ export function App() {
   const [transactions, setTransactions] = useState<TransactionResponse[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [recommendationsRefreshKey, setRecommendationsRefreshKey] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -112,7 +114,15 @@ export function App() {
         ) : null}
       </section>
 
-      <SavingsGoalPanel currencyCode={account?.currencyCode ?? "USD"} />
+      <SavingsGoalPanel
+        currencyCode={account?.currencyCode ?? "USD"}
+        onGoalSaved={() => setRecommendationsRefreshKey((value) => value + 1)}
+      />
+
+      <RecommendationsPanel
+        currencyCode={account?.currencyCode ?? "USD"}
+        refreshKey={recommendationsRefreshKey}
+      />
 
       {analytics && analytics.categorySpending.length > 0 ? (
         <section className="panel" aria-labelledby="categories-heading">

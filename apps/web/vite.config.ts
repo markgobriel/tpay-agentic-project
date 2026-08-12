@@ -11,6 +11,7 @@ export default defineConfig({
       "/transactions": "http://127.0.0.1:3001",
       "/analytics": "http://127.0.0.1:3001",
       "/savings-goal": "http://127.0.0.1:3001",
+      "/recommendations": "http://127.0.0.1:3001",
       "/health": "http://127.0.0.1:3001",
       "/meta": "http://127.0.0.1:3001",
     },

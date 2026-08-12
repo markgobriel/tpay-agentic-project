@@ -1,6 +1,7 @@
 import type {
   AccountResponse,
   MonthlyAnalyticsResponse,
+  RecommendationsResponse,
   SavingsGoalResponse,
   TransactionsResponse,
   UpsertSavingsGoalRequest,
@@ -39,4 +40,8 @@ export function upsertSavingsGoal(body: UpsertSavingsGoalRequest): Promise<Savin
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
+}
+
+export function fetchRecommendations(): Promise<RecommendationsResponse> {
+  return getJson<RecommendationsResponse>("/recommendations");
 }

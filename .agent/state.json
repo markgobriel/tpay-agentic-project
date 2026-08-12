@@ -5,25 +5,25 @@
     "status": "approved",
     "approvedAt": "2026-08-11T14:41:14Z"
   },
-  "currentTaskId": "REC-001",
+  "currentTaskId": "QUALITY-001",
   "currentPlan": [
-    "Implement deterministic discretionary recommendation engine in packages/domain per DOMAIN_RULES priority/caps.",
-    "Expose recommendations via API contract + route coordinated from goal gap and category spending.",
-    "Present recommendation math in the web UI; browser-validate; validate; verifier; commit; continue QUALITY-001."
+    "Add Playwright E2E covering account→goal→recommendations core flow.",
+    "Document/test keyboard labels and responsive behavior with evidence.",
+    "Run full validate + final verifier; mark QUALITY-001 done and project complete if criteria met."
   ],
-  "iteration": 8,
+  "iteration": 9,
   "consecutiveFailures": 0,
   "strategyCount": 0,
   "lastFailure": null,
   "lastValidation": {
     "status": "pass",
-    "at": "2026-08-12T08:05:32Z",
-    "summary": "GOAL-001: format/lint/typecheck/25 tests/build passed; browser-report.json pass."
+    "at": "2026-08-12T08:09:55Z",
+    "summary": "REC-001: validate passed with 29 tests; browser-report.json pass for recommendation math."
   },
   "lastVerifier": {
     "status": "pass",
-    "at": "2026-08-12T08:07:00Z",
-    "summary": "GOAL-001 verifier PASS: goal form, API pace display, invalid input blocked without mutation."
+    "at": "2026-08-12T08:12:00Z",
+    "summary": "REC-001 verifier PASS: domain priority/caps/essentials, unresolved gap disclosure, browser math."
   },
   "blocker": null,
   "hookPolicy": {
@@ -32,24 +32,24 @@
   },
   "evidence": [
     {
-      "taskId": "WEB-001",
-      "kind": "verifier",
-      "summary": "Read-only verifier returned PASS for WEB-001."
-    },
-    {
-      "taskId": "GOAL-001",
-      "kind": "validation",
-      "summary": "npm run validate passed with goal money-input tests."
-    },
-    {
-      "taskId": "GOAL-001",
-      "kind": "browser",
-      "summary": ".agent/evidence/GOAL-001/browser-report.json pass; update + invalid input covered."
-    },
-    {
       "taskId": "GOAL-001",
       "kind": "verifier",
       "summary": "Read-only verifier returned PASS for GOAL-001."
+    },
+    {
+      "taskId": "REC-001",
+      "kind": "validation",
+      "summary": "npm run validate passed (29 tests) including recommendation domain/API coverage."
+    },
+    {
+      "taskId": "REC-001",
+      "kind": "browser",
+      "summary": ".agent/evidence/REC-001/browser-report.json pass with exact gap/cuts/unresolved values."
+    },
+    {
+      "taskId": "REC-001",
+      "kind": "verifier",
+      "summary": "Read-only verifier returned PASS for REC-001."
     }
   ]
 }

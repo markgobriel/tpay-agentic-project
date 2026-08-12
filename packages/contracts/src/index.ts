@@ -81,3 +81,23 @@ export interface UpsertSavingsGoalRequest {
   /** ISO-8601 date or date-time; stored/compared as an Instant. */
   targetDate: string;
 }
+
+export interface RecommendationLineResponse {
+  category: string;
+  priority: number;
+  currentSpendingMinor: number;
+  proposedReductionMinor: number;
+  spendingAfterReductionMinor: number;
+  explanation: string;
+}
+
+export interface RecommendationsResponse {
+  accountId: string;
+  analyticsYearMonth: string;
+  savingsGapMinor: number;
+  currentMonthlySavingsMinor: number;
+  totalProposedReductionMinor: number;
+  unresolvedGapMinor: number;
+  projectedMonthlySavingsMinor: number;
+  recommendations: RecommendationLineResponse[];
+}

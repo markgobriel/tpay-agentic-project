@@ -10,6 +10,7 @@ import {
   isEssentialCategory,
   parseUtcYearMonth,
   projectSavingsGoal,
+  recommendDiscretionaryReductions,
   wholeUtcMonthsRemaining,
   type DomainTransaction,
 } from "./index.js";
@@ -221,5 +222,61 @@ describe("DOMAIN-001 category eligibility invariants", () => {
       "shopping",
       "other",
     ]);
+  });
+});
+
+describe("REC-001 discretionary recommendations", () => {
+  it("cuts discretionary categories in priority order without touching essentials", () => {
+    const plan = recommendDiscretionaryReductions(
+      100_00,
+      [
+        { category: "rent", amountMinor: 150_000 },
+        { category: "subscriptions", amountMinor: 45_00 },
+        { category: "restaurants", amountMinor: 80_00 },
+        { category: "shopping", amountMinor: 50_00 },
+      ],
+      20_00,
+    );
+
+    expect(plan.recommendations.map((line) => line.category)).toEqual([
+      "subscriptions",
+      "restaurants",
+    ]);
+    expect(plan.recommendations[0]?.proposedReductionMinor).toBe(45_00);
+    expect(plan.recommendations[1]?.proposedReductionMinor).toBe(55_00);
+    expect(plan.totalProposedReductionMinor).toBe(100_00);
+    expect(plan.unresolvedGapMinor).toBe(0);
+    expect(plan.projectedMonthlySavingsMinor).toBe(120_00);
+    expect(
+      plan.recommendations.every(
+        (line) => !["rent", "utilities", "groceries"].includes(line.category),
+      ),
+    ).toBe(true);
+  });
+
+  it("reports unresolved gap when eligible discretionary spending is insufficient", () => {
+    const plan = recommendDiscretionaryReductions(
+      200_00,
+      [
+        { category: "subscriptions", amountMinor: 20_00 },
+        { category: "entertainment", amountMinor: 10_00 },
+      ],
+      0,
+    );
+    expect(plan.totalProposedReductionMinor).toBe(30_00);
+    expect(plan.unresolvedGapMinor).toBe(170_00);
+    expect(plan.recommendations).toHaveLength(2);
+  });
+
+  it("returns an empty plan when the savings gap is already zero", () => {
+    const plan = recommendDiscretionaryReductions(
+      0,
+      [{ category: "restaurants", amountMinor: 50_00 }],
+      100_00,
+    );
+    expect(plan.recommendations).toEqual([]);
+    expect(plan.totalProposedReductionMinor).toBe(0);
+    expect(plan.unresolvedGapMinor).toBe(0);
+    expect(plan.projectedMonthlySavingsMinor).toBe(100_00);
   });
 });

@@ -90,7 +90,7 @@
     {
       "id": "REC-001",
       "priority": 70,
-      "status": "todo",
+      "status": "done",
       "title": "Implement and present deterministic discretionary-spending recommendations",
       "acceptanceCriteria": [
         "Recommendations follow the priority, cap, and essential-category invariants in DOMAIN_RULES.md.",
@@ -98,7 +98,8 @@
         "User can see the recommendation math in the browser."
       ],
       "browserValidation": true,
-      "dependsOn": ["GOAL-001"]
+      "dependsOn": ["GOAL-001"],
+      "notes": "Completed REC-001: recommendDiscretionaryReductions in domain; GET /recommendations; RecommendationsPanel UI. Browser evidence scripts/browser-rec-001.mjs with CALCULATION_DATE=2026-07-15: gap $1,128.34, cuts $455.00, unresolved $673.34; essentials excluded. npm run validate PASS (29 tests). Verifier PASS. No new runtime deps."
     },
     {
       "id": "QUALITY-001",

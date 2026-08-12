@@ -40,3 +40,10 @@ export {
 } from "./analytics.js";
 
 export { projectSavingsGoal, type SavingsGoalInput, type SavingsGoalProjection } from "./goals.js";
+
+export {
+  recommendDiscretionaryReductions,
+  type CategorySpendingInput,
+  type RecommendationLine,
+  type RecommendationPlan,
+} from "./recommendations.js";

@@ -108,6 +108,26 @@ describe("API-001 finance HTTP contracts", () => {
     expect(typeof response.body.onPace).toBe("boolean");
   });
 
+  it("returns discretionary recommendations without cutting essentials", async () => {
+    const response = await request(app).get("/recommendations").expect(200);
+    expect(response.body.accountId).toBe(MOCK_ACCOUNT_ID);
+    expect(response.body.analyticsYearMonth).toBe("2026-07");
+    expect(Number.isInteger(response.body.totalProposedReductionMinor)).toBe(true);
+    expect(Number.isInteger(response.body.unresolvedGapMinor)).toBe(true);
+    expect(Array.isArray(response.body.recommendations)).toBe(true);
+    for (const line of response.body.recommendations) {
+      expect(["subscriptions", "restaurants", "entertainment", "shopping", "other"]).toContain(
+        line.category,
+      );
+      expect(line.proposedReductionMinor).toBeGreaterThan(0);
+      expect(line.proposedReductionMinor).toBeLessThanOrEqual(line.currentSpendingMinor);
+    }
+    const priorities = response.body.recommendations.map(
+      (line: { priority: number }) => line.priority,
+    );
+    expect(priorities).toEqual([...priorities].sort((a: number, b: number) => a - b));
+  });
+
   it("updates the savings goal and rejects invalid payloads without mutating state", async () => {
     const before = await request(app).get("/savings-goal").expect(200);
 

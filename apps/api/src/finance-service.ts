@@ -2,6 +2,7 @@ import type {
   AccountResponse,
   ApiErrorResponse,
   MonthlyAnalyticsResponse,
+  RecommendationsResponse,
   SavingsGoalResponse,
   TransactionsResponse,
   UpsertSavingsGoalRequest,
@@ -10,6 +11,7 @@ import {
   calculateMonthlyAnalytics,
   DomainValidationError,
   projectSavingsGoal,
+  recommendDiscretionaryReductions,
   utcYearMonthFromInstant,
   utcYearMonthKey,
   type DomainTransaction,
@@ -124,6 +126,25 @@ export function createFinanceService(options: FinanceServiceOptions) {
         throw new HttpError(404, "savings_goal_not_found", "Savings goal was not found.");
       }
       return this.projectGoalResponse(goal);
+    },
+
+    async getRecommendations(): Promise<RecommendationsResponse> {
+      const goalProjection = await this.getSavingsGoal();
+      const plan = recommendDiscretionaryReductions(
+        goalProjection.savingsGapMinor,
+        (await this.getMonthlyAnalytics(goalProjection.analyticsYearMonth)).categorySpending,
+        goalProjection.currentMonthlySavingsMinor,
+      );
+      return {
+        accountId,
+        analyticsYearMonth: goalProjection.analyticsYearMonth,
+        savingsGapMinor: plan.savingsGapMinor,
+        currentMonthlySavingsMinor: goalProjection.currentMonthlySavingsMinor,
+        totalProposedReductionMinor: plan.totalProposedReductionMinor,
+        unresolvedGapMinor: plan.unresolvedGapMinor,
+        projectedMonthlySavingsMinor: plan.projectedMonthlySavingsMinor,
+        recommendations: plan.recommendations,
+      };
     },
 
     async upsertSavingsGoal(body: UpsertSavingsGoalRequest): Promise<SavingsGoalResponse> {

@@ -28,6 +28,7 @@ scripts/               validation and orchestration helpers
 3. [Financial domain rules](docs/DOMAIN_RULES.md)
 4. [Testing strategy](docs/TESTING.md)
 5. [Autonomy protocol](docs/AUTONOMY.md)
+6. [Harness evolution log](docs/HARNESS_EVOLUTION.md)
 
 ## Validation
 
@@ -45,9 +46,12 @@ After Harness v1 approval (`projectStatus: active`), use `bash scripts/run-auton
 
 Run `npm run status` for a concise live readout of task, validation, verifier, and intervention status. The controller streams Cursor events into `.agent/logs/controller.ndjson`, which can be followed in the terminal while it works.
 
+The agent does not merely follow the initial harness: after every task, it audits what it learned and autonomously strengthens tests, validation, operating rules, and documentation. Protected product scope and financial rules remain fixed unless a human explicitly changes them.
+
 ## Foundation notes
 
 - Monthly analysis timezone policy: **UTC** (selected in FOUND-001).
 - Monetary amounts use non-negative integer minor units at domain and persistence boundaries.
 - Local/test persistence uses **SQLite** via Prisma (no Docker). Architecture still targets PostgreSQL for production deployment.
+- Optional `CALCULATION_DATE` (ISO-8601) freezes API goal/recommendation analytics for deterministic local demos and browser evidence.
 - No finance product feature is complete until its backlog task is marked done with validation and verifier evidence.

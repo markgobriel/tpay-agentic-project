@@ -14,9 +14,10 @@ function toTargetDateIso(dateInput: string): string {
 
 export interface SavingsGoalPanelProps {
   currencyCode?: string;
+  onGoalSaved?: () => void;
 }
 
-export function SavingsGoalPanel({ currencyCode = "USD" }: SavingsGoalPanelProps) {
+export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsGoalPanelProps) {
   const [goal, setGoal] = useState<SavingsGoalResponse | null>(null);
   const [name, setName] = useState("");
   const [targetAmount, setTargetAmount] = useState("");
@@ -90,6 +91,7 @@ export function SavingsGoalPanel({ currencyCode = "USD" }: SavingsGoalPanelProps
       setCurrentSaved(minorToMajorInput(updated.currentSavedMinor));
       setTargetDate(toDateInputValue(updated.targetDate));
       setStatusMessage("Savings goal saved.");
+      onGoalSaved?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to save savings goal.");
     } finally {

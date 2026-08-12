@@ -73,6 +73,14 @@ export function createApp(options: CreateAppOptions): Express {
     }
   });
 
+  app.get("/recommendations", async (_req, res, next) => {
+    try {
+      res.json(await finance.getRecommendations());
+    } catch (error) {
+      next(error);
+    }
+  });
+
   app.put("/savings-goal", async (req, res, next) => {
     try {
       res.json(await finance.upsertSavingsGoal(req.body));
