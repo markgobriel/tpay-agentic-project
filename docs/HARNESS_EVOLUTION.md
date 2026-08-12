@@ -124,3 +124,10 @@ For every entry, record:
 - **Design response:** current finance-dashboard references and platform hierarchy guidance are distilled in `docs/DESIGN_REFERENCES.md`; the task requires an original composed workspace, not visual imitation.
 - **Enforced by:** `docs/EXPERIENCE.md`, `docs/DESIGN_REFERENCES.md`, task-specific desktop/mobile Playwright evidence, `npm run validate`, and a fresh screenshot-aware verifier.
 - **Scope:** presentation and interaction organization only; finance formulas, mock-data boundary, REST contracts, and modular-monolith direction remain fixed.
+
+### CODEX-006 — browser-tooling supply-chain audit
+
+- **Observed evidence:** a fresh full `npm audit` found high-severity advisory GHSA-7mvr-c777-76hp in both direct Playwright packages pinned by the lockfile at 1.54.2. The production-only audit reported zero vulnerabilities.
+- **Safeguard added:** Playwright test/runtime packages move together to the current fixed stable release; the full dependency audit and every existing real-browser flow must pass before completion.
+- **Enforced by:** `package.json`, `package-lock.json`, `npm audit`, the 19-test Playwright suite, `npm run validate`, and a fresh verifier.
+- **Scope:** development/test supply-chain security only; product behavior, financial rules, API contracts, and application dependencies remain unchanged.

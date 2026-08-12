@@ -326,6 +326,21 @@
       "notes": "Completed from IDEA-018: original overview→plan→details workspace, solid restrained visual system, progressive goal editor, and denser responsive activity composition informed by documented online research without copied assets. Verifier caught and prompted a small-text contrast correction; final tokens exceed 4.5:1 on light surfaces. npm run validate PASS (48 unit/integration + 19 browser; 30 architecture sources). Fresh screenshot-aware verifier PASS. No finance/API/domain/dependency changes."
     },
     {
+      "id": "CODEX-006",
+      "priority": 240,
+      "status": "done",
+      "title": "Remediate the Playwright browser-download vulnerability",
+      "acceptanceCriteria": [
+        "Both direct Playwright packages are upgraded together from the vulnerable 1.54.2 lockfile version to the current stable fixed release.",
+        "A fresh full npm audit reports zero known vulnerabilities across production and development dependencies.",
+        "All existing desktop/mobile Playwright flows pass using the upgraded browser toolchain without weakening or skipping coverage.",
+        "npm run validate and a fresh read-only verifier pass, with no product, finance, API, or architecture behavior change."
+      ],
+      "browserValidation": true,
+      "dependsOn": ["DESIGN-002"],
+      "notes": "Completed: both direct Playwright packages exact-pinned and coherently deduped at 1.62.1 with matching Chrome Headless Shell 151. Fresh full npm audit reports 0 vulnerabilities across 409 dependencies; all 19 browser tests remain present and unchanged. npm run validate PASS (48 unit/integration + 19 browser; 30 architecture sources). Fresh verifier PASS. No product/application/finance/API/runtime dependency changes."
+    },
+    {
       "id": "UX-004",
       "priority": 170,
       "status": "done",
