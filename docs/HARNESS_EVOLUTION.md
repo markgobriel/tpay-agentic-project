@@ -117,3 +117,10 @@ For every entry, record:
 - **Safeguard added:** a dependency scanner detects workspace-package and relative cross-layer imports, applies layer-specific runtime allowlists, ignores test-only tooling, and has synthetic pass/fail regression tests.
 - **Enforced by:** `scripts/architecture-rules.mjs`, `scripts/architecture-rules.test.mjs`, `scripts/check-architecture.mjs`, `npm run architecture:check`, and the final architecture stage of `npm run validate`.
 - **Scope:** engineering boundary enforcement only; the approved modular-monolith architecture is encoded without changing it.
+
+### DESIGN-002 — whole-layout authorship and hierarchy
+
+- **Observed evidence:** the live desktop page treated nearly every concept as the same rounded translucent card, producing weak differentiation between overview, planning, recommendations, and details. The user explicitly rejected the result as bland and AI-generated.
+- **Design response:** current finance-dashboard references and platform hierarchy guidance are distilled in `docs/DESIGN_REFERENCES.md`; the task requires an original composed workspace, not visual imitation.
+- **Enforced by:** `docs/EXPERIENCE.md`, `docs/DESIGN_REFERENCES.md`, task-specific desktop/mobile Playwright evidence, `npm run validate`, and a fresh screenshot-aware verifier.
+- **Scope:** presentation and interaction organization only; finance formulas, mock-data boundary, REST contracts, and modular-monolith direction remain fixed.

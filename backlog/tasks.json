@@ -310,6 +310,22 @@
       "notes": "Completed: executable TypeScript import scanner enforces all five modular-monolith layers, including workspace packages, exact-root/descendant relative paths, and bare/node-prefixed built-ins. Test/spec files are excluded before the truthful 30-source count. npm run validate PASS (48 unit/integration + 17 browser); fresh verifier PASS after three edge-case corrections. No product/runtime behavior or dependencies changed."
     },
     {
+      "id": "DESIGN-002",
+      "priority": 230,
+      "status": "done",
+      "title": "Refactor the dashboard into a clear, original financial workspace",
+      "acceptanceCriteria": [
+        "The page follows a clear overview-to-goal-to-plan-to-activity information hierarchy, with intentional composed regions instead of a uniform stack of interchangeable cards.",
+        "The visual system is restrained, original, and presentation-ready: strong typography, consistent spacing, quiet surfaces, one primary accent, crisp controls, and no decorative glass/gradient treatment that competes with the data.",
+        "Goal editing, month selection, pace context, cut suggestions, category spending, and transaction activity remain easy to identify and operate without changing finance calculations or API contracts.",
+        "Desktop and 390px browser flows validate first-glance hierarchy, invalid and valid goal updates, month switching, recommendations, keyboard focus, overflow, accessibility, console/network health, and capture fresh screenshots.",
+        "npm run validate passes and a fresh read-only verifier compares implementation and screenshots against EXPERIENCE.md and DESIGN_REFERENCES.md."
+      ],
+      "browserValidation": true,
+      "dependsOn": ["CODEX-005"],
+      "notes": "Completed from IDEA-018: original overview→plan→details workspace, solid restrained visual system, progressive goal editor, and denser responsive activity composition informed by documented online research without copied assets. Verifier caught and prompted a small-text contrast correction; final tokens exceed 4.5:1 on light surfaces. npm run validate PASS (48 unit/integration + 19 browser; 30 architecture sources). Fresh screenshot-aware verifier PASS. No finance/API/domain/dependency changes."
+    },
+    {
       "id": "UX-004",
       "priority": 170,
       "status": "done",

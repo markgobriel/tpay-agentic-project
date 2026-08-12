@@ -78,6 +78,7 @@ test.describe("EVOLVE-003 dashboard state feedback", () => {
       await route.continue();
     });
 
+    await page.getByTestId("goal-edit-button").click();
     await page.getByTestId("goal-name-input").fill("Emergency Fund");
     await page.getByTestId("goal-save-button").click();
     await expect(page.getByTestId("goal-status")).toContainText(/Saving goal|Savings goal saved/);

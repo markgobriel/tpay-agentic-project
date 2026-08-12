@@ -29,6 +29,7 @@ test.describe("QUALITY-001 core Save & Spend flow", () => {
     await monthInput.focus();
     await expect(monthInput).toBeFocused();
 
+    await page.getByTestId("goal-edit-button").click();
     await page.getByTestId("goal-name-input").fill("Quality Goal");
     await page.getByTestId("goal-target-input").fill("20000.00");
     await page.getByTestId("goal-saved-input").fill("0.00");

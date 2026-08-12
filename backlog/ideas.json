@@ -281,6 +281,22 @@
       },
       "source": "Fresh Codex architecture/validation audit, 2026-08-12",
       "notes": "Promoted because docs/ARCHITECTURE.md boundaries were not enforced by the single validation command."
+    },
+    {
+      "id": "IDEA-018",
+      "status": "promoted",
+      "promotedTaskId": "DESIGN-002",
+      "title": "Replace the generic card stack with an intentional financial workspace",
+      "hypothesis": "A composed overview, planning workspace, and activity region will make the product faster to scan and feel more authored than a repeated grid of rounded cards.",
+      "scores": {
+        "userImpact": 5,
+        "presentationValue": 5,
+        "evidence": 5,
+        "risk": 3,
+        "productFit": 5
+      },
+      "source": "Explicit user critique plus Codex live desktop audit and online reference review, 2026-08-12",
+      "notes": "Promoted for a whole-layout refactor; reference patterns are translated into an original system rather than copied."
     }
   ]
 }

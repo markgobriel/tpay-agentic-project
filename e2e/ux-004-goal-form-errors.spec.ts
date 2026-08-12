@@ -28,6 +28,7 @@ test.describe("UX-004 field-adjacent goal validation", () => {
     await page.goto("/");
 
     await expect(page.getByTestId("goal-calc-month")).toBeVisible();
+    await page.getByTestId("goal-edit-button").click();
     const priorName = await page.getByTestId("goal-name-input").inputValue();
     const target = page.getByTestId("goal-target-input");
     await target.click();
@@ -72,6 +73,7 @@ test.describe("UX-004 field-adjacent goal validation", () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
     await expect(page.getByTestId("goal-calc-month")).toBeVisible();
+    await page.getByTestId("goal-edit-button").click();
     const target = page.getByTestId("goal-target-input");
     await target.click();
     await target.fill("-1");

@@ -79,10 +79,26 @@ export function App() {
 
   return (
     <main className="shell" data-testid="app-shell">
-      <header className="hero">
-        <p className="brand">Save &amp; Spend</p>
-        <p className="lede">Balance, monthly position, and a calm plan for your goal.</p>
+      <header className="app-header">
+        <div className="wordmark" aria-label="Save and Spend">
+          <span className="wordmark-mark" aria-hidden="true">
+            S
+          </span>
+          <div>
+            <p className="brand">Save &amp; Spend</p>
+            <p className="product-label">Personal finance workspace</p>
+          </div>
+        </div>
+        <p className="demo-status">
+          <span aria-hidden="true" /> Demo account
+        </p>
       </header>
+
+      <section className="page-intro" aria-labelledby="page-title">
+        <p className="panel-kicker">Financial overview</p>
+        <h1 id="page-title">Your money, clearly.</h1>
+        <p className="lede">See what came in, what went out, and what to do next.</p>
+      </section>
 
       <DemoGuide />
 
@@ -100,38 +116,42 @@ export function App() {
         </div>
       ) : null}
 
-      <section className="overview" aria-label="Financial overview">
+      <section className="overview-surface" aria-label="Account and monthly overview">
         {account ? (
-          <section className="panel" aria-labelledby="balance-heading" data-testid="balance-panel">
-            <p className="panel-kicker">Account</p>
-            <h1 id="balance-heading" className="panel-title">
+          <section
+            className="balance-block"
+            aria-labelledby="balance-heading"
+            data-testid="balance-panel"
+          >
+            <p className="section-label">Available balance</p>
+            <h2 id="balance-heading" className="account-name">
               {account.name}
-            </h1>
+            </h2>
             <p className="balance money" data-testid="current-balance">
               {formatMinorAsCurrency(account.currentBalanceMinor, account.currencyCode)}
             </p>
-            <p className="muted">Current balance</p>
+            <p className="balance-note">Seeded checking account</p>
           </section>
         ) : (
-          <section className="panel" data-testid="balance-placeholder" aria-busy={loading}>
-            <p className="panel-kicker">Account</p>
-            <h1 className="panel-title">Account</h1>
+          <section className="balance-block" data-testid="balance-placeholder" aria-busy={loading}>
+            <p className="section-label">Available balance</p>
+            <h2 className="account-name">Account</h2>
             <PanelMessage tone={loading ? "status" : "empty"} testId="balance-empty">
               {loading ? "Loading balance…" : "Balance unavailable until the account loads."}
             </PanelMessage>
           </section>
         )}
 
-        <section className="panel" aria-labelledby="month-heading" data-testid="month-panel">
-          <div className="panel-head">
+        <section className="month-block" aria-labelledby="month-heading" data-testid="month-panel">
+          <div className="month-block-head">
             <div>
-              <p className="panel-kicker">This month</p>
+              <p className="section-label">Monthly movement</p>
               <h2 id="month-heading" className="panel-title">
-                Monthly position
+                {formatYearMonthLabel(month)}
               </h2>
             </div>
             <label className="month-label">
-              Month
+              <span>Change month</span>
               <input
                 type="month"
                 value={month}
@@ -141,7 +161,7 @@ export function App() {
             </label>
           </div>
           {analytics ? (
-            <dl className="metrics">
+            <dl className="metrics overview-metrics">
               <div>
                 <dt>Income</dt>
                 <dd className="money" data-testid="monthly-income">
@@ -190,108 +210,130 @@ export function App() {
         </div>
       ) : null}
 
-      <SavingsGoalPanel
-        currencyCode={account?.currencyCode ?? "USD"}
-        onGoalSaved={() => setRecommendationsRefreshKey((value) => value + 1)}
-        onPaceMonthChange={handlePaceMonthChange}
-      />
+      <section className="workspace-section" aria-labelledby="plan-heading">
+        <header className="section-heading">
+          <div>
+            <p className="panel-kicker">Plan</p>
+            <h2 id="plan-heading">Turn this month into progress.</h2>
+          </div>
+          <p>Set the destination, then use explainable suggestions to close the gap.</p>
+        </header>
 
-      <RecommendationsPanel
-        currencyCode={account?.currencyCode ?? "USD"}
-        refreshKey={recommendationsRefreshKey}
-      />
+        <div className="planning-grid">
+          <SavingsGoalPanel
+            currencyCode={account?.currencyCode ?? "USD"}
+            onGoalSaved={() => setRecommendationsRefreshKey((value) => value + 1)}
+            onPaceMonthChange={handlePaceMonthChange}
+          />
 
-      <div className="secondary-stack">
-        <section
-          className="panel"
-          aria-labelledby="categories-heading"
-          data-testid="categories-panel"
-        >
-          <p className="panel-kicker">Breakdown</p>
-          <h2 id="categories-heading" className="panel-title">
-            Spending by category
-          </h2>
-          {loading ? (
-            <PanelMessage tone="status" testId="categories-loading">
-              Loading category spending…
-            </PanelMessage>
-          ) : null}
-          {!loading && analytics && analytics.categorySpending.length > 0 ? (
-            <CategoryBreakdown
-              categories={analytics.categorySpending}
-              currencyCode={account?.currencyCode ?? "USD"}
-            />
-          ) : null}
-          {!loading && (!analytics || analytics.categorySpending.length === 0) ? (
-            <PanelMessage tone="empty" testId="categories-empty">
-              No category spending for this month.
-            </PanelMessage>
-          ) : null}
-        </section>
+          <RecommendationsPanel
+            currencyCode={account?.currencyCode ?? "USD"}
+            refreshKey={recommendationsRefreshKey}
+          />
+        </div>
+      </section>
 
-        <section
-          className="panel"
-          aria-labelledby="transactions-heading"
-          data-testid="transactions-panel"
-        >
-          <p className="panel-kicker">Activity</p>
-          <h2 id="transactions-heading" className="panel-title">
-            Transaction history
-          </h2>
-          <p className="calc-month" data-testid="transactions-month-label">
-            Showing {formatYearMonthLabel(month)} activity for this account.
-          </p>
-          {loading ? (
-            <PanelMessage tone="status" testId="transactions-loading">
-              Loading transactions…
-            </PanelMessage>
-          ) : null}
-          {!loading && monthTransactions.length === 0 ? (
-            <PanelMessage tone="empty" testId="transactions-empty">
-              {`No transactions in ${formatYearMonthLabel(month)}.`}
-            </PanelMessage>
-          ) : null}
-          {!loading && monthTransactions.length > 0 ? (
-            <div className="table-wrap">
-              <table className="transactions">
-                <thead>
-                  <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Merchant</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {monthTransactions.map((txn) => (
-                    <tr key={txn.id}>
-                      <td className="txn-date">
-                        <time dateTime={txn.occurredAt}>
-                          {formatTransactionDate(txn.occurredAt)}
-                        </time>
-                      </td>
-                      <td className="txn-merchant">{txn.merchant}</td>
-                      <td className="txn-category">
-                        <span className="txn-category-separator" aria-hidden="true">
-                          •
-                        </span>
-                        <span className="txn-category-label">
-                          {txn.category.replaceAll("_", " ")}
-                        </span>
-                      </td>
-                      <td className="txn-type">{txn.type}</td>
-                      <td className="money txn-amount">
-                        {formatMinorAsCurrency(txn.amountMinor, account?.currencyCode)}
-                      </td>
+      <section className="workspace-section" aria-labelledby="activity-heading">
+        <header className="section-heading compact-heading">
+          <div>
+            <p className="panel-kicker">Details</p>
+            <h2 id="activity-heading">Understand where it went.</h2>
+          </div>
+          <p>Category composition and every transaction for the selected month.</p>
+        </header>
+
+        <div className="activity-grid">
+          <section
+            className="activity-card category-card"
+            aria-labelledby="categories-heading"
+            data-testid="categories-panel"
+          >
+            <p className="panel-kicker">Breakdown</p>
+            <h2 id="categories-heading" className="panel-title">
+              Spending by category
+            </h2>
+            {loading ? (
+              <PanelMessage tone="status" testId="categories-loading">
+                Loading category spending…
+              </PanelMessage>
+            ) : null}
+            {!loading && analytics && analytics.categorySpending.length > 0 ? (
+              <CategoryBreakdown
+                categories={analytics.categorySpending}
+                currencyCode={account?.currencyCode ?? "USD"}
+              />
+            ) : null}
+            {!loading && (!analytics || analytics.categorySpending.length === 0) ? (
+              <PanelMessage tone="empty" testId="categories-empty">
+                No category spending for this month.
+              </PanelMessage>
+            ) : null}
+          </section>
+
+          <section
+            className="activity-card transaction-card"
+            aria-labelledby="transactions-heading"
+            data-testid="transactions-panel"
+          >
+            <p className="panel-kicker">Activity</p>
+            <h2 id="transactions-heading" className="panel-title">
+              Transaction history
+            </h2>
+            <p className="calc-month" data-testid="transactions-month-label">
+              Showing {formatYearMonthLabel(month)} activity for this account.
+            </p>
+            {loading ? (
+              <PanelMessage tone="status" testId="transactions-loading">
+                Loading transactions…
+              </PanelMessage>
+            ) : null}
+            {!loading && monthTransactions.length === 0 ? (
+              <PanelMessage tone="empty" testId="transactions-empty">
+                {`No transactions in ${formatYearMonthLabel(month)}.`}
+              </PanelMessage>
+            ) : null}
+            {!loading && monthTransactions.length > 0 ? (
+              <div className="table-wrap">
+                <table className="transactions">
+                  <thead>
+                    <tr>
+                      <th scope="col">Date</th>
+                      <th scope="col">Merchant</th>
+                      <th scope="col">Category</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Amount</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : null}
-        </section>
-      </div>
+                  </thead>
+                  <tbody>
+                    {monthTransactions.map((txn) => (
+                      <tr key={txn.id}>
+                        <td className="txn-date">
+                          <time dateTime={txn.occurredAt}>
+                            {formatTransactionDate(txn.occurredAt)}
+                          </time>
+                        </td>
+                        <td className="txn-merchant">{txn.merchant}</td>
+                        <td className="txn-category">
+                          <span className="txn-category-separator" aria-hidden="true">
+                            •
+                          </span>
+                          <span className="txn-category-label">
+                            {txn.category.replaceAll("_", " ")}
+                          </span>
+                        </td>
+                        <td className="txn-type">{txn.type}</td>
+                        <td className="money txn-amount">
+                          {formatMinorAsCurrency(txn.amountMinor, account?.currencyCode)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
+          </section>
+        </div>
+      </section>
     </main>
   );
 }

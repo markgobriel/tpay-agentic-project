@@ -2,15 +2,15 @@
 
 ## Direction
 
-Save & Spend should feel calm, focused, tactile, and native to the Apple ecosystem: the clarity of iOS and macOS system surfaces, generous spacing, confident typography, restrained color, familiar controls, and feedback that never competes with the financial information.
+Save & Spend should feel calm, focused, and authored: the clarity of a well-designed native productivity tool, confident typography, restrained color, familiar controls, and feedback that never competes with the financial information.
 
 This is **Apple-inspired**, not a copy of Apple product screens or proprietary assets. Use platform-native system fonts and original interface composition; do not use Apple logos, artwork, product marks, or copied UI assets.
 
 ## Visual system
 
 - Prefer the system UI stack: `-apple-system`, `BlinkMacSystemFont`, `SF Pro Display`, `SF Pro Text`, `Segoe UI`, and sans-serif fallbacks.
-- Use a quiet, cool neutral canvas with layered translucent/light surfaces, hairline separators, a single blue action color, and semantic green/red only where financial state requires it.
-- Use larger, rounded cards; clear elevation or subtle borders; consistent spacing; and dense-but-breathable data grouping.
+- Use a quiet neutral canvas, solid light surfaces, hairline separators, a single deep-green action color, and semantic green/red only where financial state requires it.
+- Compose related information into a few purposeful regions. Avoid a uniform "card for everything" grid, excessive rounding, decorative gradients, glass effects, and shadows that make the product feel templated.
 - Establish a compact type scale with strong balance/goal hierarchy, readable supporting labels, tabular numerals for monetary values, and accessible contrast.
 - Make interactive controls feel deliberate: rounded inputs/buttons, visible keyboard focus, pressed/disabled states, minimum 44px touch targets where practical, and no hover-only affordances.
 - Use motion only to clarify a change and respect `prefers-reduced-motion`.
@@ -25,6 +25,8 @@ At a glance, a user should understand:
 4. recent transaction activity.
 
 Use progressive disclosure and visual grouping rather than one long undifferentiated column. A user should not need to scan a dense table to understand the monthly picture. Preserve all existing deterministic calculations and API-backed content.
+
+The preferred desktop composition is a compact product header, one dominant monthly overview, a planning workspace that pairs goal health with actionable guidance, and a lower activity area. Mobile preserves the same reading order without introducing a separate navigation model or hiding core financial context.
 
 ## Required experience validation
 

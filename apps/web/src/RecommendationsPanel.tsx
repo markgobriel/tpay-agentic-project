@@ -52,7 +52,10 @@ export function RecommendationsPanel({
   }, [refreshKey, reloadToken]);
 
   return (
-    <section className="panel" aria-labelledby="recommendations-heading">
+    <section
+      className="workspace-card recommendations-card"
+      aria-labelledby="recommendations-heading"
+    >
       <p className="panel-kicker">Discretionary help</p>
       <h2 id="recommendations-heading" className="panel-title">
         Cut suggestions

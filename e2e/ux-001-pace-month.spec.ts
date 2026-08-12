@@ -54,6 +54,7 @@ test.describe("UX-001 pace month clarity and honest empty cuts", () => {
 
     await expect(page.getByTestId("goal-calc-month")).toContainText("July 2026");
     await expect(page.getByTestId("rec-calc-month")).toContainText("July 2026");
+    await page.getByTestId("goal-edit-button").click();
     await expect(page.getByTestId("goal-amount-help")).toContainText("1200.00");
 
     await page.getByTestId("demo-guide-toggle").click();

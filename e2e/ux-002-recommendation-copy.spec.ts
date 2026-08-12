@@ -35,6 +35,7 @@ test.describe("UX-002 plain-language cut explanations", () => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/");
 
+    await page.getByTestId("goal-edit-button").click();
     await page.getByTestId("goal-target-input").fill("20000.00");
     await page.getByTestId("goal-saved-input").fill("0.00");
     await page.getByTestId("goal-date-input").fill("2026-12-31");
@@ -61,6 +62,7 @@ test.describe("UX-002 plain-language cut explanations", () => {
     const { consoleErrors, failedRequests } = await collectPageIssues(page);
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
+    await page.getByTestId("goal-edit-button").click();
     await page.getByTestId("goal-target-input").fill("20000.00");
     await page.getByTestId("goal-saved-input").fill("0.00");
     await page.getByTestId("goal-date-input").fill("2026-12-31");

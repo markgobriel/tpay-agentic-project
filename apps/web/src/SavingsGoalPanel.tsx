@@ -37,6 +37,7 @@ export function SavingsGoalPanel({
   const [formError, setFormError] = useState<string | null>(null);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [reloadToken, setReloadToken] = useState(0);
+  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -115,7 +116,11 @@ export function SavingsGoalPanel({
   }
 
   return (
-    <section className="panel" aria-labelledby="goal-heading" data-testid="goal-panel">
+    <section
+      className="workspace-card goal-card"
+      aria-labelledby="goal-heading"
+      data-testid="goal-panel"
+    >
       <p className="panel-kicker">Goal health</p>
       <h2 id="goal-heading" className="panel-title">
         Savings goal
@@ -156,6 +161,25 @@ export function SavingsGoalPanel({
 
       {goal ? (
         <>
+          <div className="goal-summary">
+            <p>
+              <strong>{goal.name}</strong>
+              <span>
+                {formatMinorAsCurrency(goal.targetAmountMinor, currencyCode)} by{" "}
+                <time dateTime={goal.targetDate}>{toDateInputValue(goal.targetDate)}</time>
+              </span>
+            </p>
+            <button
+              type="button"
+              className="secondary-button goal-edit-button"
+              data-testid="goal-edit-button"
+              aria-expanded={editing}
+              aria-controls="goal-form"
+              onClick={() => setEditing((current) => !current)}
+            >
+              {editing ? "Close editor" : "Edit goal"}
+            </button>
+          </div>
           <p className="calc-month" data-testid="goal-calc-month">
             Pace uses {formatYearMonthLabel(goal.analyticsYearMonth)} spending (this month&apos;s
             savings versus what the goal needs each month).
@@ -194,73 +218,76 @@ export function SavingsGoalPanel({
         </>
       ) : null}
 
-      <form
-        className="goal-form"
-        data-testid="goal-form"
-        onSubmit={(event) => void onSubmit(event)}
-        noValidate
-      >
-        <label>
-          Goal name
-          <input
-            data-testid="goal-name-input"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-            autoComplete="off"
-            required
-          />
-        </label>
-        <label>
-          Target amount (USD)
-          <input
-            data-testid="goal-target-input"
-            inputMode="decimal"
-            value={targetAmount}
-            onChange={(event) => setTargetAmount(event.target.value)}
-            aria-describedby="goal-amount-help"
-            required
-          />
-        </label>
-        <label>
-          Current saved (USD)
-          <input
-            data-testid="goal-saved-input"
-            inputMode="decimal"
-            value={currentSaved}
-            onChange={(event) => setCurrentSaved(event.target.value)}
-            aria-describedby="goal-amount-help"
-            required
-          />
-        </label>
-        <p id="goal-amount-help" className="field-help" data-testid="goal-amount-help">
-          Enter dollars and cents, like 1200.00. Do not include a $ sign.
-        </p>
-        <label>
-          Target date
-          <input
-            data-testid="goal-date-input"
-            type="date"
-            value={targetDate}
-            onChange={(event) => setTargetDate(event.target.value)}
-            required
-          />
-        </label>
-        {formError ? (
-          <div className="form-error" data-testid="goal-form-error">
-            <PanelMessage tone="error" testId="goal-error">
-              {formError}
-            </PanelMessage>
-          </div>
-        ) : null}
-        <button
-          data-testid="goal-save-button"
-          className="primary-button"
-          type="submit"
-          disabled={saving || loading}
+      {editing || (!loading && !goal && !loadError) ? (
+        <form
+          id="goal-form"
+          className="goal-form"
+          data-testid="goal-form"
+          onSubmit={(event) => void onSubmit(event)}
+          noValidate
         >
-          {saving ? "Saving…" : "Save goal"}
-        </button>
-      </form>
+          <label>
+            Goal name
+            <input
+              data-testid="goal-name-input"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              autoComplete="off"
+              required
+            />
+          </label>
+          <label>
+            Target amount (USD)
+            <input
+              data-testid="goal-target-input"
+              inputMode="decimal"
+              value={targetAmount}
+              onChange={(event) => setTargetAmount(event.target.value)}
+              aria-describedby="goal-amount-help"
+              required
+            />
+          </label>
+          <label>
+            Current saved (USD)
+            <input
+              data-testid="goal-saved-input"
+              inputMode="decimal"
+              value={currentSaved}
+              onChange={(event) => setCurrentSaved(event.target.value)}
+              aria-describedby="goal-amount-help"
+              required
+            />
+          </label>
+          <p id="goal-amount-help" className="field-help" data-testid="goal-amount-help">
+            Enter dollars and cents, like 1200.00. Do not include a $ sign.
+          </p>
+          <label>
+            Target date
+            <input
+              data-testid="goal-date-input"
+              type="date"
+              value={targetDate}
+              onChange={(event) => setTargetDate(event.target.value)}
+              required
+            />
+          </label>
+          {formError ? (
+            <div className="form-error" data-testid="goal-form-error">
+              <PanelMessage tone="error" testId="goal-error">
+                {formError}
+              </PanelMessage>
+            </div>
+          ) : null}
+          <button
+            data-testid="goal-save-button"
+            className="primary-button"
+            type="submit"
+            disabled={saving || loading}
+          >
+            {saving ? "Saving…" : "Save goal"}
+          </button>
+        </form>
+      ) : null}
     </section>
   );
 }

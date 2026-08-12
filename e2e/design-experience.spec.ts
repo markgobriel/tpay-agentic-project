@@ -61,6 +61,7 @@ test.describe("DESIGN-001 Apple-inspired experience", () => {
       fullPage: true,
     });
 
+    await page.getByTestId("goal-edit-button").click();
     await page.getByTestId("goal-target-input").fill("-25");
     await page.getByTestId("goal-save-button").click();
     await expect(page.getByTestId("goal-error")).toBeVisible();
@@ -100,6 +101,7 @@ test.describe("DESIGN-001 Apple-inspired experience", () => {
     await expect(page.getByTestId("goal-panel")).toBeVisible();
     await expect(page.getByTestId("recommendations-panel")).toBeVisible();
 
+    await page.getByTestId("goal-edit-button").click();
     await page.getByTestId("goal-name-input").fill("Mobile Goal");
     await page.getByTestId("goal-target-input").fill("20000.00");
     await page.getByTestId("goal-saved-input").fill("0.00");
