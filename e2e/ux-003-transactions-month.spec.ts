@@ -29,7 +29,7 @@ test.describe("UX-003 month-scoped transaction history", () => {
 
     await expect(page.getByTestId("transactions-month-label")).toContainText("July 2026");
     await expect(page.locator(".transactions tbody tr")).toHaveCount(12);
-    await expect(page.locator(".transactions tbody")).toContainText("2026-07-01");
+    await expect(page.locator(".transactions tbody")).toContainText("Jul 1, 2026");
 
     await page.screenshot({
       path: join(evidenceDir, "desktop-july-activity.png"),

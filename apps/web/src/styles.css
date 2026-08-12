@@ -568,7 +568,91 @@ input {
 
   .transactions th:nth-child(3),
   .transactions td:nth-child(3) {
-    display: none;
+    display: revert;
+  }
+
+  .table-wrap {
+    overflow-x: visible;
+  }
+
+  .transactions,
+  .transactions tbody {
+    display: block;
+  }
+
+  .transactions thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .transactions tbody tr {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr) max-content;
+    grid-template-areas:
+      "merchant merchant amount"
+      "date category amount";
+    gap: 0.25rem 0.5rem;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .transactions td {
+    padding: 0;
+    border: 0;
+  }
+
+  .transactions .txn-merchant {
+    grid-area: merchant;
+    min-width: 0;
+    font-weight: 650;
+  }
+
+  .transactions .txn-date {
+    grid-area: date;
+    color: var(--muted);
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  .transactions .txn-category {
+    grid-area: category;
+    min-width: 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+    text-transform: capitalize;
+    overflow-wrap: anywhere;
+  }
+
+  .transactions .txn-category-separator {
+    margin-right: 0.5rem;
+    color: var(--label);
+  }
+
+  .transactions .txn-type {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .transactions .txn-amount {
+    grid-area: amount;
+    align-self: center;
+    padding-left: 0.5rem;
+    font-weight: 650;
   }
 }
 

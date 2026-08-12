@@ -89,3 +89,10 @@ For every entry, record:
 - **Safeguard added:** the browser test now requires the balance panel to remain in the first mobile viewport, verifies the guide's collapsed and expanded states, and preserves dismissal persistence and financial-advice copy coverage.
 - **Enforced by:** `apps/web/src/DemoGuide.tsx`, `e2e/first-use-guide.spec.ts`, and `npm run validate`.
 - **Scope:** strengthens first-use presentation regression coverage; it does not change financial policy, calculations, or API contracts.
+
+### CODEX-002 — non-empty mobile activity regression
+
+- **Observed evidence:** the existing mobile transaction test switched directly to an empty month, so it proved overflow only for the empty state. A live 390x844 audit exposed wrapped ISO dates, squeezed merchant names, and hidden category context in the populated state.
+- **Safeguard added:** task-specific Playwright coverage now inspects populated desktop and mobile activity, asserts readable hierarchy and category/date visibility, preserves table/type semantics, checks page width and browser health, and captures focused screenshots. A unit test locks compact date formatting to UTC.
+- **Enforced by:** `e2e/codex-002-mobile-activity.spec.ts`, `apps/web/src/formatTransactionDate.test.ts`, and `npm run validate`.
+- **Scope:** presentation and regression coverage only; transaction data, financial meaning, APIs, and UTC policy remain unchanged.

@@ -217,6 +217,22 @@
       },
       "source": "Fresh Codex desktop/mobile novice audit, 2026-08-12",
       "notes": "Promoted after a 390x844 first-load capture showed onboarding copy occupying nearly the entire first viewport."
+    },
+    {
+      "id": "IDEA-014",
+      "status": "promoted",
+      "promotedTaskId": "CODEX-002",
+      "title": "Replace the compressed mobile activity table with scannable rows",
+      "hypothesis": "Merchant-first responsive rows can preserve transaction detail while eliminating wrapped dates, narrow merchant columns, and hidden category context.",
+      "scores": {
+        "userImpact": 5,
+        "presentationValue": 4,
+        "evidence": 5,
+        "risk": 2,
+        "productFit": 5
+      },
+      "source": "Fresh Codex 390x844 activity audit, 2026-08-12",
+      "notes": "Promoted after direct visual evidence showed a desktop table compressed into four narrow mobile columns."
     }
   ]
 }

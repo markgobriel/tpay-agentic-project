@@ -251,6 +251,21 @@
       "notes": "Completed from a fresh Codex novice audit: compact progressive guide disclosure keeps the balance in the 390x844 first viewport; detailed mock/non-advice guidance and persistent dismissal remain accessible. Evidence: .agent/evidence/CODEX-001/. npm run validate PASS (37 unit/integration + 15 browser tests). Fresh read-only verifier PASS. No domain/API changes or new dependencies."
     },
     {
+      "id": "CODEX-002",
+      "priority": 190,
+      "status": "done",
+      "title": "Make mobile transaction history readable and scannable",
+      "acceptanceCriteria": [
+        "Desktop retains a complete semantic transaction table with date, merchant, category, type, and amount.",
+        "At 390px, each transaction leads with merchant and amount and shows a compact UTC date and category without a squeezed multi-column table.",
+        "Mobile transaction dates remain on one line, categories remain visible, and the page has no horizontal overflow.",
+        "Automated tests cover deterministic UTC date formatting, desktop semantics, mobile layout, console errors, failed requests, and screenshot evidence; npm run validate and a fresh verifier pass."
+      ],
+      "browserValidation": true,
+      "dependsOn": ["CODEX-001"],
+      "notes": "Completed from a fresh 390x844 Codex audit: desktop keeps its complete semantic table; mobile rows now lead with merchant/amount and show compact UTC date/category metadata without overflow. Type remains semantic and decorative separators are aria-hidden. Evidence: .agent/evidence/CODEX-002/. npm run validate PASS (39 unit/integration + 17 browser tests). Fresh verifier PASS after requestfailed coverage and accessibility-text fixes. No API/domain changes or new dependencies."
+    },
+    {
       "id": "UX-004",
       "priority": 170,
       "status": "done",

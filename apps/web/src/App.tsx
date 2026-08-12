@@ -9,6 +9,7 @@ import { CategoryBreakdown } from "./CategoryBreakdown.js";
 import { DemoGuide } from "./DemoGuide.js";
 import { filterTransactionsByYearMonth } from "./filterTransactionsByMonth.js";
 import { formatMinorAsCurrency } from "./formatMoney.js";
+import { formatTransactionDate } from "./formatTransactionDate.js";
 import { formatYearMonthLabel } from "./formatYearMonth.js";
 import { PanelMessage } from "./PanelMessage.js";
 import { RecommendationsPanel } from "./RecommendationsPanel.js";
@@ -265,11 +266,22 @@ export function App() {
                 <tbody>
                   {monthTransactions.map((txn) => (
                     <tr key={txn.id}>
-                      <td>{txn.occurredAt.slice(0, 10)}</td>
-                      <td>{txn.merchant}</td>
-                      <td>{txn.category.replaceAll("_", " ")}</td>
-                      <td>{txn.type}</td>
-                      <td className="money">
+                      <td className="txn-date">
+                        <time dateTime={txn.occurredAt}>
+                          {formatTransactionDate(txn.occurredAt)}
+                        </time>
+                      </td>
+                      <td className="txn-merchant">{txn.merchant}</td>
+                      <td className="txn-category">
+                        <span className="txn-category-separator" aria-hidden="true">
+                          •
+                        </span>
+                        <span className="txn-category-label">
+                          {txn.category.replaceAll("_", " ")}
+                        </span>
+                      </td>
+                      <td className="txn-type">{txn.type}</td>
+                      <td className="money txn-amount">
                         {formatMinorAsCurrency(txn.amountMinor, account?.currencyCode)}
                       </td>
                     </tr>
