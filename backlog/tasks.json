@@ -248,6 +248,22 @@
         "UX-001"
       ],
       "notes": "Completed UX-002: presentation recommendationCopy helper; no minor-units in UI; e2e evidence; validate+verifier PASS."
+    },
+    {
+      "id": "UX-003",
+      "priority": 160,
+      "status": "done",
+      "title": "Scope transaction history to the selected month",
+      "acceptanceCriteria": [
+        "Transaction history lists only transactions whose UTC occurredAt falls in the selected dashboard month (YYYY-MM), using presentation filtering of the existing transactions API payload.",
+        "The panel labels the visible month in plain language (e.g. July 2026 activity) and shows an empty state when that month has no transactions.",
+        "Desktop and mobile Playwright flows switch months, assert filtered rows/empty state, capture screenshots, and check console/network/overflow; npm run validate passes; read-only verifier reviews evidence."
+      ],
+      "browserValidation": true,
+      "dependsOn": [
+        "UX-002"
+      ],
+      "notes": "Completed UX-003: month-scoped activity filter + labels; validate+verifier PASS."
     }
   ]
 }

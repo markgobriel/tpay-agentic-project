@@ -9,8 +9,8 @@
     "productFit": "Must remain within docs/PRODUCT_EVOLUTION.md."
   },
   "lastDiscovery": {
-    "at": "2026-08-12T10:00:00Z",
-    "summary": "Post-UX-001 audit: HIGH minor-units jargon in cut explanations; MEDIUM unscoped transaction history. Promoting IDEA-011 as UX-002."
+    "at": "2026-08-12T10:07:00Z",
+    "summary": "Promoting IDEA-012 to UX-003 after UX-002."
   },
   "candidates": [
     {
@@ -187,7 +187,7 @@
     },
     {
       "id": "IDEA-012",
-      "status": "candidate",
+      "status": "promoted",
       "title": "Scope or label transaction history relative to selected month",
       "hypothesis": "When Monthly position is empty for August but the table still lists July rows, users think activity belongs to the selected month.",
       "scores": {
@@ -198,7 +198,8 @@
         "productFit": 5
       },
       "source": "UX-001 self-review",
-      "notes": "Follow-up after UX-002."
+      "notes": "Promoted as UX-003.",
+      "promotedTaskId": "UX-003"
     }
   ]
 }

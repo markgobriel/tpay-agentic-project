@@ -7,6 +7,7 @@ import type {
 import { fetchAccount, fetchMonthlyAnalytics, fetchTransactions } from "./api.js";
 import { CategoryBreakdown } from "./CategoryBreakdown.js";
 import { DemoGuide } from "./DemoGuide.js";
+import { filterTransactionsByYearMonth } from "./filterTransactionsByMonth.js";
 import { formatMinorAsCurrency } from "./formatMoney.js";
 import { formatYearMonthLabel } from "./formatYearMonth.js";
 import { PanelMessage } from "./PanelMessage.js";
@@ -73,6 +74,7 @@ export function App() {
   }, [month, reloadToken]);
 
   const monthMismatch = paceMonth !== null && paceMonth !== month;
+  const monthTransactions = filterTransactionsByYearMonth(transactions, month);
 
   return (
     <main className="shell" data-testid="app-shell">
@@ -235,17 +237,20 @@ export function App() {
           <h2 id="transactions-heading" className="panel-title">
             Transaction history
           </h2>
+          <p className="calc-month" data-testid="transactions-month-label">
+            Showing {formatYearMonthLabel(month)} activity for this account.
+          </p>
           {loading ? (
             <PanelMessage tone="status" testId="transactions-loading">
               Loading transactions…
             </PanelMessage>
           ) : null}
-          {!loading && transactions.length === 0 ? (
+          {!loading && monthTransactions.length === 0 ? (
             <PanelMessage tone="empty" testId="transactions-empty">
-              No transactions yet.
+              {`No transactions in ${formatYearMonthLabel(month)}.`}
             </PanelMessage>
           ) : null}
-          {!loading && transactions.length > 0 ? (
+          {!loading && monthTransactions.length > 0 ? (
             <div className="table-wrap">
               <table className="transactions">
                 <thead>
@@ -258,7 +263,7 @@ export function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  {transactions.map((txn) => (
+                  {monthTransactions.map((txn) => (
                     <tr key={txn.id}>
                       <td>{txn.occurredAt.slice(0, 10)}</td>
                       <td>{txn.merchant}</td>

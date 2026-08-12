@@ -62,6 +62,13 @@ For every entry, record:
 - **Enforced by:** `apps/web/src/recommendationCopy.ts`, `recommendationCopy.test.ts`, `RecommendationsPanel.tsx`, `e2e/ux-002-recommendation-copy.spec.ts`, `npm run validate`.
 - **Scope:** Presentation copy only; recommendation math and API payloads unchanged.
 
+### UX-003 — month-scoped transaction history
+
+- **Observed evidence:** UX-001 audit showed July rows while Monthly position was set to empty August, so novices could not tell which month the activity belonged to.
+- **Safeguard added:** Presentation filter by selected `YYYY-MM`, plain-language activity label, empty state for months without rows, and Playwright month-switch coverage.
+- **Enforced by:** `apps/web/src/filterTransactionsByMonth.ts`, `App.tsx`, `e2e/ux-003-transactions-month.spec.ts`, `npm run validate`.
+- **Scope:** Presentation filtering of existing transactions payload; no API/domain formula changes.
+
 ### Live-preview continuity
 
 - **Observed evidence:** `scripts/e2e.sh` killed the same API/web ports and reset the same database used by the human's live preview, making the app disappear during autonomous validation.
