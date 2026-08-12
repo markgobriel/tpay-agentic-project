@@ -266,6 +266,20 @@
       "notes": "Completed from a fresh 390x844 Codex audit: desktop keeps its complete semantic table; mobile rows now lead with merchant/amount and show compact UTC date/category metadata without overflow. Type remains semantic and decorative separators are aria-hidden. Evidence: .agent/evidence/CODEX-002/. npm run validate PASS (39 unit/integration + 17 browser tests). Fresh verifier PASS after requestfailed coverage and accessibility-text fixes. No API/domain changes or new dependencies."
     },
     {
+      "id": "CODEX-003",
+      "priority": 200,
+      "status": "done",
+      "title": "Make autonomous status output report validation and verifier truthfully",
+      "acceptanceCriteria": [
+        "npm run status reads the current state schema's result, notes, command, and timestamp fields and no longer reports passed gates as not run.",
+        "Output remains compatible with the earlier status/summary evidence shape and preserves ACTIVE, COMPLETE, and BLOCKED guidance.",
+        "Automated tests cover current and legacy evidence shapes, task counts, and blocker guidance; npm run validate and a fresh verifier pass."
+      ],
+      "browserValidation": false,
+      "dependsOn": ["CODEX-002"],
+      "notes": "Completed: npm run status now reports current result/timestamp/command/notes evidence, retains legacy status/summary compatibility, and preserves task counts plus ACTIVE/COMPLETE/BLOCKED guidance. Self-review caught that scripts tests were excluded, so vitest.config now includes scripts/**/*.test.mjs. npm run validate PASS (41 unit/integration including 2 status tests + 17 browser tests). Fresh verifier PASS. Harness observability only; no product/domain changes."
+    },
+    {
       "id": "UX-004",
       "priority": 170,
       "status": "done",

@@ -233,6 +233,22 @@
       },
       "source": "Fresh Codex 390x844 activity audit, 2026-08-12",
       "notes": "Promoted after direct visual evidence showed a desktop table compressed into four narrow mobile columns."
+    },
+    {
+      "id": "IDEA-015",
+      "status": "promoted",
+      "promotedTaskId": "CODEX-003",
+      "title": "Repair misleading autonomous status evidence",
+      "hypothesis": "Accurate validation and verifier results in npm run status let a hands-off operator distinguish healthy progress from missing quality evidence.",
+      "scores": {
+        "userImpact": 4,
+        "presentationValue": 3,
+        "evidence": 5,
+        "risk": 1,
+        "productFit": 5
+      },
+      "source": "Post-CODEX-002 harness audit, 2026-08-12",
+      "notes": "Promoted after direct command output contradicted fresh pass evidence in .agent/state.json."
     }
   ]
 }

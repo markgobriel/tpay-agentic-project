@@ -96,3 +96,10 @@ For every entry, record:
 - **Safeguard added:** task-specific Playwright coverage now inspects populated desktop and mobile activity, asserts readable hierarchy and category/date visibility, preserves table/type semantics, checks page width and browser health, and captures focused screenshots. A unit test locks compact date formatting to UTC.
 - **Enforced by:** `e2e/codex-002-mobile-activity.spec.ts`, `apps/web/src/formatTransactionDate.test.ts`, and `npm run validate`.
 - **Scope:** presentation and regression coverage only; transaction data, financial meaning, APIs, and UTC policy remain unchanged.
+
+### CODEX-003 — truthful status evidence
+
+- **Observed evidence:** after CODEX-002, `.agent/state.json` recorded `result`, `at`, `notes`, and `command`, while `npm run status` read only nonexistent `status` and `summary` fields and falsely printed both gates as `not run`.
+- **Safeguard added:** status formatting now consumes the current evidence schema, remains compatible with legacy fields, includes timestamps and useful detail, and is isolated behind pure formatting. The Vitest include contract now covers `scripts/**/*.test.mjs`; the initial self-review caught that harness tests were otherwise silently excluded.
+- **Enforced by:** `scripts/status-format.mjs`, `scripts/status-format.test.mjs`, `scripts/status.mjs`, `vitest.config.ts`, and `npm run validate`.
+- **Scope:** operational observability only; no product, financial, API, or autonomy-policy behavior changes.
