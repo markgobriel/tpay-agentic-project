@@ -110,3 +110,10 @@ For every entry, record:
 - **Safeguard added:** API integration coverage now locks stable malformed JSON, payload-limit, unknown-route, content-type, and framework-header behavior at the Express boundary.
 - **Enforced by:** `apps/api/src/app.ts`, `apps/api/src/api.integration.test.ts`, and `npm run validate`.
 - **Scope:** request/error boundary reliability and metadata hardening only; finance resources, calculations, persistence, and product scope remain unchanged.
+
+### CODEX-005 — executable architecture boundaries
+
+- **Observed evidence:** `docs/ARCHITECTURE.md` defines strict web/API/domain/database/contracts dependency direction, but the single validation command only checked required file presence and could not reject forbidden cross-layer imports.
+- **Safeguard added:** a dependency scanner detects workspace-package and relative cross-layer imports, applies layer-specific runtime allowlists, ignores test-only tooling, and has synthetic pass/fail regression tests.
+- **Enforced by:** `scripts/architecture-rules.mjs`, `scripts/architecture-rules.test.mjs`, `scripts/check-architecture.mjs`, `npm run architecture:check`, and the final architecture stage of `npm run validate`.
+- **Scope:** engineering boundary enforcement only; the approved modular-monolith architecture is encoded without changing it.

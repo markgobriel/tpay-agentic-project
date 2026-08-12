@@ -62,4 +62,7 @@ npm run build
 echo "==> playwright e2e"
 npm run test:e2e
 
+echo "==> architecture boundaries"
+npm run architecture:check
+
 echo "Validation passed."

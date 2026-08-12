@@ -265,6 +265,22 @@
       },
       "source": "Fresh Codex API boundary probe, 2026-08-12",
       "notes": "Promoted after malformed JSON returned 500 and responses exposed X-Powered-By: Express."
+    },
+    {
+      "id": "IDEA-017",
+      "status": "promoted",
+      "promotedTaskId": "CODEX-005",
+      "title": "Turn written architecture boundaries into an executable gate",
+      "hypothesis": "A dependency-direction check prevents autonomous changes from silently coupling React, Express, Prisma, domain, and contracts across the approved modular-monolith layers.",
+      "scores": {
+        "userImpact": 4,
+        "presentationValue": 4,
+        "evidence": 5,
+        "risk": 2,
+        "productFit": 5
+      },
+      "source": "Fresh Codex architecture/validation audit, 2026-08-12",
+      "notes": "Promoted because docs/ARCHITECTURE.md boundaries were not enforced by the single validation command."
     }
   ]
 }
