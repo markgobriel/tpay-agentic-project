@@ -82,7 +82,15 @@ describe("architecture boundaries", () => {
         {
           path: "packages/db/src/client.ts",
           source:
-            'import fs from "node:fs"; import path from "path"; import { PrismaClient } from "@prisma/client";',
+            'import fs from "node:fs"; import path from "path"; import { PrismaClient } from "@prisma/client"; import { PrismaPg } from "@prisma/adapter-pg";',
+        },
+        {
+          path: "packages/db/src/environment.ts",
+          source: 'import { config } from "dotenv"; import { fileURLToPath } from "node:url";',
+        },
+        {
+          path: "packages/db/src/testing.ts",
+          source: 'import { Pool } from "pg"; import { startPrismaDevServer } from "@prisma/dev";',
         },
         { path: "packages/contracts/src/index.ts", source: "export interface Account {}" },
       ]),
@@ -96,6 +104,19 @@ describe("architecture boundaries", () => {
       ]),
     ).toEqual([]);
     expect(isProductionSource("packages/domain/src/index.test.ts")).toBe(false);
+  });
+
+  it("limits local PostgreSQL test tooling to the dedicated database test helper", () => {
+    const violations = findArchitectureViolations([
+      { path: "packages/db/src/repositories.ts", source: 'import { Pool } from "pg";' },
+      {
+        path: "packages/db/src/seed.ts",
+        source: 'import { startPrismaDevServer } from "@prisma/dev";',
+      },
+    ]);
+
+    expect(violations).toHaveLength(2);
+    expect(violations.every((violation) => violation.includes("unapproved runtime"))).toBe(true);
   });
 
   it("rejects bare and node-prefixed built-ins outside server layers", () => {

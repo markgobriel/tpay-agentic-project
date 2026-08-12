@@ -15,18 +15,19 @@ The human reviews Harness v1 once: product scope, architecture, domain invariant
 }
 ```
 
-Then start Cursor from the repository with this prompt:
+Then start the approved autonomous agent from the repository with this prompt:
 
 ```text
 Activate autonomous development for Save & Spend. Read AGENTS.md and all required contracts. Begin the highest-priority unblocked task. Continue the plan -> build -> validate -> browser test -> read-only verifier -> fix -> next-task loop until the MVP is complete or a documented genuine blocker occurs.
 ```
 
-Cursor loads root `AGENTS.md` and `.cursor/rules`. The project `.cursor/hooks.json` registers the stop hook. The hook returns no continuation before approval, after completion, or when safety status is blocked; otherwise it sends a focused follow-up instruction rather than allowing an early stop.
+Codex uses the durable goal plus root `AGENTS.md` as its continuation contract. Cursor remains an optional compatible controller: it loads `AGENTS.md` and `.cursor/rules`, while `.cursor/hooks.json` registers its stop hook. Both use the same state and backlog and must never run concurrently in one checkout.
 
 ## Recommended run modes
 
-- **Cursor IDE:** run the launch prompt in an agent chat. The stop hook handles normal turn-to-turn continuation.
-- **Cursor CLI/controller:** use `bash scripts/run-autonomous.sh` for hands-off development. It starts Cursor in trusted, force-approved, workspace-sandboxed non-interactive mode; the harness rules still prohibit destructive or out-of-scope actions. It persistently starts checkpointed Cursor sessions while the project remains `active`; an optional positive `SAVE_AND_SPEND_MAX_AUTONOMOUS_RUNS` value can impose a temporary operator-selected cap. If the CLI exits unexpectedly (including a network interruption), it waits and resumes the saved Cursor session with exponential backoff. It stops normally only at `complete` or `blocked`; five consecutive CLI failures become a documented blocker.
+- **Codex durable goal (current):** keep this repository's goal active across turns. Codex reads current state, generates evidence-backed work when needed, uses fresh read-only verifier subagents, and records validated commits. The user does not supply routine tasks.
+- **Cursor IDE:** run the launch prompt in an agent chat only when Codex is not controlling the checkout. The stop hook handles normal turn-to-turn continuation.
+- **Cursor CLI/controller:** use `bash scripts/run-autonomous.sh` only when Codex is not controlling the checkout. It persistently starts checkpointed Cursor sessions while the project remains `active`; an optional positive `SAVE_AND_SPEND_MAX_AUTONOMOUS_RUNS` value can impose a temporary operator-selected cap. If the CLI exits unexpectedly, it waits and resumes the saved Cursor session with exponential backoff. It stops normally only at `complete` or `blocked`; five consecutive CLI failures become a documented blocker.
 
 The hook's `maxFollowupsPerRun` bounds a single Cursor session. It exists to force a fresh diagnosis/state checkpoint, not to declare the project complete. The persistent controller starts the next checkpointed session whenever state remains `active`, including when an empty backlog requires a fresh product-discovery cycle.
 

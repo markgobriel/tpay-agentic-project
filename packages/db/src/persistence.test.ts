@@ -1,10 +1,5 @@
-import { execFileSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
-import { fileURLToPath } from "node:url";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { createDbClient, type DbClient } from "./client.js";
+import type { DbClient } from "./client.js";
 import {
   findAccountById,
   findSavingsGoalByAccountId,
@@ -13,48 +8,21 @@ import {
   listTransactionsByAccountAndType,
 } from "./repositories.js";
 import { MOCK_ACCOUNT_ID, MOCK_SAVINGS_GOAL_ID, seedMockFinanceData } from "./seed.js";
-
-const packageRoot = fileURLToPath(new URL("..", import.meta.url));
-const migrationSqlPath = join(
-  packageRoot,
-  "prisma",
-  "migrations",
-  "20260811180000_init",
-  "migration.sql",
-);
-
-/**
- * Apply the checked-in SQLite migration with the system sqlite3 CLI.
- * Avoids Prisma schema-engine flakiness when creating ephemeral test databases.
- */
-function applyInitMigration(databaseFile: string): void {
-  const sql = readFileSync(migrationSqlPath, "utf8");
-  execFileSync("sqlite3", [databaseFile], {
-    input: sql,
-    stdio: ["pipe", "pipe", "pipe"],
-  });
-}
+import { startTestDatabase, type LocalPostgres } from "./testing.js";
 
 describe("DATA-001 persistence", () => {
-  let dbDir: string;
   let databaseUrl: string;
   let db: DbClient | undefined;
+  let postgres: LocalPostgres | undefined;
 
-  beforeAll(() => {
-    dbDir = mkdtempSync(join(tmpdir(), "save-spend-db-"));
-    const dbFile = join(dbDir, "test.db");
-    applyInitMigration(dbFile);
-    databaseUrl = `file:${dbFile}`;
-    db = createDbClient(databaseUrl);
-  });
+  beforeAll(async () => {
+    postgres = await startTestDatabase("persistence");
+    databaseUrl = postgres.databaseUrl;
+    db = postgres.db;
+  }, 30_000);
 
   afterAll(async () => {
-    if (db !== undefined) {
-      await db.$disconnect();
-    }
-    if (dbDir !== undefined) {
-      rmSync(dbDir, { recursive: true, force: true });
-    }
+    await postgres?.close();
   });
 
   it("seeds one account, income/essential/discretionary transactions, and one goal", async () => {
@@ -129,7 +97,8 @@ describe("DATA-001 persistence", () => {
     await seedMockFinanceData(client);
     const account = await findAccountById(client, MOCK_ACCOUNT_ID);
     expect(account?.name).toBe("Everyday Checking");
-    // Evidence: all data comes from local SQLite + in-repo seed constants.
-    expect(databaseUrl.startsWith("file:")).toBe(true);
+    // Evidence: all data comes from isolated local PostgreSQL + in-repo seed constants.
+    expect(databaseUrl).toMatch(/^postgres(?:ql)?:\/\//);
+    expect(new URL(databaseUrl).hostname).toMatch(/^(?:127\.0\.0\.1|localhost)$/);
   });
 });

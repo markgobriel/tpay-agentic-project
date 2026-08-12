@@ -12,6 +12,9 @@ test-results/
 .agent/logs/
 .agent/evidence/
 .agent/*.pid
+.agent/*.env
+.agent/*.ready
+.agent/test/
 *.db
 *.db-journal
 packages/db/dev.db*

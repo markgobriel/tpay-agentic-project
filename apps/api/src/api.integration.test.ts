@@ -1,55 +1,26 @@
-import { execFileSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
-import { fileURLToPath } from "node:url";
 import request from "supertest";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
-import {
-  createDbClient,
-  MOCK_ACCOUNT_ID,
-  seedMockFinanceData,
-  type DbClient,
-} from "@save-and-spend/db";
+import { MOCK_ACCOUNT_ID, seedMockFinanceData, type DbClient } from "@save-and-spend/db";
+import { startTestDatabase, type LocalPostgres } from "@save-and-spend/db/testing";
 import { createApp } from "./app.js";
 
-const dbPackageRoot = fileURLToPath(new URL("../../../packages/db", import.meta.url));
-const migrationSqlPath = join(
-  dbPackageRoot,
-  "prisma",
-  "migrations",
-  "20260811180000_init",
-  "migration.sql",
-);
-
-function applyInitMigration(databaseFile: string): void {
-  const sql = readFileSync(migrationSqlPath, "utf8");
-  execFileSync("sqlite3", [databaseFile], {
-    input: sql,
-    stdio: ["pipe", "pipe", "pipe"],
-  });
-}
-
 describe("API-001 finance HTTP contracts", () => {
-  let dbDir: string;
   let db: DbClient;
   let app: ReturnType<typeof createApp>;
+  let postgres: LocalPostgres | undefined;
 
   beforeAll(async () => {
-    dbDir = mkdtempSync(join(tmpdir(), "save-spend-api-"));
-    const dbFile = join(dbDir, "test.db");
-    applyInitMigration(dbFile);
-    db = createDbClient(`file:${dbFile}`);
+    postgres = await startTestDatabase("api");
+    db = postgres.db;
     await seedMockFinanceData(db);
     app = createApp({
       db,
       now: () => new Date("2026-07-15T12:00:00.000Z"),
     });
-  });
+  }, 30_000);
 
   afterAll(async () => {
-    await db.$disconnect();
-    rmSync(dbDir, { recursive: true, force: true });
+    await postgres?.close();
   });
 
   it("returns the mock account summary", async () => {

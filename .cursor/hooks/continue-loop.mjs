@@ -8,6 +8,7 @@
  * only if unfinished work or failed validation remains and no safety stop is set.
  */
 import fs from "node:fs";
+import { discoveryNeeded, validationFailed } from "../../scripts/continuation-policy.mjs";
 
 const readJson = (path) => JSON.parse(fs.readFileSync(path, "utf8"));
 const emit = (value) => process.stdout.write(`${JSON.stringify(value)}\n`);
@@ -30,12 +31,8 @@ try {
   const state = readJson(".agent/state.json");
   const backlog = readJson("backlog/tasks.json");
   const unfinished = backlog.tasks.some((task) => ["todo", "in_progress"].includes(task.status));
-  const validationFailed = state.lastValidation?.status === "failed";
-  const discoveryNeeded =
-    state.projectStatus === "active" &&
-    ["product_evolution", "usability_evolution"].includes(state.autonomyMode) &&
-    !unfinished &&
-    !validationFailed;
+  const needsRepair = validationFailed(state.lastValidation);
+  const needsDiscovery = discoveryNeeded(state, backlog.tasks);
   const stoppedForSafety = ["awaiting_initial_review", "blocked", "complete"].includes(
     state.projectStatus,
   );
@@ -51,9 +48,9 @@ try {
     });
   } else {
     emit({
-      followup_message: discoveryNeeded
+      followup_message: needsDiscovery
         ? "The backlog is empty, so begin the next autonomous product and usability discovery cycle now. Follow docs/USABILITY_LOOP.md: operate the app as a novice, write an evidence-backed self-critique, replenish and score the idea pool, promote the strongest in-scope issue into a testable task, then build, validate, browser-test, compare screenshots, independently verify, fix, commit, and repeat. Do not wait for a human to supply tasks. Mark complete only after the full release-readiness gate and two consecutive clean usability audits pass."
-        : "Continue the autonomous loop now: read state/backlog, take the highest-priority unblocked task or repair failing validation, run required tests and browser checks, obtain a read-only verifier review, update evidence/state, then proceed. Do not stop while work remains.",
+        : `Continue the autonomous loop now: read state/backlog, ${needsRepair ? "repair failing validation" : unfinished ? "take the highest-priority unblocked task" : "perform a fresh repository audit"}, run required tests and browser checks, obtain a read-only verifier review, update evidence/state, then proceed. Do not stop while work remains.`,
     });
   }
 } catch (error) {

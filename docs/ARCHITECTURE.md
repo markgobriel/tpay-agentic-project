@@ -21,6 +21,8 @@ React web client -> REST API -> application/domain services -> Prisma -> Postgre
 | Browser E2E             | Playwright                                        |
 | CI                      | GitHub Actions running `npm run validate`         |
 
+Local development and validation use Prisma's exact-pinned local PostgreSQL runtime, powered by PGlite. This is a development/test convenience, not a second database contract: the authoritative Prisma provider, migration SQL, driver adapter, and connection protocol are PostgreSQL in every environment.
+
 ## Future module boundaries
 
 ```text

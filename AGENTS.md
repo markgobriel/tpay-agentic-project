@@ -30,7 +30,7 @@ When the project is active, continue without asking for a human review between o
 4. Implement one coherent task. Keep a modular-monolith boundary.
 5. Add or update tests that prove the acceptance criteria.
 6. Run `npm run validate` and the task's required browser checks.
-7. Ask a verifier subagent to inspect the diff and evidence; it must not implement the feature.
+7. Ask a fresh read-only verifier subagent to inspect the diff and evidence; it must not implement the feature.
 8. Fix every validated failure or verifier finding, then repeat validation.
 9. Mark the task done only with passing evidence and update state/backlog atomically.
 10. Commit the coherent change with its tests and immediately begin the next task or product-discovery cycle.
@@ -83,7 +83,7 @@ Follow the retry policy in `docs/AUTONOMY.md`. A test failure is work to diagnos
 
 ## Verifier subagent prompt
 
-Use a separate Cursor subagent after implementation:
+Use a separate read-only subagent after implementation (Codex or Cursor, matching the active controller):
 
 > You are the verifier. Do not edit files. Inspect the current task, diff, tests, validation results, architecture boundaries, domain invariants, and required browser evidence. Return PASS or FAIL. For FAIL, cite exact file locations, violated rule/acceptance criterion, evidence, and the smallest required corrective action.
 

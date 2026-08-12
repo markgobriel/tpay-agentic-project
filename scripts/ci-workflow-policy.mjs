@@ -49,7 +49,7 @@ export function findCiWorkflowViolations(workflow) {
   const commands = [...workflow.matchAll(/^\s*run:\s*(.+?)\s*$/gm)].map((match) => match[1]);
   for (const expected of [
     "npm ci",
-    "sudo apt-get update && sudo apt-get install --yes lsof sqlite3",
+    "sudo apt-get update && sudo apt-get install --yes lsof",
     "npx playwright install --with-deps chromium",
   ]) {
     if (!commands.includes(expected)) violations.push(`missing exact command: ${expected}`);

@@ -361,6 +361,22 @@
       },
       "source": "Fresh independent post-DESIGN-002 novice desktop/mobile audit, 2026-08-12",
       "notes": "Promoted after live 390px evidence showed type visually hidden and income/expense amounts unsigned and identically styled."
+    },
+    {
+      "id": "IDEA-023",
+      "status": "promoted",
+      "promotedTaskId": "CODEX-010",
+      "title": "Replace the SQLite placeholder with the approved PostgreSQL stack",
+      "hypothesis": "Running schema, migrations, integration tests, previews, and E2E on PostgreSQL makes deployment-readiness claims truthful while an embedded local runtime preserves zero-service developer setup.",
+      "scores": {
+        "userImpact": 4,
+        "presentationValue": 5,
+        "evidence": 5,
+        "risk": 4,
+        "productFit": 5
+      },
+      "source": "Independent post-DESIGN-002 release-readiness audit plus direct schema/migration inspection, 2026-08-12",
+      "notes": "Promoted because the approved architecture explicitly requires PostgreSQL via Prisma, while provider, migration, tests, and README runtime diagram were SQLite-specific."
     }
   ]
 }

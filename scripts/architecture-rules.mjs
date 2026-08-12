@@ -22,7 +22,7 @@ const allowedExternalPackages = {
   web: new Set(["react", "react-dom", "react-dom/client"]),
   api: new Set(["express"]),
   domain: new Set(),
-  db: new Set(["@prisma/client"]),
+  db: new Set(["@prisma/client", "@prisma/adapter-pg", "dotenv"]),
   contracts: new Set(),
 };
 
@@ -102,7 +102,11 @@ export function findArchitectureViolations(files) {
         continue;
       }
       const root = packageRoot(specifier);
+      const isDbTestSupport =
+        normalizedPath === "packages/db/src/testing.ts" &&
+        (root === "pg" || root === "@prisma/dev");
       if (
+        !isDbTestSupport &&
         !allowedExternalPackages[sourceScope].has(specifier) &&
         !allowedExternalPackages[sourceScope].has(root)
       ) {

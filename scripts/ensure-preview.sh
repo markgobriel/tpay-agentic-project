@@ -10,7 +10,10 @@ mkdir -p .agent/logs
 
 if [[ -f "$pid_file" ]]; then
   supervisor_pid="$(tr -cd '0-9' <"$pid_file")"
-  if [[ -n "$supervisor_pid" ]] && kill -0 "$supervisor_pid" 2>/dev/null; then
+  supervisor_command="$(ps -p "$supervisor_pid" -o command= 2>/dev/null || true)"
+  if [[ -n "$supervisor_pid" ]] \
+    && kill -0 "$supervisor_pid" 2>/dev/null \
+    && [[ "$supervisor_command" == *"scripts/preview-supervisor.sh"* ]]; then
     echo "Live preview supervisor is already running (PID $supervisor_pid)."
     exit 0
   fi

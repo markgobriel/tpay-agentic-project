@@ -386,6 +386,22 @@
       "notes": "Completed from a fresh post-DESIGN-002 novice audit: visible Income/Expense cues and explicit +/− presentation amounts now make direction unambiguous at desktop and 390px without relying on color; the goal deadline uses a friendly UTC date. npm run validate PASS (54 unit/integration/policy + 23 browser; 31 architecture sources), screenshots and browser health/overflow checks pass, and a fresh verifier PASS confirms scope containment. No stored money, API, formula, or domain behavior changed."
     },
     {
+      "id": "CODEX-010",
+      "priority": 280,
+      "status": "done",
+      "title": "Make PostgreSQL the real Prisma persistence contract",
+      "acceptanceCriteria": [
+        "The authoritative Prisma schema and checked-in migration target PostgreSQL, with the Node API using the official PostgreSQL driver adapter and no SQLite production-path claim.",
+        "Local development and automated tests remain self-contained by using an exact-pinned local Prisma Postgres runtime; no Docker, paid service, credentials, or network data source is required after dependency installation.",
+        "Database, API integration, seed, and full desktop/mobile browser flows execute against isolated PostgreSQL-compatible instances and prove migrations plus deterministic mock data.",
+        "README, environment examples, architecture/testing docs, preview lifecycle, and CI describe and enforce the same truthful PostgreSQL path; the single npm run validate gate remains unchanged for users.",
+        "A full dependency audit, npm run validate, live-preview browser check, and fresh read-only verifier pass with no finance/domain/product-scope drift."
+      ],
+      "browserValidation": true,
+      "dependsOn": ["CODEX-009"],
+      "notes": "Completed from the post-redesign release audit: PostgreSQL is now the sole Prisma schema/migration/adapter contract; exact-pinned local Prisma Postgres instances isolate database, API, preview, and browser validation without Docker or credentials. Root .env behavior, continuation discovery, status wording, process identity, and supervisor shutdown are executable guardrails. Final npm run validate PASS (63 tests across 17 files, 23 browser flows, both builds, 33 architecture sources); npm audit reports 0 vulnerabilities across 518 dependencies; live desktop/mobile preview and restart health pass. Fresh verifier PASS after root-environment and lock-engine corrections. No finance/API/product-scope drift."
+    },
+    {
       "id": "UX-004",
       "priority": 170,
       "status": "done",

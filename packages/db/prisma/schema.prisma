@@ -1,13 +1,12 @@
 // Persistence schema for Save & Spend MVP.
 // Money is stored as non-negative integer minor units (no floating-point currency).
-// SQLite is used for isolated local/test persistence (no Docker). Production target remains PostgreSQL per ARCHITECTURE.md.
+// PostgreSQL is the single persistence contract in development, test, and production.
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider = "postgresql"
 }
 
 enum TransactionType {

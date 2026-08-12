@@ -37,7 +37,7 @@ export function formatStatus(state, backlog) {
   } else if (state.projectStatus === "complete") {
     lines.push("", "COMPLETE: all required validation and verification gates passed.");
   } else {
-    lines.push("", "No action needed from you. The controller continues automatically.");
+    lines.push("", "Autonomous work remains active. No human action is currently required.");
   }
 
   return lines.join("\n");

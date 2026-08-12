@@ -4,7 +4,7 @@ Save & Spend is a harness-engineering experiment for a mock personal-finance web
 
 ## Status
 
-Presentation-ready for local demo and portfolio review against the [release-readiness gate](docs/RELEASE_READINESS.md). The mock one-account app includes dashboard analytics, accessible category spending bars, savings-goal pace, discretionary recommendations, first-use demo guidance, deliberate loading/empty/error feedback, and Playwright-covered flows. External publication or production deployment remains a human-authorized action. This repository is an npm workspaces modular monolith:
+Local-demo ready while the autonomous [release-readiness gate](docs/RELEASE_READINESS.md) remains active. The mock one-account app includes dashboard analytics, accessible category spending bars, savings-goal pace, discretionary recommendations, first-use demo guidance, deliberate loading/empty/error feedback, and Playwright-covered flows. No production deployment has occurred; external publication or deployment remains a human-authorized action. This repository is an npm workspaces modular monolith:
 
 ```text
 apps/
@@ -38,10 +38,10 @@ Application service
         ├── deterministic domain calculations
         └── Prisma repositories
                     ▼
-              local SQLite database
+             PostgreSQL database
 ```
 
-SQLite keeps local development and automated tests self-contained. Prisma is the persistence boundary, so the intended production database can be PostgreSQL without moving financial policy into database queries.
+PostgreSQL is the single Prisma persistence contract in development, tests, and deployable environments. Local previews and validation stay self-contained through Prisma's exact-pinned local PostgreSQL runtime (powered by PGlite), so contributors do not need Docker, a hosted database, or credentials. A deployment supplies a standard direct `postgresql://` URL without changing application or financial logic.
 
 ### Product modules
 
@@ -133,7 +133,7 @@ Files under `.agent/logs/`, `.agent/evidence/`, and `.agent/test/` are generated
 
 ## Local run
 
-Requirements: Node.js 20+.
+Requirements: Node.js 20.19+ (Node 22 LTS recommended).
 
 1. Install dependencies from the repo root:
 
@@ -141,23 +141,27 @@ Requirements: Node.js 20+.
 npm install
 ```
 
-2. Configure the database URL (SQLite for local/demo). Copy the example env and keep mock data only—never point this project at real bank credentials:
+2. Start the complete supervised local demo:
 
 ```bash
-cp .env.example .env
+npm run preview:live
 ```
 
-`.env.example` sets `DATABASE_URL="file:./packages/db/dev.db"`. Optional: set `CALCULATION_DATE` (ISO-8601, e.g. `2026-07-15T12:00:00.000Z`) when starting the API to freeze goal/recommendation “today” for deterministic demos.
+This starts an isolated local PostgreSQL-compatible database, applies the checked-in PostgreSQL migration, resets it to deterministic mock data, and supervises the API and hot-reloading web app. It writes only ignored operational connection/PID files under `.agent/`; no password, real financial source, hosted service, or Docker daemon is needed.
 
-3. Generate Prisma client, create the local SQLite schema, and load the deterministic mock seed:
+3. Open [http://127.0.0.1:5173](http://127.0.0.1:5173). Source edits appear through Vite hot reload, and the supervisor restarts an interrupted local database, API, or web process.
+
+For an externally managed PostgreSQL instance, copy `.env.example` to `.env`, replace its placeholder with a direct `postgresql://` connection URL, then apply migrations and seed mock data explicitly:
 
 ```bash
 npm run db:generate -w @save-and-spend/db
-npm run db:push -w @save-and-spend/db
+npm run db:migrate:deploy -w @save-and-spend/db
 npm run db:seed -w @save-and-spend/db
 ```
 
-4. Start the API and web app (two terminals):
+Database tooling and the API resolve this repository-root `.env` explicitly, even when npm runs a workspace command from `packages/db` or `apps/api`. Values already exported by a deployment, CI job, or shell take precedence over the file.
+
+Then start the API and web app in two terminals:
 
 ```bash
 # Terminal A — API (optional CALCULATION_DATE for fixed analytics)
@@ -169,7 +173,7 @@ npm run dev -w @save-and-spend/web
 
 Open the Vite URL printed in the web terminal (typically `http://127.0.0.1:5173`).
 
-For a continuously supervised live preview while the autonomous agent works, run `npm run preview:live`. The supervisor keeps the API on port 3001 and the hot-reloading web app on port 5173, restarting either if it is interrupted. Automated browser tests use isolated ports and an isolated test database, so they do not intentionally stop or reset the live preview.
+The supervisor freezes the demo calculation date to `2026-07-15T12:00:00.000Z` unless `CALCULATION_DATE` is explicitly provided. Automated browser tests use isolated ports and an isolated stateless local PostgreSQL instance, so validation does not intentionally reset live preview data.
 
 ### Demo tips
 
@@ -192,11 +196,11 @@ GitHub Actions runs this exact command for pull requests and pushes to `main`. T
 
 ## Autonomous development
 
-After Harness v1 approval (`projectStatus: active`), use `bash scripts/run-autonomous.sh` for hands-off development. It refuses to run before approval and persistently starts checkpointed Cursor runs, including agent-owned task discovery whenever the backlog empties. It stops normally only when the state becomes `complete` or `blocked`.
+After Harness v1 approval (`projectStatus: active`), the current Codex durable goal owns the evidence → task → implementation → validation → browser review → read-only verifier → fix → commit loop. An empty task list triggers a fresh product/usability/repository audit; it is not treated as completion. Codex stops normally only when the complete release gate passes or a documented genuine blocker requires human authority.
 
-Run `npm run status` for a concise live readout of task, validation, verifier, and intervention status. The controller streams Cursor events into `.agent/logs/controller.ndjson`, which can be followed in the terminal while it works.
+Run `npm run status` for a concise live readout of the named task, validation, verifier, and intervention status. `npm run preview:live` keeps the current product visible while work continues. macOS completion/blocker notifications remain available through the repository notification helper.
 
-On macOS, the controller sends a desktop notification when the MVP is complete or when it reaches a genuine blocker. You do not need to poll the terminal for either outcome.
+The repository also retains its original optional Cursor CLI controller at `scripts/run-autonomous.sh` and `.cursor/`. It follows the same state and contracts, but it should not be run concurrently with the active Codex loop because both would edit the same checkout and regenerate the same Prisma client.
 
 The agent does not merely follow the initial harness: after every task, it audits what it learned and autonomously strengthens tests, validation, operating rules, and documentation. Protected product scope and financial rules remain fixed unless a human explicitly changes them.
 
@@ -204,6 +208,6 @@ The agent does not merely follow the initial harness: after every task, it audit
 
 - Monthly analysis timezone policy: **UTC** (selected in FOUND-001).
 - Monetary amounts use non-negative integer minor units at domain and persistence boundaries.
-- Local/test persistence uses **SQLite** via Prisma (no Docker). Architecture still targets PostgreSQL for production deployment.
+- Development, tests, and deployable persistence use the same **PostgreSQL** Prisma schema and migration. Local instances use the official PGlite-powered Prisma development runtime (no Docker or hosted database).
 - Optional `CALCULATION_DATE` (ISO-8601) freezes API goal/recommendation analytics for deterministic local demos and browser evidence.
 - Accessibility/responsive evidence: `docs/QUALITY_EVIDENCE.md`. Playwright E2E is part of `npm run validate`.

@@ -15,6 +15,10 @@
 
 The same command runs in `.github/workflows/validate.yml` for every pull request and push to `main`. Hosted validation installs exactly from `package-lock.json`; it does not replace or fork the local gate.
 
+Database and API integration tests start isolated stateless instances of Prisma's exact-pinned local PostgreSQL runtime, apply the checked-in PostgreSQL migration, and seed only repository-owned mock data. Playwright uses a separate isolated instance and ports. This preserves PostgreSQL schema/enum/foreign-key behavior without Docker, hosted credentials, or shared state; the runtime's PGlite implementation is development/test-only.
+
+Environment-loader tests prove that the documented repository-root `.env` resolves consistently from source and build locations and never overrides an already exported deployment or test value.
+
 During Harness v1, only the structure and state checks exist. Product tasks may add their appropriate stage, but must preserve this single entry point.
 
 ## Test levels
@@ -37,6 +41,6 @@ The Playwright suite also runs whole-page axe scans over default and progressive
 ## Test integrity
 
 - Test expected outcomes, boundary cases, invalid inputs, and the permanent rules in `DOMAIN_RULES.md`.
-- Keep tests deterministic: freeze time, use isolated data, and avoid real bank/network dependencies.
+- Keep tests deterministic: freeze time, use isolated local PostgreSQL data, and avoid real bank/network dependencies.
 - Tests are product evidence. Never delete, skip, weaken, or update an expectation merely to accommodate a broken implementation.
 - A verifier subagent must independently check the task's acceptance coverage and validation output.
