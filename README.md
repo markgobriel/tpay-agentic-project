@@ -4,7 +4,7 @@ Save & Spend is a harness-engineering experiment for a mock personal-finance web
 
 ## Status
 
-Local-demo ready while the autonomous [release-readiness gate](docs/RELEASE_READINESS.md) remains active. The mock one-account app includes dashboard analytics, accessible category spending bars, savings-goal pace, discretionary recommendations, first-use demo guidance, deliberate loading/empty/error feedback, and Playwright-covered flows. No production deployment has occurred; external publication or deployment remains a human-authorized action. This repository is an npm workspaces modular monolith:
+The autonomous [release-readiness gate](docs/RELEASE_READINESS.md) is complete for local presentation and deployment handoff; the evidence and remaining low-severity tradeoffs are recorded in [the completion audit](docs/COMPLETION_AUDIT.md). The mock one-account app includes dashboard analytics, accessible category spending bars, savings-goal pace, discretionary recommendations, first-use demo guidance, deliberate loading/empty/error feedback, and Playwright-covered flows. No production deployment has occurred; external publication or deployment remains a human-authorized action. This repository is an npm workspaces modular monolith:
 
 ```text
 apps/

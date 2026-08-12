@@ -9,8 +9,8 @@
     "productFit": "Must remain within docs/PRODUCT_EVOLUTION.md."
   },
   "lastDiscovery": {
-    "at": "2026-08-12T10:22:00Z",
-    "summary": "Two consecutive clean audits (003/004). IDEA-006/010 deferred as low cosmetic; release readiness ready."
+    "at": "2026-08-12T13:29:30Z",
+    "summary": "Post-CODEX-010 engineering and novice audits are both clean. The long fixed mobile history and managed-deployment smoke test are recorded low/external tradeoffs; another in-scope iteration would be cosmetic churn."
   },
   "candidates": [
     {
