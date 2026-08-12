@@ -341,6 +341,21 @@
       "notes": "Completed: both direct Playwright packages exact-pinned and coherently deduped at 1.62.1 with matching Chrome Headless Shell 151. Fresh full npm audit reports 0 vulnerabilities across 409 dependencies; all 19 browser tests remain present and unchanged. npm run validate PASS (48 unit/integration + 19 browser; 30 architecture sources). Fresh verifier PASS. No product/application/finance/API/runtime dependency changes."
     },
     {
+      "id": "CODEX-007",
+      "priority": 250,
+      "status": "done",
+      "title": "Enforce the full validation gate on GitHub changes",
+      "acceptanceCriteria": [
+        "A least-privilege GitHub Actions workflow runs on main pushes and pull requests and may also be dispatched manually.",
+        "The job checks out code and configures Node through immutable official action commit hashes, installs from package-lock.json with npm ci, installs Chromium system dependencies, and runs npm run validate unchanged.",
+        "Workflow concurrency cancels superseded runs, a finite timeout prevents stuck jobs, and no secret, write permission, deployment, publication, or remote mutation is introduced.",
+        "Executable policy tests protect the workflow triggers, permissions, immutable actions, deterministic install, browser prerequisites, and single validation command; npm run validate and a fresh verifier pass."
+      ],
+      "browserValidation": false,
+      "dependsOn": ["CODEX-006"],
+      "notes": "Completed: least-privilege Ubuntu 24.04 workflow runs the unchanged full gate on main pushes/PRs/manual dispatch with immutable official action SHAs, exact lock install, explicit lsof/sqlite3 and Playwright deps, cancellation, and timeout. Mutation-based policy rejects write/job permissions, tokens, path filters, mutable actions, failure suppression, and altered/duplicate commands. npm run validate PASS (52 unit/integration/policy + 19 browser; 30 sources). Fresh verifier PASS after policy-test hardening. No hosted run claimed before push; no product/runtime change."
+    },
+    {
       "id": "UX-004",
       "priority": 170,
       "status": "done",

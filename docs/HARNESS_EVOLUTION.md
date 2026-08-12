@@ -131,3 +131,10 @@ For every entry, record:
 - **Safeguard added:** Playwright test/runtime packages move together to the current fixed stable release; the full dependency audit and every existing real-browser flow must pass before completion.
 - **Enforced by:** `package.json`, `package-lock.json`, `npm audit`, the 19-test Playwright suite, `npm run validate`, and a fresh verifier.
 - **Scope:** development/test supply-chain security only; product behavior, financial rules, API contracts, and application dependencies remain unchanged.
+
+### CODEX-007 — hosted validation enforcement
+
+- **Observed evidence:** the repository's local `npm run validate` gate was comprehensive, but no `.github` workflow ran it for pushes or pull requests, leaving published regressions without an automatic quality signal.
+- **Safeguard added:** a read-only GitHub Actions job installs the exact lockfile, provisions Playwright's Chromium dependencies, and executes the unchanged single validation command. Official actions are pinned to immutable release commits; concurrency and timeout bound resource use.
+- **Enforced by:** `.github/workflows/validate.yml`, `scripts/ci-workflow.test.mjs`, `scripts/validate.sh`, and `npm run validate`.
+- **Scope:** hosted quality enforcement only; it does not push, publish, deploy, access secrets, or alter product/runtime behavior.

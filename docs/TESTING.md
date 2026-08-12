@@ -13,6 +13,8 @@
 7. Playwright browser E2E tests;
 8. architecture and documentation checks.
 
+The same command runs in `.github/workflows/validate.yml` for every pull request and push to `main`. Hosted validation installs exactly from `package-lock.json`; it does not replace or fork the local gate.
+
 During Harness v1, only the structure and state checks exist. Product tasks may add their appropriate stage, but must preserve this single entry point.
 
 ## Test levels

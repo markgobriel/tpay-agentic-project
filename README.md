@@ -188,6 +188,8 @@ npm run validate
 
 It currently runs harness/structure checks, format, lint, TypeScript, unit tests, production builds, and Playwright E2E (`npm run test:e2e`).
 
+GitHub Actions runs this exact command for pull requests and pushes to `main`. The workflow is read-only, installs dependencies from the lockfile with `npm ci`, and provisions the matching Playwright Chromium system dependencies; it does not deploy or publish the app.
+
 ## Autonomous development
 
 After Harness v1 approval (`projectStatus: active`), use `bash scripts/run-autonomous.sh` for hands-off development. It refuses to run before approval and persistently starts checkpointed Cursor runs, including agent-owned task discovery whenever the backlog empties. It stops normally only when the state becomes `complete` or `blocked`.

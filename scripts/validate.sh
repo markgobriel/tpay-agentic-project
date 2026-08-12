@@ -18,6 +18,7 @@ required_files=(
   ".agent/state.json"
   ".cursor/hooks.json"
   ".cursor/hooks/continue-loop.mjs"
+  ".github/workflows/validate.yml"
   "apps/web/package.json"
   "apps/api/package.json"
   "packages/domain/package.json"

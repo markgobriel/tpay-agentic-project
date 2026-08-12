@@ -313,6 +313,22 @@
       },
       "source": "Fresh Codex npm audit and official Playwright release check, 2026-08-12",
       "notes": "Full audit found GHSA-7mvr-c777-76hp through direct Playwright 1.54.2 packages; npm registry reports 1.62.1 as current stable."
+    },
+    {
+      "id": "IDEA-020",
+      "status": "promoted",
+      "promotedTaskId": "CODEX-007",
+      "title": "Make the local quality gate visible and enforceable on GitHub",
+      "hypothesis": "Running the exact repository gate on every main push and pull request prevents validated local work from silently regressing after publication and gives reviewers a credible quality signal.",
+      "scores": {
+        "userImpact": 5,
+        "presentationValue": 5,
+        "evidence": 5,
+        "risk": 2,
+        "productFit": 5
+      },
+      "source": "Fresh Codex release-readiness and repository-hygiene audit, 2026-08-12",
+      "notes": "Promoted because the repository had no .github workflow despite npm run validate being the authoritative full gate."
     }
   ]
 }

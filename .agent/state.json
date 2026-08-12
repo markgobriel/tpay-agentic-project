@@ -7,26 +7,26 @@
   },
   "currentTaskId": null,
   "currentPlan": [],
-  "iteration": 35,
+  "iteration": 36,
   "consecutiveFailures": 0,
   "strategyCount": 0,
   "lastFailure": null,
   "lastValidation": {
     "command": "npm run validate",
     "result": "pass",
-    "at": "2026-08-12T12:06:46Z"
+    "at": "2026-08-12T12:15:32Z"
   },
   "lastVerifier": {
     "result": "pass",
-    "at": "2026-08-12T12:06:46Z",
-    "notes": "CODEX-006 PASS: coherent Playwright 1.62.1 resolution, zero vulnerabilities across 409 dependencies, all 19 browser tests preserved, full validation, and scope containment verified."
+    "at": "2026-08-12T12:15:32Z",
+    "notes": "CODEX-007 PASS after policy hardening: least-privilege immutable hosted workflow, exact commands, trigger coverage, negative mutation tests, full validation, and scope containment verified."
   },
   "blocker": null,
   "completedAt": null,
   "autonomyMode": "codex_evolution",
   "releaseReadiness": {
     "status": "in_progress",
-    "summary": "Codex evolution remains active; CODEX-006 removed the known browser-tooling vulnerability, with hosted validation enforcement next in the convergence audit."
+    "summary": "Codex evolution remains active; CODEX-007 adds locally proven hosted validation enforcement, with an actual GitHub run intentionally unclaimed until a separately authorized push."
   },
   "hookPolicy": {
     "maxFollowupsPerRun": 12,
@@ -65,7 +65,8 @@
     ".agent/evidence/DESIGN-002/desktop-goal-editor.png",
     ".agent/evidence/DESIGN-002/mobile-workspace.png",
     ".agent/evidence/DESIGN-002/self-review.md",
-    ".agent/evidence/CODEX-006/self-review.md"
+    ".agent/evidence/CODEX-006/self-review.md",
+    ".agent/evidence/CODEX-007/self-review.md"
   ],
   "usabilityAudits": {
     "consecutiveClean": 0,
