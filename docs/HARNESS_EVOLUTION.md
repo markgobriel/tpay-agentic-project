@@ -145,3 +145,10 @@ For every entry, record:
 - **Safeguard added:** the official axe Playwright integration scans default desktop/mobile plus expanded guide, open goal editor, and validation-error states against WCAG 2.0/2.1/2.2 A/AA and best-practice rules with no exclusions.
 - **Enforced by:** `e2e/accessibility-audit.spec.ts`, the existing manual/interaction checks, and `npm run validate`.
 - **Scope:** accessibility evidence and regression detection; automated scans complement rather than replace manual keyboard, visual, semantic, and inclusive-user review.
+
+### CODEX-009 — transaction-direction comprehension regression
+
+- **Observed evidence:** a fresh independent 390px novice audit found that mobile CSS visually hid Income/Expense while every transaction amount was unsigned, so unfamiliar merchants did not communicate money direction.
+- **Safeguard added:** responsive browser coverage requires visible plain-language direction cues, explicit signed amounts, a friendly goal date, clean browser health, and no horizontal overflow on both desktop and mobile.
+- **Enforced by:** `apps/web/src/formatTransactionAmount.test.ts`, `e2e/codex-009-transaction-direction.spec.ts`, the strengthened populated-activity test, and `npm run validate`.
+- **Scope:** presentation semantics and comprehension only; persisted money, transaction types, APIs, formulas, and domain rules remain unchanged.

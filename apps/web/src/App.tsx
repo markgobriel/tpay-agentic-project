@@ -9,6 +9,7 @@ import { CategoryBreakdown } from "./CategoryBreakdown.js";
 import { DemoGuide } from "./DemoGuide.js";
 import { filterTransactionsByYearMonth } from "./filterTransactionsByMonth.js";
 import { formatMinorAsCurrency } from "./formatMoney.js";
+import { formatTransactionAmount } from "./formatTransactionAmount.js";
 import { formatTransactionDate } from "./formatTransactionDate.js";
 import { formatYearMonthLabel } from "./formatYearMonth.js";
 import { PanelMessage } from "./PanelMessage.js";
@@ -321,9 +322,15 @@ export function App() {
                             {txn.category.replaceAll("_", " ")}
                           </span>
                         </td>
-                        <td className="txn-type">{txn.type}</td>
-                        <td className="money txn-amount">
-                          {formatMinorAsCurrency(txn.amountMinor, account?.currencyCode)}
+                        <td className={`txn-type txn-type--${txn.type}`}>
+                          {txn.type === "income" ? "Income" : "Expense"}
+                        </td>
+                        <td className={`money txn-amount txn-amount--${txn.type}`}>
+                          {formatTransactionAmount(
+                            txn.amountMinor,
+                            txn.type,
+                            account?.currencyCode,
+                          )}
                         </td>
                       </tr>
                     ))}

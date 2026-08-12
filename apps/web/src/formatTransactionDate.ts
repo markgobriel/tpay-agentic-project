@@ -5,6 +5,8 @@ const transactionDateFormatter = new Intl.DateTimeFormat("en-US", {
   timeZone: "UTC",
 });
 
-export function formatTransactionDate(occurredAt: string): string {
-  return transactionDateFormatter.format(new Date(occurredAt));
+export function formatUtcDate(isoDate: string): string {
+  return transactionDateFormatter.format(new Date(isoDate));
 }
+
+export const formatTransactionDate = formatUtcDate;

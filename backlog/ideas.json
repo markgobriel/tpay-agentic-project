@@ -345,6 +345,22 @@
       },
       "source": "Fresh Codex accessibility and test-coverage audit plus official Playwright accessibility guidance, 2026-08-12",
       "notes": "Promoted because current coverage checks specific labels, focus, contrast, and overflow but does not run a standards-based whole-page engine."
+    },
+    {
+      "id": "IDEA-022",
+      "status": "promoted",
+      "promotedTaskId": "CODEX-009",
+      "title": "Make money-in and money-out explicit in mobile activity",
+      "hypothesis": "Visible Income/Expense cues and signed amounts let a first-time user understand transaction direction without recognizing the merchant or relying on color.",
+      "scores": {
+        "userImpact": 5,
+        "presentationValue": 4,
+        "evidence": 5,
+        "risk": 1,
+        "productFit": 5
+      },
+      "source": "Fresh independent post-DESIGN-002 novice desktop/mobile audit, 2026-08-12",
+      "notes": "Promoted after live 390px evidence showed type visually hidden and income/expense amounts unsigned and identically styled."
     }
   ]
 }

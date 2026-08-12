@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import type { SavingsGoalResponse } from "@save-and-spend/contracts";
 import { fetchSavingsGoal, upsertSavingsGoal } from "./api.js";
 import { formatMinorAsCurrency } from "./formatMoney.js";
+import { formatUtcDate } from "./formatTransactionDate.js";
 import { formatYearMonthLabel } from "./formatYearMonth.js";
 import { minorToMajorInput, parseMajorCurrencyToMinor } from "./moneyInput.js";
 import { PanelMessage } from "./PanelMessage.js";
@@ -166,7 +167,7 @@ export function SavingsGoalPanel({
               <strong>{goal.name}</strong>
               <span>
                 {formatMinorAsCurrency(goal.targetAmountMinor, currencyCode)} by{" "}
-                <time dateTime={goal.targetDate}>{toDateInputValue(goal.targetDate)}</time>
+                <time dateTime={goal.targetDate}>{formatUtcDate(goal.targetDate)}</time>
               </span>
             </p>
             <button

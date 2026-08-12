@@ -371,6 +371,21 @@
       "notes": "Completed: official exact-pinned axe Playwright scans full desktop/mobile pages across default, expanded-guide, open-editor, and invalid-error states using WCAG 2.0/2.1/2.2 A/AA + best-practice tags with no exclusions. Loaded sentinels close verifier-found async race across account/goal/recommendations/categories/12 activity rows. npm audit 0 across 411 deps; npm run validate PASS (52 unit/integration/policy + 21 browser; 30 sources). Fresh verifier PASS. Automation is documented as complementary, not certification; no product/runtime changes."
     },
     {
+      "id": "CODEX-009",
+      "priority": 270,
+      "status": "done",
+      "title": "Make transaction direction unmistakable on mobile",
+      "acceptanceCriteria": [
+        "Every transaction shows a plain-language Income or Expense cue at desktop and 390px mobile widths; the cue is not communicated by color alone.",
+        "Displayed transaction amounts use an explicit plus sign for income and minus sign for expense without changing persisted monetary values or domain calculations.",
+        "The savings-goal summary uses the same friendly UTC date style as transaction activity instead of a raw ISO date.",
+        "Responsive browser coverage proves visible direction cues, signed amounts, clean accessible names, no horizontal overflow, and no console or failed-network errors; npm run validate and a fresh verifier pass."
+      ],
+      "browserValidation": true,
+      "dependsOn": ["CODEX-008"],
+      "notes": "Completed from a fresh post-DESIGN-002 novice audit: visible Income/Expense cues and explicit +/− presentation amounts now make direction unambiguous at desktop and 390px without relying on color; the goal deadline uses a friendly UTC date. npm run validate PASS (54 unit/integration/policy + 23 browser; 31 architecture sources), screenshots and browser health/overflow checks pass, and a fresh verifier PASS confirms scope containment. No stored money, API, formula, or domain behavior changed."
+    },
+    {
       "id": "UX-004",
       "priority": 170,
       "status": "done",

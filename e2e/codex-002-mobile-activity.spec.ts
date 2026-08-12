@@ -52,11 +52,17 @@ test.describe("CODEX-002 responsive transaction activity", () => {
 
     const firstRow = page.locator(".transactions tbody tr").first();
     await expect(firstRow.getByText("Acme Corp Payroll")).toBeVisible();
-    await expect(firstRow.getByText("$5,000.00", { exact: true })).toBeVisible();
+    await expect(firstRow.getByText("+$5,000.00", { exact: true })).toBeVisible();
     await expect(firstRow.getByText("Jul 1, 2026")).toBeVisible();
     await expect(firstRow.locator(".txn-category-label")).toHaveText("salary");
     await expect(firstRow.locator(".txn-category-label")).toBeVisible();
-    await expect(firstRow.locator(".txn-type")).toHaveText("income");
+    await expect(firstRow.locator(".txn-type")).toHaveText("Income");
+    await expect(firstRow.locator(".txn-type")).toBeVisible();
+
+    const firstExpense = page.locator(".transactions tbody tr").nth(1);
+    await expect(firstExpense.locator(".txn-type")).toHaveText("Expense");
+    await expect(firstExpense.locator(".txn-type")).toBeVisible();
+    await expect(firstExpense.locator(".txn-amount")).toHaveText("−$1,500.00");
 
     const layout = await firstRow.evaluate((row) => {
       const merchant = row.querySelector(".txn-merchant")?.getBoundingClientRect();

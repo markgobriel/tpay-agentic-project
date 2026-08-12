@@ -796,6 +796,18 @@ input {
   color: var(--muted);
 }
 
+.txn-type {
+  font-size: 0.72rem;
+  font-weight: 720;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+.txn-type--income,
+.txn-amount--income {
+  color: var(--positive);
+}
+
 .txn-category {
   text-transform: capitalize;
 }
@@ -986,10 +998,10 @@ input {
 
   .transactions tbody tr {
     display: grid;
-    grid-template-columns: max-content minmax(0, 1fr) max-content;
+    grid-template-columns: max-content minmax(0, 1fr) max-content max-content;
     grid-template-areas:
-      "merchant merchant amount"
-      "date category amount";
+      "merchant merchant merchant amount"
+      "date category type amount";
     gap: 0.28rem 0.5rem;
     align-items: center;
     padding: 0.82rem 0;
@@ -1026,15 +1038,10 @@ input {
   }
 
   .transactions .txn-type {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
+    grid-area: type;
+    align-self: center;
+    font-size: 0.64rem;
     white-space: nowrap;
-    border: 0;
   }
 
   .transactions .txn-amount {
