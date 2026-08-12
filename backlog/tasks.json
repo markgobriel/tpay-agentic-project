@@ -236,6 +236,21 @@
       "notes": "Completed UX-003: month-scoped activity filter + labels; validate+verifier PASS."
     },
     {
+      "id": "CODEX-001",
+      "priority": 180,
+      "status": "done",
+      "title": "Make first-use guidance progressive so the dashboard leads",
+      "acceptanceCriteria": [
+        "The initial guide is compact on desktop and mobile while still identifying the seeded demo and its purpose.",
+        "Detailed workflow and financial-advice boundaries remain available through an accessible disclosure control.",
+        "The mobile first viewport includes the account balance instead of being dominated by onboarding copy.",
+        "Browser tests cover disclosure, dismissal persistence, mobile hierarchy, overflow, console errors, and failed requests; npm run validate passes."
+      ],
+      "browserValidation": true,
+      "dependsOn": ["UX-004"],
+      "notes": "Completed from a fresh Codex novice audit: compact progressive guide disclosure keeps the balance in the 390x844 first viewport; detailed mock/non-advice guidance and persistent dismissal remain accessible. Evidence: .agent/evidence/CODEX-001/. npm run validate PASS (37 unit/integration + 15 browser tests). Fresh read-only verifier PASS. No domain/API changes or new dependencies."
+    },
+    {
       "id": "UX-004",
       "priority": 170,
       "status": "done",

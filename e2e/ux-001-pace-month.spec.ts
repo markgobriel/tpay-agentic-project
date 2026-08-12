@@ -38,7 +38,7 @@ async function assertNoHorizontalOverflow(page: Page) {
 }
 
 test.describe("UX-001 pace month clarity and honest empty cuts", () => {
-  test("desktop: names calculation month, mismatch control, helpers, secondary Got it", async ({
+  test("desktop: names calculation month, mismatch control, helpers, secondary guide action", async ({
     page,
   }) => {
     const { consoleErrors, failedRequests } = await collectPageIssues(page);
@@ -56,8 +56,9 @@ test.describe("UX-001 pace month clarity and honest empty cuts", () => {
     await expect(page.getByTestId("rec-calc-month")).toContainText("July 2026");
     await expect(page.getByTestId("goal-amount-help")).toContainText("1200.00");
 
-    const gotIt = page.getByTestId("demo-guide-dismiss");
-    await expect(gotIt).toHaveClass(/secondary-button/);
+    await page.getByTestId("demo-guide-toggle").click();
+    const dismissGuide = page.getByTestId("demo-guide-dismiss");
+    await expect(dismissGuide).toHaveClass(/secondary-button/);
     await expect(page.getByTestId("goal-save-button")).toHaveClass(/primary-button/);
 
     // Force a month mismatch against e2e CALCULATION_DATE (July).

@@ -82,3 +82,10 @@ For every entry, record:
 - **Safeguard added:** supervised hot-reloading preview on ports 3001/5173 plus isolated E2E ports 3101/4173 and `.agent/test/e2e.db`.
 - **Enforced by:** `scripts/ensure-preview.sh`, `scripts/preview-supervisor.sh`, `scripts/run-autonomous.sh`, `scripts/e2e.sh`, and `apps/web/vite.config.ts`.
 - **Scope:** local development observability and test isolation only; no product or financial behavior changes.
+
+### CODEX-001 — first-viewport hierarchy regression
+
+- **Observed evidence:** a fresh 390x844 novice audit showed the always-expanded guide occupying nearly the entire first viewport. The existing guide test asserted visibility and overflow but did not protect the intended balance-first hierarchy.
+- **Safeguard added:** the browser test now requires the balance panel to remain in the first mobile viewport, verifies the guide's collapsed and expanded states, and preserves dismissal persistence and financial-advice copy coverage.
+- **Enforced by:** `apps/web/src/DemoGuide.tsx`, `e2e/first-use-guide.spec.ts`, and `npm run validate`.
+- **Scope:** strengthens first-use presentation regression coverage; it does not change financial policy, calculations, or API contracts.

@@ -1,29 +1,33 @@
 {
   "schemaVersion": 1,
-  "projectStatus": "complete",
+  "projectStatus": "active",
   "initialReview": {
     "status": "approved",
     "approvedAt": "2026-08-11T14:41:14Z"
   },
   "currentTaskId": null,
-  "currentPlan": [],
-  "iteration": 28,
+  "currentPlan": [
+    "Commit the validated CODEX-001 improvement as one coherent increment.",
+    "Begin a fresh desktop/mobile novice audit and replenish agent-authored ideas.",
+    "Promote the next evidence-backed in-scope task, or prove that further work would be cosmetic churn."
+  ],
+  "iteration": 29,
   "consecutiveFailures": 0,
   "strategyCount": 0,
   "lastFailure": null,
   "lastValidation": {
     "command": "npm run validate",
     "result": "pass",
-    "at": "2026-08-12T10:24:00Z"
+    "at": "2026-08-12T11:00:37Z"
   },
   "lastVerifier": {
     "result": "pass",
-    "at": "2026-08-12T10:22:00Z",
-    "notes": "Usability convergence PASS; RELEASE_READINESS pass; project complete."
+    "at": "2026-08-12T11:00:37Z",
+    "notes": "CODEX-001 PASS: acceptance criteria, browser hierarchy, disclosure accessibility, test coverage, invariants, and harness-evolution record verified."
   },
   "blocker": null,
-  "completedAt": "2026-08-12T10:24:00Z",
-  "autonomyMode": "usability_evolution",
+  "completedAt": null,
+  "autonomyMode": "codex_evolution",
   "releaseReadiness": {
     "status": "pass",
     "summary": "Gate passed: product clarity, experience, validation, evidence, ops docs, and two consecutive clean usability audits (003/004). Lows deferred (IDEA-006/010)."
@@ -52,7 +56,10 @@
     ".agent/evidence/USABILITY-AUDIT-004/critique.md",
     ".agent/evidence/UX-002/self-review.md",
     ".agent/evidence/UX-003/self-review.md",
-    ".agent/evidence/UX-004/self-review.md"
+    ".agent/evidence/UX-004/self-review.md",
+    ".agent/evidence/CODEX-001/desktop-guide.png",
+    ".agent/evidence/CODEX-001/mobile-guide.png",
+    ".agent/evidence/CODEX-001/self-review.md"
   ],
   "usabilityAudits": {
     "consecutiveClean": 2,

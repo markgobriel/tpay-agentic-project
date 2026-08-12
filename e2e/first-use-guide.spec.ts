@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 
-const evidenceDir = join(process.cwd(), ".agent", "evidence", "EVOLVE-002");
+const evidenceDir = join(process.cwd(), ".agent", "evidence", "CODEX-001");
 mkdirSync(evidenceDir, { recursive: true });
 
 test.describe("EVOLVE-002 first-use demo guidance", () => {
@@ -25,15 +25,21 @@ test.describe("EVOLVE-002 first-use demo guidance", () => {
 
     const guide = page.getByTestId("demo-guide");
     await expect(guide).toBeVisible();
-    await expect(guide).toContainText("mock account");
-    await expect(guide).toContainText("discretionary");
-    await expect(guide).toContainText("not personal financial advice");
+    await expect(guide).toContainText("Mock data, real workflow");
+    const toggle = page.getByTestId("demo-guide-toggle");
+    await expect(toggle).toHaveAttribute("aria-expanded", "false");
+    await expect(guide).not.toContainText("not personal financial advice");
     await expect(page.getByTestId("balance-panel")).toBeVisible();
 
     await page.screenshot({
       path: join(evidenceDir, "desktop-guide.png"),
       fullPage: false,
     });
+
+    await toggle.click();
+    await expect(toggle).toHaveAttribute("aria-expanded", "true");
+    await expect(guide).toContainText("discretionary");
+    await expect(guide).toContainText("not personal financial advice");
 
     await page.getByTestId("demo-guide-dismiss").click();
     await expect(guide).toHaveCount(0);
@@ -48,6 +54,7 @@ test.describe("EVOLVE-002 first-use demo guidance", () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.reload();
     await expect(page.getByTestId("demo-guide")).toBeVisible();
+    await expect(page.getByTestId("balance-panel")).toBeInViewport();
     const overflow = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
       clientWidth: document.documentElement.clientWidth,

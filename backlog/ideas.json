@@ -201,6 +201,22 @@
       "source": "UX-001 self-review",
       "notes": "Promoted as UX-003.",
       "promotedTaskId": "UX-003"
+    },
+    {
+      "id": "IDEA-013",
+      "status": "promoted",
+      "promotedTaskId": "CODEX-001",
+      "title": "Keep first-use guidance from displacing the financial dashboard",
+      "hypothesis": "Progressive disclosure can preserve the mock-data and safety explanation while making the account balance visible in the first mobile viewport.",
+      "scores": {
+        "userImpact": 5,
+        "presentationValue": 4,
+        "evidence": 5,
+        "risk": 1,
+        "productFit": 5
+      },
+      "source": "Fresh Codex desktop/mobile novice audit, 2026-08-12",
+      "notes": "Promoted after a 390x844 first-load capture showed onboarding copy occupying nearly the entire first viewport."
     }
   ]
 }

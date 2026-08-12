@@ -174,7 +174,7 @@ For a continuously supervised live preview while the autonomous agent works, run
 ### Demo tips
 
 - Data is **seeded mock finance only** (one Everyday Checking account, July 2026 activity, one Emergency Fund goal).
-- The dismissible **Demo walkthrough** explains the mock workflow; it is not financial advice.
+- The compact **Guided demo** explains the mock workflow on demand; it is not financial advice.
 - Goal pace and cut suggestions use a **calculation month** (from `CALCULATION_DATE`, or today when unset). The dashboard month picker can differ—if it does, the UI explains the mismatch and offers to align Monthly position.
 - Default seed is on-pace for the Emergency Fund when `CALCULATION_DATE=2026-07-15…`. To see **discretionary cut suggestions**, raise the goal target or lower current saved until a savings gap appears, then save—the recommendations panel refreshes from the same rule-based engine (essentials are never cut). A gap with **$0 proposed cuts** means that calculation month has no discretionary spend to reduce, not that the gap is closed.
 
