@@ -174,6 +174,21 @@
       "browserValidation": true,
       "dependsOn": ["EVOLVE-002"],
       "notes": "Completed EVOLVE-003 from IDEA-003: PanelMessage + dashboard/goal/recommendations loading/empty/error+Retry; goal save pending/success status; e2e/state-feedback.spec.ts + .agent/evidence/EVOLVE-003/; npm run validate PASS (7 e2e). Verifier PASS."
+    },
+    {
+      "id": "EVOLVE-004",
+      "priority": 130,
+      "status": "done",
+      "title": "Document local run and operational release readiness",
+      "acceptanceCriteria": [
+        "README documents install, environment (.env.example), database migrate/seed, API+web local run, CALCULATION_DATE, validate, and mock-data boundaries clearly enough for a first-time operator.",
+        "README status reflects post-MVP product-evolution toward the RELEASE_READINESS gate rather than implying unfinished foundation-only work.",
+        "Documentation explains how to observe discretionary cut suggestions by adjusting the savings goal without changing domain rules.",
+        "npm run validate still passes; read-only verifier reviews operational readiness against RELEASE_READINESS."
+      ],
+      "browserValidation": false,
+      "dependsOn": ["EVOLVE-003"],
+      "notes": "Completed EVOLVE-004 from IDEA-004: README Local run + demo tips; .env.example documents mock DATABASE_URL and optional CALCULATION_DATE; npm run validate PASS. Verifier PASS. Final RELEASE_READINESS PASS; IDEA-005/006 left as optional non-blocking candidates."
     }
   ]
 }

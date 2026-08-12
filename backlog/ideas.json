@@ -9,8 +9,8 @@
     "productFit": "Must remain within docs/PRODUCT_EVOLUTION.md."
   },
   "lastDiscovery": {
-    "at": "2026-08-12T09:05:00Z",
-    "summary": "EVOLVE-002 done. Promoted IDEA-003 to EVOLVE-003 for loading/empty/error feedback required by RELEASE_READINESS. Will replenish idea pool after EVOLVE-003 if gate still open."
+    "at": "2026-08-12T09:20:00Z",
+    "summary": "After EVOLVE-003, seeded idea pool was exhausted. Replenished with operational docs (promoted), optional behind-pace demo seed, and a11y focus polish candidates. Gate still open on operational readiness."
   },
   "candidates": [
     {
@@ -27,7 +27,7 @@
         "productFit": 5
       },
       "source": "Initial post-MVP product-evolution seed",
-      "notes": "Promoted: list-only category section still requires scanning; CSS bars keep risk low."
+      "notes": "Promoted and completed as EVOLVE-001."
     },
     {
       "id": "IDEA-002",
@@ -43,7 +43,7 @@
         "productFit": 5
       },
       "source": "Initial post-MVP product-evolution seed",
-      "notes": "Promoted after EVOLVE-001: RELEASE_READINESS product clarity still needs a first-viewer narrative without advice tone."
+      "notes": "Promoted and completed as EVOLVE-002."
     },
     {
       "id": "IDEA-003",
@@ -59,7 +59,53 @@
         "productFit": 5
       },
       "source": "Initial post-MVP product-evolution seed",
-      "notes": "Promoted to EVOLVE-003: RELEASE_READINESS still cites helpful empty/loading/error states as required for credible experience."
+      "notes": "Promoted and completed as EVOLVE-003."
+    },
+    {
+      "id": "IDEA-004",
+      "status": "promoted",
+      "promotedTaskId": "EVOLVE-004",
+      "title": "Document local run and operational readiness",
+      "hypothesis": "A first-time operator cannot confidently demo the app without explicit install/env/seed/run steps in README.",
+      "scores": {
+        "userImpact": 3,
+        "presentationValue": 4,
+        "evidence": 5,
+        "risk": 1,
+        "productFit": 5
+      },
+      "source": "Post-EVOLVE-003 release-readiness audit",
+      "notes": "Promoted: RELEASE_READINESS item 5 was incomplete."
+    },
+    {
+      "id": "IDEA-005",
+      "status": "deferred",
+      "title": "Make discretionary cut suggestions visible in the default demo path",
+      "hypothesis": "Default on-pace seed hides the recommendation list; a documented or seeded behind-pace path could make that MVP capability easier to demo.",
+      "scores": {
+        "userImpact": 3,
+        "presentationValue": 4,
+        "evidence": 3,
+        "risk": 3,
+        "productFit": 5
+      },
+      "source": "Post-EVOLVE-003 discovery",
+      "notes": "Deferred: EVOLVE-004 demo tips cover goal adjustment; final RELEASE_READINESS verifier judged non-necessary."
+    },
+    {
+      "id": "IDEA-006",
+      "status": "deferred",
+      "title": "Polish focus order across new guide and retry controls",
+      "hypothesis": "Explicit focus-visible and logical tab order on DemoGuide and Retry controls would strengthen accessibility evidence.",
+      "scores": {
+        "userImpact": 2,
+        "presentationValue": 2,
+        "evidence": 2,
+        "risk": 1,
+        "productFit": 5
+      },
+      "source": "Post-EVOLVE-003 discovery",
+      "notes": "Deferred: optional polish; not required for presentation-ready release per final verifier."
     }
   ]
 }

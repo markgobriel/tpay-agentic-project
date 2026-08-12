@@ -40,3 +40,10 @@ For every entry, record:
 - **Safeguard added:** shared PanelMessage tones, dashboard/goal/recommendations Retry paths, goal save pending/success status, Playwright mocked failure + save status coverage.
 - **Enforced by:** `apps/web/src/PanelMessage.tsx`, `App.tsx`, `SavingsGoalPanel.tsx`, `RecommendationsPanel.tsx`, `e2e/state-feedback.spec.ts`, `npm run validate`.
 - **Scope:** UX reliability for demos; no domain formula changes.
+
+### EVOLVE-004 — operational local-run documentation
+
+- **Observed evidence:** RELEASE_READINESS required documented install/env/seed/run steps; README previously centered on validate/autonomy without a first-operator local-run path.
+- **Safeguard added:** README Local run + demo tips; `.env.example` documents mock-only DATABASE_URL and optional CALCULATION_DATE.
+- **Enforced by:** `README.md`, `.env.example`, release-readiness verifier review.
+- **Scope:** operational documentation only; no product math changes.

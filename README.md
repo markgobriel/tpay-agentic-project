@@ -4,7 +4,7 @@ Save & Spend is a harness-engineering experiment for a mock personal-finance web
 
 ## Status
 
-MVP delivered. The mock one-account Save & Spend app is complete: dashboard analytics, savings-goal pace, discretionary recommendations, and Playwright-covered core flow. The repository is an npm workspaces modular monolith:
+Presentation-ready for local demo and portfolio review against the [release-readiness gate](docs/RELEASE_READINESS.md). The mock one-account app includes dashboard analytics, accessible category spending bars, savings-goal pace, discretionary recommendations, first-use demo guidance, deliberate loading/empty/error feedback, and Playwright-covered flows. External publication or production deployment remains a human-authorized action. This repository is an npm workspaces modular monolith:
 
 ```text
 apps/
@@ -30,6 +30,53 @@ e2e/                   Playwright core user-flow coverage
 4. [Testing strategy](docs/TESTING.md)
 5. [Autonomy protocol](docs/AUTONOMY.md)
 6. [Harness evolution log](docs/HARNESS_EVOLUTION.md)
+7. [Experience and visual design](docs/EXPERIENCE.md)
+8. [Autonomous product evolution](docs/PRODUCT_EVOLUTION.md)
+9. [Release-readiness gate](docs/RELEASE_READINESS.md)
+
+## Local run
+
+Requirements: Node.js 20+.
+
+1. Install dependencies from the repo root:
+
+```bash
+npm install
+```
+
+2. Configure the database URL (SQLite for local/demo). Copy the example env and keep mock data only—never point this project at real bank credentials:
+
+```bash
+cp .env.example .env
+```
+
+`.env.example` sets `DATABASE_URL="file:./packages/db/dev.db"`. Optional: set `CALCULATION_DATE` (ISO-8601, e.g. `2026-07-15T12:00:00.000Z`) when starting the API to freeze goal/recommendation “today” for deterministic demos.
+
+3. Generate Prisma client, create the local SQLite schema, and load the deterministic mock seed:
+
+```bash
+npm run db:generate -w @save-and-spend/db
+npm run db:push -w @save-and-spend/db
+npm run db:seed -w @save-and-spend/db
+```
+
+4. Start the API and web app (two terminals):
+
+```bash
+# Terminal A — API (optional CALCULATION_DATE for fixed analytics)
+CALCULATION_DATE=2026-07-15T12:00:00.000Z npm run dev -w @save-and-spend/api
+
+# Terminal B — Vite UI (proxies API routes)
+npm run dev -w @save-and-spend/web
+```
+
+Open the Vite URL printed in the web terminal (typically `http://127.0.0.1:5173`).
+
+### Demo tips
+
+- Data is **seeded mock finance only** (one Everyday Checking account, July 2026 activity, one Emergency Fund goal).
+- The dismissible **Demo walkthrough** explains the mock workflow; it is not financial advice.
+- Default seed is on-pace for the Emergency Fund. To see **discretionary cut suggestions**, raise the goal target or lower current saved until a savings gap appears, then save—the recommendations panel refreshes from the same rule-based engine (essentials are never cut).
 
 ## Validation
 
@@ -43,7 +90,7 @@ It currently runs harness/structure checks, format, lint, TypeScript, unit tests
 
 ## Autonomous development
 
-After Harness v1 approval (`projectStatus: active`), use `bash scripts/run-autonomous.sh` for hands-off development. It refuses to run before approval and automatically starts up to 50 bounded Cursor runs, stopping early only when the state becomes `complete` or `blocked`.
+After Harness v1 approval (`projectStatus: active`), use `bash scripts/run-autonomous.sh` for hands-off development. It refuses to run before approval and persistently starts checkpointed Cursor runs, including agent-owned task discovery whenever the backlog empties. It stops normally only when the state becomes `complete` or `blocked`.
 
 Run `npm run status` for a concise live readout of task, validation, verifier, and intervention status. The controller streams Cursor events into `.agent/logs/controller.ndjson`, which can be followed in the terminal while it works.
 
