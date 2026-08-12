@@ -7,26 +7,26 @@
   },
   "currentTaskId": null,
   "currentPlan": [],
-  "iteration": 36,
+  "iteration": 37,
   "consecutiveFailures": 0,
   "strategyCount": 0,
   "lastFailure": null,
   "lastValidation": {
     "command": "npm run validate",
     "result": "pass",
-    "at": "2026-08-12T12:15:32Z"
+    "at": "2026-08-12T12:25:22Z"
   },
   "lastVerifier": {
     "result": "pass",
-    "at": "2026-08-12T12:15:32Z",
-    "notes": "CODEX-007 PASS after policy hardening: least-privilege immutable hosted workflow, exact commands, trigger coverage, negative mutation tests, full validation, and scope containment verified."
+    "at": "2026-08-12T12:25:22Z",
+    "notes": "CODEX-008 PASS after readiness-race fix: unsuppressed whole-page WCAG scans across loaded desktop/mobile and progressive states, accurate documentation, full validation, and scope containment verified."
   },
   "blocker": null,
   "completedAt": null,
   "autonomyMode": "codex_evolution",
   "releaseReadiness": {
     "status": "in_progress",
-    "summary": "Codex evolution remains active; CODEX-007 adds locally proven hosted validation enforcement, with an actual GitHub run intentionally unclaimed until a separately authorized push."
+    "summary": "Codex evolution remains active; CODEX-008 adds race-free whole-page accessibility regression evidence while retaining required manual review."
   },
   "hookPolicy": {
     "maxFollowupsPerRun": 12,
@@ -66,7 +66,8 @@
     ".agent/evidence/DESIGN-002/mobile-workspace.png",
     ".agent/evidence/DESIGN-002/self-review.md",
     ".agent/evidence/CODEX-006/self-review.md",
-    ".agent/evidence/CODEX-007/self-review.md"
+    ".agent/evidence/CODEX-007/self-review.md",
+    ".agent/evidence/CODEX-008/self-review.md"
   ],
   "usabilityAudits": {
     "consecutiveClean": 0,

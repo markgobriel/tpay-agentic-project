@@ -138,3 +138,10 @@ For every entry, record:
 - **Safeguard added:** a read-only GitHub Actions job installs the exact lockfile, provisions Playwright's Chromium dependencies, and executes the unchanged single validation command. Official actions are pinned to immutable release commits; concurrency and timeout bound resource use.
 - **Enforced by:** `.github/workflows/validate.yml`, `scripts/ci-workflow.test.mjs`, `scripts/validate.sh`, and `npm run validate`.
 - **Scope:** hosted quality enforcement only; it does not push, publish, deploy, access secrets, or alter product/runtime behavior.
+
+### CODEX-008 — whole-page accessibility regressions
+
+- **Observed evidence:** browser coverage asserted individual labels, keyboard focus, responsive overflow, semantic tables/meters, and manually reviewed contrast, but no standards engine scanned the whole rendered page or progressive UI states.
+- **Safeguard added:** the official axe Playwright integration scans default desktop/mobile plus expanded guide, open goal editor, and validation-error states against WCAG 2.0/2.1/2.2 A/AA and best-practice rules with no exclusions.
+- **Enforced by:** `e2e/accessibility-audit.spec.ts`, the existing manual/interaction checks, and `npm run validate`.
+- **Scope:** accessibility evidence and regression detection; automated scans complement rather than replace manual keyboard, visual, semantic, and inclusive-user review.

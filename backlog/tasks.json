@@ -356,6 +356,21 @@
       "notes": "Completed: least-privilege Ubuntu 24.04 workflow runs the unchanged full gate on main pushes/PRs/manual dispatch with immutable official action SHAs, exact lock install, explicit lsof/sqlite3 and Playwright deps, cancellation, and timeout. Mutation-based policy rejects write/job permissions, tokens, path filters, mutable actions, failure suppression, and altered/duplicate commands. npm run validate PASS (52 unit/integration/policy + 19 browser; 30 sources). Fresh verifier PASS after policy-test hardening. No hosted run claimed before push; no product/runtime change."
     },
     {
+      "id": "CODEX-008",
+      "priority": 260,
+      "status": "done",
+      "title": "Add whole-page automated accessibility regression scans",
+      "acceptanceCriteria": [
+        "The official axe Playwright integration scans the complete default desktop and 390px mobile dashboard for WCAG 2.0/2.1/2.2 A/AA and best-practice violations.",
+        "Expanded first-use guidance, the open goal editor, and the invalid-input error state are scanned after interaction so progressive content is not omitted.",
+        "No axe rule is disabled or excluded; any detected violation is fixed in product code rather than suppressed.",
+        "Documentation distinguishes automated detection from manual keyboard, visual, semantic, and inclusive-user review; npm run validate and a fresh verifier pass."
+      ],
+      "browserValidation": true,
+      "dependsOn": ["CODEX-007"],
+      "notes": "Completed: official exact-pinned axe Playwright scans full desktop/mobile pages across default, expanded-guide, open-editor, and invalid-error states using WCAG 2.0/2.1/2.2 A/AA + best-practice tags with no exclusions. Loaded sentinels close verifier-found async race across account/goal/recommendations/categories/12 activity rows. npm audit 0 across 411 deps; npm run validate PASS (52 unit/integration/policy + 21 browser; 30 sources). Fresh verifier PASS. Automation is documented as complementary, not certification; no product/runtime changes."
+    },
+    {
       "id": "UX-004",
       "priority": 170,
       "status": "done",

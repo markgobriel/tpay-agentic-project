@@ -32,6 +32,8 @@ Every user-facing task requires a browser validation pass before completion. Aut
 
 Visual/UX work additionally requires screenshot evidence at both desktop and mobile sizes, keyboard/focus checks, and review against `docs/EXPERIENCE.md`. A passing DOM assertion alone is not visual validation.
 
+The Playwright suite also runs whole-page axe scans over default and progressive interface states using WCAG A/AA and best-practice rules. Automated scans detect common issues but do not prove complete accessibility; keyboard operation, focus, semantic structure, visual contrast, responsive behavior, and human review remain required.
+
 ## Test integrity
 
 - Test expected outcomes, boundary cases, invalid inputs, and the permanent rules in `DOMAIN_RULES.md`.
