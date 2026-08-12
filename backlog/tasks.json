@@ -264,6 +264,22 @@
         "UX-002"
       ],
       "notes": "Completed UX-003: month-scoped activity filter + labels; validate+verifier PASS."
+    },
+    {
+      "id": "UX-004",
+      "priority": 170,
+      "status": "done",
+      "title": "Place goal validation errors next to the form",
+      "acceptanceCriteria": [
+        "Client-side goal validation errors (invalid amount, missing name, invalid date) render adjacent to the goal form controls, not only above the pace metrics.",
+        "Errors remain role=alert, do not rely on color alone, and prior invalid saves still leave existing goal data unchanged.",
+        "Desktop and mobile Playwright cover invalid then valid save, assert error placement near the form, capture screenshots, check console/network/overflow; npm run validate passes; read-only verifier reviews evidence."
+      ],
+      "browserValidation": true,
+      "dependsOn": [
+        "UX-003"
+      ],
+      "notes": "Completed UX-004: form-adjacent validation errors; validate+verifier PASS."
     }
   ]
 }

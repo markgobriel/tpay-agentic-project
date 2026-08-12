@@ -69,6 +69,13 @@ For every entry, record:
 - **Enforced by:** `apps/web/src/filterTransactionsByMonth.ts`, `App.tsx`, `e2e/ux-003-transactions-month.spec.ts`, `npm run validate`.
 - **Scope:** Presentation filtering of existing transactions payload; no API/domain formula changes.
 
+### UX-004 — field-adjacent goal validation errors
+
+- **Observed evidence:** AUDIT-002 found medium severity: client validation errors rendered above pace metrics, away from the form controls.
+- **Safeguard added:** Split load vs form errors; form validation/save failures render inside the goal form above Save goal with non-color-only error chrome; Playwright asserts vertical placement.
+- **Enforced by:** `apps/web/src/SavingsGoalPanel.tsx`, `styles.css` `.form-error`, `e2e/ux-004-goal-form-errors.spec.ts`, `npm run validate`.
+- **Scope:** Presentation/error placement only; no domain changes.
+
 ### Live-preview continuity
 
 - **Observed evidence:** `scripts/e2e.sh` killed the same API/web ports and reset the same database used by the human's live preview, making the app disappear during autonomous validation.

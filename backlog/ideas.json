@@ -9,8 +9,8 @@
     "productFit": "Must remain within docs/PRODUCT_EVOLUTION.md."
   },
   "lastDiscovery": {
-    "at": "2026-08-12T10:07:00Z",
-    "summary": "Promoting IDEA-012 to UX-003 after UX-002."
+    "at": "2026-08-12T10:11:00Z",
+    "summary": "AUDIT-002: medium field-adjacent goal errors remain; promote IDEA-009 as UX-004."
   },
   "candidates": [
     {
@@ -141,7 +141,7 @@
     },
     {
       "id": "IDEA-009",
-      "status": "candidate",
+      "status": "promoted",
       "title": "Field-adjacent goal validation and stronger input affordances",
       "hypothesis": "Moving errors next to fields and strengthening input borders would reduce trial-and-error on goal edit.",
       "scores": {
@@ -152,7 +152,8 @@
         "productFit": 5
       },
       "source": "USABILITY-AUDIT-001",
-      "notes": "Follow-up after UX-001 if still medium severity."
+      "notes": "Promoted after AUDIT-002 medium finding.",
+      "promotedTaskId": "UX-004"
     },
     {
       "id": "IDEA-010",

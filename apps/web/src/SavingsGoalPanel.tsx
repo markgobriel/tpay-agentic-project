@@ -33,14 +33,15 @@ export function SavingsGoalPanel({
   const [targetDate, setTargetDate] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [reloadToken, setReloadToken] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    setError(null);
+    setLoadError(null);
     void (async () => {
       try {
         const response = await fetchSavingsGoal();
@@ -54,7 +55,7 @@ export function SavingsGoalPanel({
       } catch (err) {
         if (cancelled) return;
         setGoal(null);
-        setError(err instanceof Error ? err.message : "Failed to load savings goal.");
+        setLoadError(err instanceof Error ? err.message : "Failed to load savings goal.");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -67,7 +68,7 @@ export function SavingsGoalPanel({
   async function onSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
     setStatusMessage(null);
-    setError(null);
+    setFormError(null);
 
     let targetAmountMinor: number;
     let currentSavedMinor: number;
@@ -75,16 +76,16 @@ export function SavingsGoalPanel({
       targetAmountMinor = parseMajorCurrencyToMinor(targetAmount);
       currentSavedMinor = parseMajorCurrencyToMinor(currentSaved);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Invalid amount.");
+      setFormError(err instanceof Error ? err.message : "Invalid amount.");
       return;
     }
 
     if (name.trim().length === 0) {
-      setError("Goal name is required.");
+      setFormError("Goal name is required.");
       return;
     }
     if (!/^\d{4}-\d{2}-\d{2}$/.test(targetDate)) {
-      setError("Choose a valid target date.");
+      setFormError("Choose a valid target date.");
       return;
     }
 
@@ -107,7 +108,7 @@ export function SavingsGoalPanel({
       onGoalSaved?.();
     } catch (err) {
       setStatusMessage(null);
-      setError(err instanceof Error ? err.message : "Failed to save savings goal.");
+      setFormError(err instanceof Error ? err.message : "Failed to save savings goal.");
     } finally {
       setSaving(false);
     }
@@ -124,10 +125,10 @@ export function SavingsGoalPanel({
           Loading savings goal…
         </PanelMessage>
       ) : null}
-      {error ? (
+      {loadError ? (
         <div className="feedback-banner">
-          <PanelMessage tone="error" testId="goal-error">
-            {error}
+          <PanelMessage tone="error" testId="goal-load-error">
+            {loadError}
           </PanelMessage>
           {!saving ? (
             <button
@@ -147,7 +148,7 @@ export function SavingsGoalPanel({
         </PanelMessage>
       ) : null}
 
-      {!loading && !goal && !error ? (
+      {!loading && !goal && !loadError ? (
         <PanelMessage tone="empty" testId="goal-empty">
           No savings goal loaded yet.
         </PanelMessage>
@@ -193,7 +194,12 @@ export function SavingsGoalPanel({
         </>
       ) : null}
 
-      <form className="goal-form" onSubmit={(event) => void onSubmit(event)} noValidate>
+      <form
+        className="goal-form"
+        data-testid="goal-form"
+        onSubmit={(event) => void onSubmit(event)}
+        noValidate
+      >
         <label>
           Goal name
           <input
@@ -239,6 +245,13 @@ export function SavingsGoalPanel({
             required
           />
         </label>
+        {formError ? (
+          <div className="form-error" data-testid="goal-form-error">
+            <PanelMessage tone="error" testId="goal-error">
+              {formError}
+            </PanelMessage>
+          </div>
+        ) : null}
         <button
           data-testid="goal-save-button"
           className="primary-button"
