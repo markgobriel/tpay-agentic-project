@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import request from "supertest";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import {
   createDbClient,
   MOCK_ACCOUNT_ID,
@@ -54,12 +54,47 @@ describe("API-001 finance HTTP contracts", () => {
 
   it("returns the mock account summary", async () => {
     const response = await request(app).get("/account").expect(200);
+    expect(response.headers["x-powered-by"]).toBeUndefined();
     expect(response.body).toMatchObject({
       id: MOCK_ACCOUNT_ID,
       name: "Everyday Checking",
       currencyCode: "USD",
       currentBalanceMinor: 245_000,
     });
+  });
+
+  it("returns client-safe JSON for malformed, oversized, and unknown requests", async () => {
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    try {
+      const malformed = await request(app)
+        .put("/savings-goal")
+        .set("Content-Type", "application/json")
+        .send('{"name":')
+        .expect(400);
+      expect(malformed.body).toEqual({
+        error: { code: "invalid_json", message: "Request body must contain valid JSON." },
+      });
+      expect(malformed.headers["x-powered-by"]).toBeUndefined();
+
+      const oversized = await request(app)
+        .put("/savings-goal")
+        .send({ name: "x".repeat(33 * 1024) })
+        .expect(413);
+      expect(oversized.body.error.code).toBe("request_too_large");
+      expect(oversized.body.error.message).toContain("32 KB");
+
+      const missing = await request(app).get("/does-not-exist").expect(404);
+      expect(missing.headers["content-type"]).toMatch(/application\/json/);
+      expect(missing.body).toEqual({
+        error: {
+          code: "route_not_found",
+          message: "No API route matches GET /does-not-exist.",
+        },
+      });
+      expect(consoleError).not.toHaveBeenCalled();
+    } finally {
+      consoleError.mockRestore();
+    }
   });
 
   it("returns seeded transactions without embedding domain math in the route", async () => {

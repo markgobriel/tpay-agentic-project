@@ -7,30 +7,30 @@
   },
   "currentTaskId": null,
   "currentPlan": [
-    "Commit the validated CODEX-003 status-truthfulness safeguard.",
-    "Resume a fresh desktop/mobile novice and code-quality audit.",
-    "Promote the next evidence-backed task, or collect convergence evidence if only cosmetic churn remains."
+    "Fresh novice desktop/mobile usability audit after CODEX UI changes.",
+    "Create evidence-backed usability tasks if medium/high issues remain.",
+    "Repeat until two consecutive clean audits and RELEASE_READINESS pass."
   ],
-  "iteration": 31,
+  "iteration": 32,
   "consecutiveFailures": 0,
   "strategyCount": 0,
   "lastFailure": null,
   "lastValidation": {
     "command": "npm run validate",
     "result": "pass",
-    "at": "2026-08-12T11:19:46Z"
+    "at": "2026-08-12T11:30:00Z"
   },
   "lastVerifier": {
     "result": "pass",
-    "at": "2026-08-12T11:19:46Z",
-    "notes": "CODEX-003 PASS: current/legacy evidence rendering, task counts, lifecycle guidance, real test-gate inclusion, diff integrity, and protected-scope isolation verified."
+    "at": "2026-08-12T11:31:00Z",
+    "notes": "CODEX-004 PASS. Switching to usability_evolution per human reactivation."
   },
   "blocker": null,
   "completedAt": null,
-  "autonomyMode": "codex_evolution",
+  "autonomyMode": "usability_evolution",
   "releaseReadiness": {
-    "status": "pass",
-    "summary": "Gate passed: product clarity, experience, validation, evidence, ops docs, and two consecutive clean usability audits (003/004). Lows deferred (IDEA-006/010)."
+    "status": "in_progress",
+    "summary": "Reopened usability_evolution after human reactivation; prior clean audits must be reconfirmed against current product."
   },
   "hookPolicy": {
     "maxFollowupsPerRun": 12,
@@ -65,7 +65,7 @@
     ".agent/evidence/CODEX-002/self-review.md"
   ],
   "usabilityAudits": {
-    "consecutiveClean": 2,
+    "consecutiveClean": 0,
     "history": [
       {
         "id": "USABILITY-AUDIT-002",

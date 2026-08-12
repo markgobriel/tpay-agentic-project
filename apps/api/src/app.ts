@@ -16,6 +16,7 @@ export function createApp(options: CreateAppOptions): Express {
   const app = express();
   const finance = options.financeService ?? createFinanceService(options);
 
+  app.disable("x-powered-by");
   app.use(express.json({ limit: "32kb" }));
 
   app.get("/health", (_req, res) => {
@@ -89,9 +90,30 @@ export function createApp(options: CreateAppOptions): Express {
     }
   });
 
+  app.use((req, res) => {
+    res.status(404).json({
+      error: {
+        code: "route_not_found",
+        message: `No API route matches ${req.method} ${req.path}.`,
+      },
+    });
+  });
+
   app.use((error: unknown, _req: Request, res: Response, next: NextFunction) => {
     if (error instanceof HttpError) {
       res.status(error.status).json(error.toResponse());
+      return;
+    }
+    if (isExpressBodyError(error, 400, "entity.parse.failed")) {
+      res.status(400).json({
+        error: { code: "invalid_json", message: "Request body must contain valid JSON." },
+      });
+      return;
+    }
+    if (isExpressBodyError(error, 413, "entity.too.large")) {
+      res.status(413).json({
+        error: { code: "request_too_large", message: "Request body exceeds the 32 KB limit." },
+      });
       return;
     }
     if (res.headersSent) {
@@ -105,4 +127,10 @@ export function createApp(options: CreateAppOptions): Express {
   });
 
   return app;
+}
+
+function isExpressBodyError(error: unknown, status: number, type: string): boolean {
+  if (typeof error !== "object" || error === null) return false;
+  const candidate = error as { status?: unknown; type?: unknown };
+  return candidate.status === status && candidate.type === type;
 }

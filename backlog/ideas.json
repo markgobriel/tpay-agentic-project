@@ -249,6 +249,22 @@
       },
       "source": "Post-CODEX-002 harness audit, 2026-08-12",
       "notes": "Promoted after direct command output contradicted fresh pass evidence in .agent/state.json."
+    },
+    {
+      "id": "IDEA-016",
+      "status": "promoted",
+      "promotedTaskId": "CODEX-004",
+      "title": "Make API boundary failures client-safe and less revealing",
+      "hypothesis": "Stable JSON errors for malformed, oversized, and unknown requests improve reliability and remove avoidable framework disclosure without affecting finance behavior.",
+      "scores": {
+        "userImpact": 4,
+        "presentationValue": 3,
+        "evidence": 5,
+        "risk": 1,
+        "productFit": 5
+      },
+      "source": "Fresh Codex API boundary probe, 2026-08-12",
+      "notes": "Promoted after malformed JSON returned 500 and responses exposed X-Powered-By: Express."
     }
   ]
 }

@@ -103,3 +103,10 @@ For every entry, record:
 - **Safeguard added:** status formatting now consumes the current evidence schema, remains compatible with legacy fields, includes timestamps and useful detail, and is isolated behind pure formatting. The Vitest include contract now covers `scripts/**/*.test.mjs`; the initial self-review caught that harness tests were otherwise silently excluded.
 - **Enforced by:** `scripts/status-format.mjs`, `scripts/status-format.test.mjs`, `scripts/status.mjs`, `vitest.config.ts`, and `npm run validate`.
 - **Scope:** operational observability only; no product, financial, API, or autonomy-policy behavior changes.
+
+### CODEX-004 — API request-boundary regressions
+
+- **Observed evidence:** a direct malformed-JSON probe returned generic 500 even though the request was invalid, while oversized parser failures and unknown routes lacked explicit client-safe contract coverage. Responses also exposed `X-Powered-By: Express`.
+- **Safeguard added:** API integration coverage now locks stable malformed JSON, payload-limit, unknown-route, content-type, and framework-header behavior at the Express boundary.
+- **Enforced by:** `apps/api/src/app.ts`, `apps/api/src/api.integration.test.ts`, and `npm run validate`.
+- **Scope:** request/error boundary reliability and metadata hardening only; finance resources, calculations, persistence, and product scope remain unchanged.
