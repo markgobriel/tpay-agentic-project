@@ -1,55 +1,52 @@
 {
   "schemaVersion": 1,
-  "projectStatus": "active",
+  "projectStatus": "complete",
   "initialReview": {
     "status": "approved",
     "approvedAt": "2026-08-11T14:41:14Z"
   },
-  "currentTaskId": "QUALITY-001",
-  "currentPlan": [
-    "Add Playwright E2E covering account→goal→recommendations core flow.",
-    "Document/test keyboard labels and responsive behavior with evidence.",
-    "Run full validate + final verifier; mark QUALITY-001 done and project complete if criteria met."
-  ],
-  "iteration": 9,
+  "currentTaskId": null,
+  "currentPlan": [],
+  "iteration": 10,
   "consecutiveFailures": 0,
   "strategyCount": 0,
   "lastFailure": null,
   "lastValidation": {
     "status": "pass",
-    "at": "2026-08-12T08:09:55Z",
-    "summary": "REC-001: validate passed with 29 tests; browser-report.json pass for recommendation math."
+    "at": "2026-08-12T08:18:21Z",
+    "summary": "QUALITY-001: full npm run validate passed including Playwright E2E core flow (1 passed)."
   },
   "lastVerifier": {
     "status": "pass",
-    "at": "2026-08-12T08:12:00Z",
-    "summary": "REC-001 verifier PASS: domain priority/caps/essentials, unresolved gap disclosure, browser math."
+    "at": "2026-08-12T08:19:30Z",
+    "summary": "QUALITY-001 final verifier PASS; MVP completion criteria met."
   },
   "blocker": null,
+  "completedAt": "2026-08-12T08:19:45Z",
   "hookPolicy": {
     "maxFollowupsPerRun": 12,
     "purpose": "Bound one Cursor hook-driven run; do not infer project completion from this limit."
   },
   "evidence": [
     {
-      "taskId": "GOAL-001",
-      "kind": "verifier",
-      "summary": "Read-only verifier returned PASS for GOAL-001."
-    },
-    {
-      "taskId": "REC-001",
-      "kind": "validation",
-      "summary": "npm run validate passed (29 tests) including recommendation domain/API coverage."
-    },
-    {
-      "taskId": "REC-001",
-      "kind": "browser",
-      "summary": ".agent/evidence/REC-001/browser-report.json pass with exact gap/cuts/unresolved values."
-    },
-    {
       "taskId": "REC-001",
       "kind": "verifier",
       "summary": "Read-only verifier returned PASS for REC-001."
+    },
+    {
+      "taskId": "QUALITY-001",
+      "kind": "validation",
+      "summary": "npm run validate passed with unit suite and Playwright E2E."
+    },
+    {
+      "taskId": "QUALITY-001",
+      "kind": "browser",
+      "summary": "e2e/core-flow.spec.ts passed: account→goal→recommendations; a11y focus; mobile viewport; no console/network errors."
+    },
+    {
+      "taskId": "QUALITY-001",
+      "kind": "verifier",
+      "summary": "Final read-only verifier PASS; project completion approved."
     }
   ]
 }

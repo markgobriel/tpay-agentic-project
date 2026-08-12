@@ -12,6 +12,8 @@ required_files=(
   "docs/DOMAIN_RULES.md"
   "docs/TESTING.md"
   "docs/AUTONOMY.md"
+  "docs/HARNESS_EVOLUTION.md"
+  "docs/QUALITY_EVIDENCE.md"
   "backlog/tasks.json"
   ".agent/state.json"
   ".cursor/hooks.json"
@@ -56,5 +58,8 @@ npm run test
 
 echo "==> build"
 npm run build
+
+echo "==> playwright e2e"
+npm run test:e2e
 
 echo "Validation passed."

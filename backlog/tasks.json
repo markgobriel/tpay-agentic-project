@@ -104,7 +104,7 @@
     {
       "id": "QUALITY-001",
       "priority": 80,
-      "status": "todo",
+      "status": "done",
       "title": "Complete end-to-end, accessibility, responsive, and release review",
       "acceptanceCriteria": [
         "Playwright covers the core account-to-goal-to-recommendation flow.",
@@ -112,7 +112,8 @@
         "Full validation and final read-only verifier review pass."
       ],
       "browserValidation": true,
-      "dependsOn": ["REC-001"]
+      "dependsOn": ["REC-001"],
+      "notes": "Completed QUALITY-001: e2e/core-flow.spec.ts in npm run validate via scripts/e2e.sh; docs/QUALITY_EVIDENCE.md; portable Chromium install; HARNESS_EVOLUTION entry. npm run validate PASS (29 unit + 1 e2e). Final verifier PASS. Dependencies: @playwright/test."
     }
   ]
 }

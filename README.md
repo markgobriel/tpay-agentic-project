@@ -4,7 +4,7 @@ Save & Spend is a harness-engineering experiment for a mock personal-finance web
 
 ## Status
 
-Harness v1 is approved and product foundation work is underway. The repository is an npm workspaces modular monolith:
+MVP delivered. The mock one-account Save & Spend app is complete: dashboard analytics, savings-goal pace, discretionary recommendations, and Playwright-covered core flow. The repository is an npm workspaces modular monolith:
 
 ```text
 apps/
@@ -19,6 +19,7 @@ backlog/               machine-readable work queue
 .agent/                autonomous-loop state
 .cursor/               Cursor rules and lifecycle hooks
 scripts/               validation and orchestration helpers
+e2e/                   Playwright core user-flow coverage
 ```
 
 ## Contracts
@@ -38,13 +39,15 @@ Run the one repository validation command:
 npm run validate
 ```
 
-It currently runs harness/structure checks, format, lint, TypeScript, unit tests, and production builds. Integration and Playwright stages are added by later tasks.
+It currently runs harness/structure checks, format, lint, TypeScript, unit tests, production builds, and Playwright E2E (`npm run test:e2e`).
 
 ## Autonomous development
 
 After Harness v1 approval (`projectStatus: active`), use `bash scripts/run-autonomous.sh` for hands-off development. It refuses to run before approval and automatically starts up to 50 bounded Cursor runs, stopping early only when the state becomes `complete` or `blocked`.
 
 Run `npm run status` for a concise live readout of task, validation, verifier, and intervention status. The controller streams Cursor events into `.agent/logs/controller.ndjson`, which can be followed in the terminal while it works.
+
+On macOS, the controller sends a desktop notification when the MVP is complete or when it reaches a genuine blocker. You do not need to poll the terminal for either outcome.
 
 The agent does not merely follow the initial harness: after every task, it audits what it learned and autonomously strengthens tests, validation, operating rules, and documentation. Protected product scope and financial rules remain fixed unless a human explicitly changes them.
 
@@ -54,4 +57,4 @@ The agent does not merely follow the initial harness: after every task, it audit
 - Monetary amounts use non-negative integer minor units at domain and persistence boundaries.
 - Local/test persistence uses **SQLite** via Prisma (no Docker). Architecture still targets PostgreSQL for production deployment.
 - Optional `CALCULATION_DATE` (ISO-8601) freezes API goal/recommendation analytics for deterministic local demos and browser evidence.
-- No finance product feature is complete until its backlog task is marked done with validation and verifier evidence.
+- Accessibility/responsive evidence: `docs/QUALITY_EVIDENCE.md`. Playwright E2E is part of `npm run validate`.
