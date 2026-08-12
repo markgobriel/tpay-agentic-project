@@ -7,9 +7,9 @@
   },
   "currentTaskId": null,
   "currentPlan": [
-    "Fresh novice desktop/mobile usability audit after CODEX UI changes.",
-    "Create evidence-backed usability tasks if medium/high issues remain.",
-    "Repeat until two consecutive clean audits and RELEASE_READINESS pass."
+    "Continue a fresh product, accessibility, reliability, architecture, security, and developer-experience audit.",
+    "Promote another evidence-backed task when meaningful evidence supports it.",
+    "Collect broad convergence evidence before deciding that only cosmetic churn remains."
   ],
   "iteration": 32,
   "consecutiveFailures": 0,
@@ -18,19 +18,19 @@
   "lastValidation": {
     "command": "npm run validate",
     "result": "pass",
-    "at": "2026-08-12T11:30:00Z"
+    "at": "2026-08-12T11:29:20Z"
   },
   "lastVerifier": {
     "result": "pass",
-    "at": "2026-08-12T11:31:00Z",
-    "notes": "CODEX-004 PASS. Switching to usability_evolution per human reactivation."
+    "at": "2026-08-12T11:29:20Z",
+    "notes": "CODEX-004 PASS after logging-evidence fix: stable 400/413/404 JSON, header suppression, safe error ordering, no expected client-error console logging, invariants, and harness audit verified."
   },
   "blocker": null,
   "completedAt": null,
-  "autonomyMode": "usability_evolution",
+  "autonomyMode": "codex_evolution",
   "releaseReadiness": {
     "status": "in_progress",
-    "summary": "Reopened usability_evolution after human reactivation; prior clean audits must be reconfirmed against current product."
+    "summary": "Codex evolution remains active; broad product and engineering convergence must be reconfirmed after CODEX-001 through CODEX-004."
   },
   "hookPolicy": {
     "maxFollowupsPerRun": 12,
@@ -62,7 +62,8 @@
     ".agent/evidence/CODEX-001/self-review.md",
     ".agent/evidence/CODEX-002/desktop-activity.png",
     ".agent/evidence/CODEX-002/mobile-activity.png",
-    ".agent/evidence/CODEX-002/self-review.md"
+    ".agent/evidence/CODEX-002/self-review.md",
+    ".agent/evidence/CODEX-004/self-review.md"
   ],
   "usabilityAudits": {
     "consecutiveClean": 0,

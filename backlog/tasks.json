@@ -330,7 +330,7 @@
       "dependsOn": [
         "CODEX-003"
       ],
-      "notes": "Completed CODEX-004: invalid_json 400, request_too_large 413, JSON 404, x-powered-by disabled; integration tests; validate+verifier PASS."
+      "notes": "Completed: malformed JSON -> stable 400 invalid_json, >32KB -> 413 request_too_large, unknown routes -> JSON 404, and X-Powered-By disabled. Direct runtime probes confirmed current behavior. Integration tests also prove expected client errors do not call console.error. npm run validate PASS (42 unit/integration + 17 browser tests). Fresh verifier PASS after logging-evidence fix. No finance/domain/persistence contract changes or new dependencies."
     },
     {
       "id": "UX-004",
