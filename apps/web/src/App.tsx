@@ -6,6 +6,7 @@ import type {
 } from "@save-and-spend/contracts";
 import { fetchAccount, fetchMonthlyAnalytics, fetchTransactions } from "./api.js";
 import { formatMinorAsCurrency } from "./formatMoney.js";
+import { SavingsGoalPanel } from "./SavingsGoalPanel.js";
 
 const DEFAULT_MONTH = "2026-07";
 
@@ -110,6 +111,8 @@ export function App() {
           </dl>
         ) : null}
       </section>
+
+      <SavingsGoalPanel currencyCode={account?.currencyCode ?? "USD"} />
 
       {analytics && analytics.categorySpending.length > 0 ? (
         <section className="panel" aria-labelledby="categories-heading">

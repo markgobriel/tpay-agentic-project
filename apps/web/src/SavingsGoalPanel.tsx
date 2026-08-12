@@ -1,0 +1,191 @@
+import { useEffect, useState, type FormEvent } from "react";
+import type { SavingsGoalResponse } from "@save-and-spend/contracts";
+import { fetchSavingsGoal, upsertSavingsGoal } from "./api.js";
+import { formatMinorAsCurrency } from "./formatMoney.js";
+import { minorToMajorInput, parseMajorCurrencyToMinor } from "./moneyInput.js";
+
+function toDateInputValue(iso: string): string {
+  return iso.slice(0, 10);
+}
+
+function toTargetDateIso(dateInput: string): string {
+  return `${dateInput}T00:00:00.000Z`;
+}
+
+export interface SavingsGoalPanelProps {
+  currencyCode?: string;
+}
+
+export function SavingsGoalPanel({ currencyCode = "USD" }: SavingsGoalPanelProps) {
+  const [goal, setGoal] = useState<SavingsGoalResponse | null>(null);
+  const [name, setName] = useState("");
+  const [targetAmount, setTargetAmount] = useState("");
+  const [currentSaved, setCurrentSaved] = useState("");
+  const [targetDate, setTargetDate] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+    void (async () => {
+      try {
+        const response = await fetchSavingsGoal();
+        if (cancelled) return;
+        setGoal(response);
+        setName(response.name);
+        setTargetAmount(minorToMajorInput(response.targetAmountMinor));
+        setCurrentSaved(minorToMajorInput(response.currentSavedMinor));
+        setTargetDate(toDateInputValue(response.targetDate));
+      } catch (err) {
+        if (cancelled) return;
+        setError(err instanceof Error ? err.message : "Failed to load savings goal.");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  async function onSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
+    event.preventDefault();
+    setStatusMessage(null);
+    setError(null);
+
+    let targetAmountMinor: number;
+    let currentSavedMinor: number;
+    try {
+      targetAmountMinor = parseMajorCurrencyToMinor(targetAmount);
+      currentSavedMinor = parseMajorCurrencyToMinor(currentSaved);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Invalid amount.");
+      return;
+    }
+
+    if (name.trim().length === 0) {
+      setError("Goal name is required.");
+      return;
+    }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(targetDate)) {
+      setError("Choose a valid target date.");
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const updated = await upsertSavingsGoal({
+        name: name.trim(),
+        targetAmountMinor,
+        currentSavedMinor,
+        targetDate: toTargetDateIso(targetDate),
+      });
+      setGoal(updated);
+      setName(updated.name);
+      setTargetAmount(minorToMajorInput(updated.targetAmountMinor));
+      setCurrentSaved(minorToMajorInput(updated.currentSavedMinor));
+      setTargetDate(toDateInputValue(updated.targetDate));
+      setStatusMessage("Savings goal saved.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to save savings goal.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <section className="panel" aria-labelledby="goal-heading">
+      <h2 id="goal-heading" className="panel-title">
+        Savings goal
+      </h2>
+      {loading ? <p role="status">Loading savings goal…</p> : null}
+      {error ? (
+        <p role="alert" className="error" data-testid="goal-error">
+          {error}
+        </p>
+      ) : null}
+      {statusMessage ? (
+        <p role="status" className="success" data-testid="goal-status">
+          {statusMessage}
+        </p>
+      ) : null}
+
+      {goal ? (
+        <dl className="metrics goal-metrics" data-testid="goal-pace">
+          <div>
+            <dt>Current saved</dt>
+            <dd data-testid="goal-current-saved">
+              {formatMinorAsCurrency(goal.currentSavedMinor, currencyCode)}
+            </dd>
+          </div>
+          <div>
+            <dt>Required monthly</dt>
+            <dd data-testid="goal-required-monthly">
+              {formatMinorAsCurrency(goal.requiredMonthlySavingsMinor, currencyCode)}
+            </dd>
+          </div>
+          <div>
+            <dt>Savings gap</dt>
+            <dd data-testid="goal-gap">
+              {formatMinorAsCurrency(goal.savingsGapMinor, currencyCode)}
+            </dd>
+          </div>
+          <div>
+            <dt>Pace</dt>
+            <dd data-testid="goal-on-pace">{goal.onPace ? "On pace" : "Behind pace"}</dd>
+          </div>
+        </dl>
+      ) : null}
+
+      <form className="goal-form" onSubmit={(event) => void onSubmit(event)} noValidate>
+        <label>
+          Goal name
+          <input
+            data-testid="goal-name-input"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            autoComplete="off"
+            required
+          />
+        </label>
+        <label>
+          Target amount (USD)
+          <input
+            data-testid="goal-target-input"
+            inputMode="decimal"
+            value={targetAmount}
+            onChange={(event) => setTargetAmount(event.target.value)}
+            required
+          />
+        </label>
+        <label>
+          Current saved (USD)
+          <input
+            data-testid="goal-saved-input"
+            inputMode="decimal"
+            value={currentSaved}
+            onChange={(event) => setCurrentSaved(event.target.value)}
+            required
+          />
+        </label>
+        <label>
+          Target date
+          <input
+            data-testid="goal-date-input"
+            type="date"
+            value={targetDate}
+            onChange={(event) => setTargetDate(event.target.value)}
+            required
+          />
+        </label>
+        <button data-testid="goal-save-button" type="submit" disabled={saving || loading}>
+          {saving ? "Saving…" : "Save goal"}
+        </button>
+      </form>
+    </section>
+  );
+}

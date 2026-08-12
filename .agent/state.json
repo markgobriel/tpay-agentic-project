@@ -5,25 +5,25 @@
     "status": "approved",
     "approvedAt": "2026-08-11T14:41:14Z"
   },
-  "currentTaskId": "WEB-001",
+  "currentTaskId": "REC-001",
   "currentPlan": [
-    "Build React dashboard fetching account, analytics, and transactions from the API.",
-    "Format money at presentation boundary only; no domain calculations in UI.",
-    "Add component tests; run browser validation for primary flow; validate; verifier; commit; continue GOAL-001."
+    "Implement deterministic discretionary recommendation engine in packages/domain per DOMAIN_RULES priority/caps.",
+    "Expose recommendations via API contract + route coordinated from goal gap and category spending.",
+    "Present recommendation math in the web UI; browser-validate; validate; verifier; commit; continue QUALITY-001."
   ],
-  "iteration": 6,
+  "iteration": 8,
   "consecutiveFailures": 0,
   "strategyCount": 0,
   "lastFailure": null,
   "lastValidation": {
     "status": "pass",
-    "at": "2026-08-11T15:12:18Z",
-    "summary": "API-001: format, lint, prisma generate, typecheck, 20 tests (including 6 API integration), builds passed."
+    "at": "2026-08-12T08:05:32Z",
+    "summary": "GOAL-001: format/lint/typecheck/25 tests/build passed; browser-report.json pass."
   },
   "lastVerifier": {
     "status": "pass",
-    "at": "2026-08-11T15:13:30Z",
-    "summary": "API-001 verifier PASS after validate-before-persist fix for PUT /savings-goal."
+    "at": "2026-08-12T08:07:00Z",
+    "summary": "GOAL-001 verifier PASS: goal form, API pace display, invalid input blocked without mutation."
   },
   "blocker": null,
   "hookPolicy": {
@@ -32,44 +32,24 @@
   },
   "evidence": [
     {
-      "taskId": "FOUND-001",
-      "kind": "validation",
-      "summary": "npm run validate passed (format/lint/type/unit/build)."
-    },
-    {
-      "taskId": "FOUND-001",
+      "taskId": "WEB-001",
       "kind": "verifier",
-      "summary": "Read-only verifier returned PASS."
+      "summary": "Read-only verifier returned PASS for WEB-001."
     },
     {
-      "taskId": "DATA-001",
+      "taskId": "GOAL-001",
       "kind": "validation",
-      "summary": "npm run validate passed including persistence tests against isolated SQLite."
+      "summary": "npm run validate passed with goal money-input tests."
     },
     {
-      "taskId": "DATA-001",
+      "taskId": "GOAL-001",
+      "kind": "browser",
+      "summary": ".agent/evidence/GOAL-001/browser-report.json pass; update + invalid input covered."
+    },
+    {
+      "taskId": "GOAL-001",
       "kind": "verifier",
-      "summary": "Read-only verifier returned PASS for schema, seed, and boundary checks."
-    },
-    {
-      "taskId": "DOMAIN-001",
-      "kind": "validation",
-      "summary": "npm run validate passed with domain analytics/goal unit tests."
-    },
-    {
-      "taskId": "DOMAIN-001",
-      "kind": "verifier",
-      "summary": "Read-only verifier returned PASS for domain formulas and boundaries."
-    },
-    {
-      "taskId": "API-001",
-      "kind": "validation",
-      "summary": "npm run validate passed with 6 API integration tests."
-    },
-    {
-      "taskId": "API-001",
-      "kind": "verifier",
-      "summary": "Read-only verifier PASS after PUT validate-before-persist fix."
+      "summary": "Read-only verifier returned PASS for GOAL-001."
     }
   ]
 }

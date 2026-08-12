@@ -76,7 +76,7 @@
     {
       "id": "GOAL-001",
       "priority": 60,
-      "status": "todo",
+      "status": "done",
       "title": "Build savings-goal input and pace display",
       "acceptanceCriteria": [
         "User can set/update one goal with target amount and date.",
@@ -84,7 +84,8 @@
         "Invalid inputs are understandable and do not create invalid data."
       ],
       "browserValidation": true,
-      "dependsOn": ["WEB-001"]
+      "dependsOn": ["WEB-001"],
+      "notes": "Completed GOAL-001: SavingsGoalPanel GET/PUT /savings-goal; displays API pace fields only; moneyInput parses major→minor at presentation boundary. Browser evidence scripts/browser-goal-001.mjs -> .agent/evidence/GOAL-001/browser-report.json (pass; invalid -10 blocked; prior save retained). npm run validate PASS (25 tests). Verifier PASS."
     },
     {
       "id": "REC-001",
