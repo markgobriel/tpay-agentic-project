@@ -71,7 +71,11 @@ test.describe("UX-004 field-adjacent goal validation", () => {
     const { consoleErrors, failedRequests } = await collectPageIssues(page);
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
-    await page.getByTestId("goal-target-input").fill("-1");
+    await expect(page.getByTestId("goal-calc-month")).toBeVisible();
+    const target = page.getByTestId("goal-target-input");
+    await target.click();
+    await target.fill("-1");
+    await expect(target).toHaveValue("-1");
     await page.getByTestId("goal-save-button").click();
     await expect(page.getByTestId("goal-form-error")).toBeVisible();
     await page.screenshot({

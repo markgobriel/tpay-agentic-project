@@ -9,8 +9,8 @@
     "productFit": "Must remain within docs/PRODUCT_EVOLUTION.md."
   },
   "lastDiscovery": {
-    "at": "2026-08-12T10:11:00Z",
-    "summary": "AUDIT-002: medium field-adjacent goal errors remain; promote IDEA-009 as UX-004."
+    "at": "2026-08-12T10:22:00Z",
+    "summary": "Two consecutive clean audits (003/004). IDEA-006/010 deferred as low cosmetic; release readiness ready."
   },
   "candidates": [
     {
@@ -94,7 +94,7 @@
     },
     {
       "id": "IDEA-006",
-      "status": "candidate",
+      "status": "deferred",
       "title": "Polish focus order across new guide and retry controls",
       "hypothesis": "Explicit focus-visible and logical tab order on DemoGuide and Retry controls would strengthen accessibility evidence.",
       "scores": {
@@ -105,7 +105,7 @@
         "productFit": 5
       },
       "source": "Post-EVOLVE-003 discovery",
-      "notes": "Reopened; tab-order quirks on native month/date still observed in USABILITY-AUDIT-001."
+      "notes": "Reopened; tab-order quirks on native month/date still observed in USABILITY-AUDIT-001. Deferred after AUDIT-003/004: low cosmetic, not required for presentation-ready release."
     },
     {
       "id": "IDEA-007",
@@ -157,7 +157,7 @@
     },
     {
       "id": "IDEA-010",
-      "status": "candidate",
+      "status": "deferred",
       "title": "Distinguish essential vs discretionary in category breakdown",
       "hypothesis": "Quiet visual distinction could connect category bars to recommendation eligibility without new math.",
       "scores": {
@@ -168,7 +168,7 @@
         "productFit": 5
       },
       "source": "USABILITY-AUDIT-001",
-      "notes": "Presentation-only; defer until month/empty-state clarity ships."
+      "notes": "Presentation-only; defer until month/empty-state clarity ships. Deferred after AUDIT-003/004: low cosmetic, not required for presentation-ready release."
     },
     {
       "id": "IDEA-011",

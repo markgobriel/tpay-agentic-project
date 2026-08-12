@@ -9,6 +9,7 @@
     "packages/*"
   ],
   "scripts": {
+    "preview:live": "bash scripts/ensure-preview.sh",
     "status": "node scripts/status.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

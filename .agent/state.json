@@ -1,35 +1,32 @@
 {
   "schemaVersion": 1,
-  "projectStatus": "active",
+  "projectStatus": "complete",
   "initialReview": {
     "status": "approved",
     "approvedAt": "2026-08-11T14:41:14Z"
   },
   "currentTaskId": null,
-  "currentPlan": [
-    "Run clean usability audits #1 and #2.",
-    "If both clean with only recorded lows, assess RELEASE_READINESS."
-  ],
-  "iteration": 27,
+  "currentPlan": [],
+  "iteration": 28,
   "consecutiveFailures": 0,
   "strategyCount": 0,
   "lastFailure": null,
   "lastValidation": {
     "command": "npm run validate",
     "result": "pass",
-    "at": "2026-08-12T10:20:00Z"
+    "at": "2026-08-12T10:24:00Z"
   },
   "lastVerifier": {
     "result": "pass",
-    "at": "2026-08-12T10:21:00Z",
-    "notes": "UX-004 PASS."
+    "at": "2026-08-12T10:22:00Z",
+    "notes": "Usability convergence PASS; RELEASE_READINESS pass; project complete."
   },
   "blocker": null,
-  "completedAt": null,
+  "completedAt": "2026-08-12T10:24:00Z",
   "autonomyMode": "usability_evolution",
   "releaseReadiness": {
-    "status": "in_progress",
-    "summary": "Usability evolution active; UX-001 done; need consecutive clean audits + remaining high/medium issues (minor-units jargon, month-scoped activity)."
+    "status": "pass",
+    "summary": "Gate passed: product clarity, experience, validation, evidence, ops docs, and two consecutive clean usability audits (003/004). Lows deferred (IDEA-006/010)."
   },
   "hookPolicy": {
     "maxFollowupsPerRun": 12,
@@ -50,10 +47,15 @@
     ".agent/evidence/UX-001/self-review.md",
     ".agent/evidence/UX-001/after-live-desktop.png",
     ".agent/evidence/UX-001/desktop-honest-empty.png",
-    ".agent/evidence/UX-001/desktop-mismatch.png"
+    ".agent/evidence/UX-001/desktop-mismatch.png",
+    ".agent/evidence/USABILITY-AUDIT-003/critique.md",
+    ".agent/evidence/USABILITY-AUDIT-004/critique.md",
+    ".agent/evidence/UX-002/self-review.md",
+    ".agent/evidence/UX-003/self-review.md",
+    ".agent/evidence/UX-004/self-review.md"
   ],
   "usabilityAudits": {
-    "consecutiveClean": 0,
+    "consecutiveClean": 2,
     "history": [
       {
         "id": "USABILITY-AUDIT-002",
@@ -61,6 +63,16 @@
         "medium": [
           "field-adjacent goal errors"
         ]
+      },
+      {
+        "id": "USABILITY-AUDIT-003",
+        "result": "clean",
+        "at": "2026-08-12T10:21:33.016Z"
+      },
+      {
+        "id": "USABILITY-AUDIT-004",
+        "result": "clean",
+        "at": "2026-08-12T10:21:44.200Z"
       }
     ]
   }

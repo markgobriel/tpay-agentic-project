@@ -22,6 +22,102 @@ scripts/               validation and orchestration helpers
 e2e/                   Playwright core user-flow coverage
 ```
 
+## Repository architecture
+
+### System shape
+
+Save & Spend is a modular monolith: the browser application, REST API, financial domain, persistence layer, and shared contracts live in one repository and are released together, while their dependency boundaries remain explicit.
+
+```text
+React browser client
+        │ REST/JSON
+        ▼
+Express API routes
+        ▼
+Application service
+        ├── deterministic domain calculations
+        └── Prisma repositories
+                    ▼
+              local SQLite database
+```
+
+SQLite keeps local development and automated tests self-contained. Prisma is the persistence boundary, so the intended production database can be PostgreSQL without moving financial policy into database queries.
+
+### Product modules
+
+| Location             | Responsibility                                                                                                                                                                      | Important entry points                                        |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `apps/web`           | React presentation, browser state, API calls, responsive layout, accessible interaction, and user feedback. It may use shared contracts, but never imports Prisma or database code. | `src/main.tsx`, `src/App.tsx`, `src/api.ts`, `src/styles.css` |
+| `apps/api`           | Express routes, request validation, dependency composition, and mapping domain/database results into API responses. Routes coordinate work but do not contain financial formulas.   | `src/index.ts`, `src/app.ts`, `src/finance-service.ts`        |
+| `packages/domain`    | Framework-independent financial truth: monthly analytics, UTC date rules, goal projection, category policy, money validation, and deterministic spending recommendations.           | `src/analytics.ts`, `src/goals.ts`, `src/recommendations.ts`  |
+| `packages/db`        | Prisma client, schema, migrations, repositories, and deterministic mock seed data. It stores and retrieves records but does not decide financial policy.                            | `prisma/schema.prisma`, `src/repositories.ts`, `src/seed.ts`  |
+| `packages/contracts` | TypeScript request and response models shared by the web and API packages, preventing the two sides from silently disagreeing about payload shapes.                                 | `src/index.ts`                                                |
+
+The intended dependency direction is:
+
+```text
+apps/web ───────────────► packages/contracts
+
+apps/api ───────────────► packages/contracts
+   │
+   ├────────────────────► packages/domain
+   └────────────────────► packages/db ─────► Prisma
+
+packages/domain ────────► no web, HTTP, or database framework
+```
+
+### Typical request flow
+
+For example, when the dashboard requests savings recommendations:
+
+1. A React component calls `fetchRecommendations()` in `apps/web/src/api.ts`.
+2. Vite proxies the browser request to the Express API during local development.
+3. `apps/api/src/app.ts` matches the `/recommendations` route.
+4. `apps/api/src/finance-service.ts` loads the account, transactions, and savings goal through `packages/db` repositories.
+5. The service passes plain values into `packages/domain`, which calculates the savings gap and eligible discretionary reductions deterministically.
+6. The API returns a response shaped by `packages/contracts` and React renders it with explicit loading, empty, success, or error feedback.
+
+### Frontend composition
+
+`apps/web/src/App.tsx` is the dashboard coordinator. User-facing areas are split into focused components such as:
+
+- `SavingsGoalPanel.tsx` for editing the goal and presenting pace;
+- `RecommendationsPanel.tsx` for deterministic spending reductions;
+- `CategoryBreakdown.tsx` for accessible category visualization;
+- `DemoGuide.tsx` for first-use guidance; and
+- `PanelMessage.tsx` for consistent loading, empty, error, and recovery states.
+
+Small formatting and input helpers live beside the components and have adjacent Vitest files. Global visual tokens, responsive behavior, control states, and the Apple-inspired presentation are defined in `apps/web/src/styles.css`.
+
+### Tests and quality gates
+
+Testing follows the same boundaries as the application:
+
+- domain unit tests prove financial formulas and edge cases without HTTP or a database;
+- database tests verify migrations, repositories, and deterministic seed data;
+- API integration tests exercise Express against an isolated database;
+- helper tests cover browser-side formatting and input conversion; and
+- `e2e/` Playwright tests operate the complete application at desktop and mobile sizes, including keyboard focus, validation, recovery states, console/network failures, overflow, and screenshot evidence.
+
+`npm run validate` is the single quality gate. It runs formatting checks, linting, TypeScript checks, unit/integration tests, production builds, and Playwright E2E. E2E uses isolated ports and a separate test database, so validation does not intentionally reset the live preview.
+
+### Autonomous-development harness
+
+The application code is surrounded by a repository-local agent harness. This infrastructure is intentionally versioned because it defines how autonomous changes are selected, tested, reviewed, and stopped:
+
+| Location                    | Purpose                                                                                                                                       |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `AGENTS.md`                 | Governing implementation, validation, verifier, safety, and continuation rules.                                                               |
+| `docs/`                     | Product scope, architecture, financial invariants, experience standards, testing policy, autonomy protocol, usability loop, and release gate. |
+| `backlog/tasks.json`        | Machine-readable work history and acceptance criteria.                                                                                        |
+| `backlog/ideas.json`        | Agent-owned discovery pool from which new tasks are promoted.                                                                                 |
+| `.agent/state.json`         | Current `ACTIVE`, `COMPLETE`, or `BLOCKED` status, plan, validation, verifier result, and evidence references.                                |
+| `.cursor/`                  | Persistent Cursor project rules and the continuation hook.                                                                                    |
+| `scripts/run-autonomous.sh` | Resilient controller that runs the plan → build → test → review → fix → next-task loop.                                                       |
+| `scripts/ensure-preview.sh` | Starts the supervised hot-reloading local preview.                                                                                            |
+
+Files under `.agent/logs/`, `.agent/evidence/`, and `.agent/test/` are generated operational artifacts. They help with observability and review but are not application modules or sources of financial truth.
+
 ## Contracts
 
 1. [Product scope](docs/PRODUCT.md)
@@ -32,7 +128,8 @@ e2e/                   Playwright core user-flow coverage
 6. [Harness evolution log](docs/HARNESS_EVOLUTION.md)
 7. [Experience and visual design](docs/EXPERIENCE.md)
 8. [Autonomous product evolution](docs/PRODUCT_EVOLUTION.md)
-9. [Release-readiness gate](docs/RELEASE_READINESS.md)
+9. [Autonomous usability loop](docs/USABILITY_LOOP.md)
+10. [Release-readiness gate](docs/RELEASE_READINESS.md)
 
 ## Local run
 

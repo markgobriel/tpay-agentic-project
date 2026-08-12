@@ -28,9 +28,7 @@
         "Persistence tests run without real banking data."
       ],
       "browserValidation": false,
-      "dependsOn": [
-        "FOUND-001"
-      ],
+      "dependsOn": ["FOUND-001"],
       "notes": "Completed DATA-001: Account/Transaction/SavingsGoal Prisma models with Int minor units; deterministic seed covers income + all essential + all discretionary categories + one goal; persistence tests use temp SQLite + in-repo migration (no banking/network). SQLite chosen for isolated local/test (no Docker); production target remains PostgreSQL. Dependency: tsx for prisma seed CLI only. Domain policy kept out of packages/db. npm run validate PASS. Verifier PASS."
     },
     {
@@ -44,9 +42,7 @@
         "Domain code has no React, HTTP, or Prisma dependency."
       ],
       "browserValidation": false,
-      "dependsOn": [
-        "DATA-001"
-      ],
+      "dependsOn": ["DATA-001"],
       "notes": "Completed DOMAIN-001: calculateMonthlyAnalytics + projectSavingsGoal with UTC inclusive months-remaining policy, ceilDiv required savings, completed-goal short-circuit, DomainValidationError for invalid dates/months. Category eligibility helpers included (essentials never recommendable). 12 domain unit tests + persistence suite; npm run validate PASS; verifier PASS. No new runtime dependencies."
     },
     {
@@ -60,9 +56,7 @@
         "Integration tests cover happy paths and invalid input."
       ],
       "browserValidation": false,
-      "dependsOn": [
-        "DOMAIN-001"
-      ],
+      "dependsOn": ["DOMAIN-001"],
       "notes": "Completed API-001: GET /account|/transactions|/analytics|/savings-goal and PUT /savings-goal. FinanceService coordinates db+domain; routes do not embed math. Domain projection validates before goal persist. Dependencies: @save-and-spend/db, supertest (+types) for HTTP tests. npm run validate PASS (20 tests). Verifier PASS after validate-before-persist fix."
     },
     {
@@ -76,9 +70,7 @@
         "Primary browser flow has no console or network errors."
       ],
       "browserValidation": true,
-      "dependsOn": [
-        "API-001"
-      ],
+      "dependsOn": ["API-001"],
       "notes": "Completed WEB-001: dashboard renders balance, July analytics, categories, and 12 transactions from API via Vite proxy. formatMinorAsCurrency is presentation-only. Browser evidence: scripts/browser-web-001.mjs -> .agent/evidence/WEB-001/browser-report.json (pass; $2,450.00/$5,000.00/$2,795.00/$2,205.00; no console/network errors). Dependency: playwright for browser evidence script. npm run validate PASS (22 tests). Verifier PASS."
     },
     {
@@ -92,9 +84,7 @@
         "Invalid inputs are understandable and do not create invalid data."
       ],
       "browserValidation": true,
-      "dependsOn": [
-        "WEB-001"
-      ],
+      "dependsOn": ["WEB-001"],
       "notes": "Completed GOAL-001: SavingsGoalPanel GET/PUT /savings-goal; displays API pace fields only; moneyInput parses major\u2192minor at presentation boundary. Browser evidence scripts/browser-goal-001.mjs -> .agent/evidence/GOAL-001/browser-report.json (pass; invalid -10 blocked; prior save retained). npm run validate PASS (25 tests). Verifier PASS."
     },
     {
@@ -108,9 +98,7 @@
         "User can see the recommendation math in the browser."
       ],
       "browserValidation": true,
-      "dependsOn": [
-        "GOAL-001"
-      ],
+      "dependsOn": ["GOAL-001"],
       "notes": "Completed REC-001: recommendDiscretionaryReductions in domain; GET /recommendations; RecommendationsPanel UI. Browser evidence scripts/browser-rec-001.mjs with CALCULATION_DATE=2026-07-15: gap $1,128.34, cuts $455.00, unresolved $673.34; essentials excluded. npm run validate PASS (29 tests). Verifier PASS. No new runtime deps."
     },
     {
@@ -124,9 +112,7 @@
         "Full validation and final read-only verifier review pass."
       ],
       "browserValidation": true,
-      "dependsOn": [
-        "REC-001"
-      ],
+      "dependsOn": ["REC-001"],
       "notes": "Completed QUALITY-001: e2e/core-flow.spec.ts in npm run validate via scripts/e2e.sh; docs/QUALITY_EVIDENCE.md; portable Chromium install; HARNESS_EVOLUTION entry. npm run validate PASS (29 unit + 1 e2e). Final verifier PASS. Dependencies: @playwright/test."
     },
     {
@@ -141,9 +127,7 @@
         "A read-only verifier reviews the implementation and screenshots against docs/EXPERIENCE.md, and npm run validate passes."
       ],
       "browserValidation": true,
-      "dependsOn": [
-        "QUALITY-001"
-      ],
+      "dependsOn": ["QUALITY-001"],
       "notes": "Completed DESIGN-001: Apple-inspired system UI (styles/App/panels); hierarchy overview + goal/recs/activity; e2e/design-experience.spec.ts with desktop/mobile screenshots in .agent/evidence/DESIGN-001/; HARNESS_EVOLUTION entry. No finance math/API changes. npm run validate PASS (29 unit + 3 e2e). Verifier PASS."
     },
     {
@@ -158,9 +142,7 @@
         "npm run validate passes and a read-only verifier reviews the change against PRODUCT_EVOLUTION and EXPERIENCE contracts."
       ],
       "browserValidation": true,
-      "dependsOn": [
-        "DESIGN-001"
-      ],
+      "dependsOn": ["DESIGN-001"],
       "notes": "Completed EVOLVE-001 from IDEA-001: CategoryBreakdown CSS bars (role=meter) + integer categorySharePercent (presentation-only); mobile stacks amount/share under name so 390px keeps $ and % visible; e2e/category-visualization.spec.ts + evidence under .agent/evidence/EVOLVE-001/; no domain/API math changes; no new deps. npm run validate PASS (4 e2e). Verifier PASS after mobile amount fix."
     },
     {
@@ -175,9 +157,7 @@
         "npm run validate passes and a read-only verifier reviews the change against PRODUCT_EVOLUTION and EXPERIENCE contracts."
       ],
       "browserValidation": true,
-      "dependsOn": [
-        "EVOLVE-001"
-      ],
+      "dependsOn": ["EVOLVE-001"],
       "notes": "Completed EVOLVE-002 from IDEA-002: DemoGuide dismissible walkthrough (localStorage save-spend-demo-guide-dismissed); non-advice mock/goal/discretionary copy; e2e/first-use-guide.spec.ts + .agent/evidence/EVOLVE-002/; npm run validate PASS (5 e2e). Verifier PASS."
     },
     {
@@ -192,9 +172,7 @@
         "npm run validate passes and a read-only verifier reviews against PRODUCT_EVOLUTION, EXPERIENCE, and RELEASE_READINESS state-feedback expectations."
       ],
       "browserValidation": true,
-      "dependsOn": [
-        "EVOLVE-002"
-      ],
+      "dependsOn": ["EVOLVE-002"],
       "notes": "Completed EVOLVE-003 from IDEA-003: PanelMessage + dashboard/goal/recommendations loading/empty/error+Retry; goal save pending/success status; e2e/state-feedback.spec.ts + .agent/evidence/EVOLVE-003/; npm run validate PASS (7 e2e). Verifier PASS."
     },
     {
@@ -209,9 +187,7 @@
         "npm run validate still passes; read-only verifier reviews operational readiness against RELEASE_READINESS."
       ],
       "browserValidation": false,
-      "dependsOn": [
-        "EVOLVE-003"
-      ],
+      "dependsOn": ["EVOLVE-003"],
       "notes": "Completed EVOLVE-004 from IDEA-004: README Local run + demo tips; .env.example documents mock DATABASE_URL and optional CALCULATION_DATE; npm run validate PASS. Verifier PASS. Final RELEASE_READINESS PASS; IDEA-005/006 left as optional non-blocking candidates."
     },
     {
@@ -227,9 +203,7 @@
         "Desktop and mobile Playwright flows assert the above, capture screenshots, and check console/network/overflow; npm run validate passes; read-only verifier reviews evidence against USABILITY_LOOP and EXPERIENCE."
       ],
       "browserValidation": true,
-      "dependsOn": [
-        "EVOLVE-004"
-      ],
+      "dependsOn": ["EVOLVE-004"],
       "notes": "Completed UX-001 from USABILITY-AUDIT-001/IDEA-008: calc-month labels, mismatch banner + Show pace month, honest gap>0 empty-cut copy, secondary Got it / primary Save goal, money helpers. Evidence .agent/evidence/UX-001/; npm run validate PASS; verifier PASS after EVOLVE-004 restore + August empty-cut mock."
     },
     {
@@ -244,9 +218,7 @@
         "Desktop and mobile Playwright flows assert the plain-language copy with a behind-pace goal that yields discretionary cuts, capture screenshots, and check console/network/overflow; npm run validate passes; read-only verifier reviews evidence."
       ],
       "browserValidation": true,
-      "dependsOn": [
-        "UX-001"
-      ],
+      "dependsOn": ["UX-001"],
       "notes": "Completed UX-002: presentation recommendationCopy helper; no minor-units in UI; e2e evidence; validate+verifier PASS."
     },
     {
@@ -260,9 +232,7 @@
         "Desktop and mobile Playwright flows switch months, assert filtered rows/empty state, capture screenshots, and check console/network/overflow; npm run validate passes; read-only verifier reviews evidence."
       ],
       "browserValidation": true,
-      "dependsOn": [
-        "UX-002"
-      ],
+      "dependsOn": ["UX-002"],
       "notes": "Completed UX-003: month-scoped activity filter + labels; validate+verifier PASS."
     },
     {
@@ -276,9 +246,7 @@
         "Desktop and mobile Playwright cover invalid then valid save, assert error placement near the form, capture screenshots, check console/network/overflow; npm run validate passes; read-only verifier reviews evidence."
       ],
       "browserValidation": true,
-      "dependsOn": [
-        "UX-003"
-      ],
+      "dependsOn": ["UX-003"],
       "notes": "Completed UX-004: form-adjacent validation errors; validate+verifier PASS."
     }
   ]
