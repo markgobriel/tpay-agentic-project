@@ -163,7 +163,7 @@
     {
       "id": "EVOLVE-003",
       "priority": 120,
-      "status": "todo",
+      "status": "done",
       "title": "Strengthen loading, empty, and error feedback on the dashboard",
       "acceptanceCriteria": [
         "Dashboard panels show deliberate loading, empty, and recoverable error feedback for account/analytics/transactions/goal/recommendations without inventing finance values.",
@@ -173,7 +173,7 @@
       ],
       "browserValidation": true,
       "dependsOn": ["EVOLVE-002"],
-      "notes": "Promoted from IDEA-003 after EVOLVE-002. Prefer refining existing panels over new dependencies."
+      "notes": "Completed EVOLVE-003 from IDEA-003: PanelMessage + dashboard/goal/recommendations loading/empty/error+Retry; goal save pending/success status; e2e/state-feedback.spec.ts + .agent/evidence/EVOLVE-003/; npm run validate PASS (7 e2e). Verifier PASS."
     }
   ]
 }

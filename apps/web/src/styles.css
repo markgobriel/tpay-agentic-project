@@ -188,6 +188,35 @@ input {
   color: var(--danger);
 }
 
+.panel-message {
+  margin: 0.45rem 0 0;
+}
+
+.feedback-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 0.85rem;
+  margin: 0.35rem 0 0.15rem;
+}
+
+.retry-button {
+  min-height: 44px;
+  padding: 0.45rem 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.retry-button:focus-visible {
+  outline: 3px solid rgba(10, 132, 255, 0.45);
+  outline-offset: 2px;
+}
+
 .success {
   margin: 0 0 0.75rem;
   color: var(--positive);

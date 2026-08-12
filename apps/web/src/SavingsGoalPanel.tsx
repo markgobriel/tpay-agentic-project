@@ -3,6 +3,7 @@ import type { SavingsGoalResponse } from "@save-and-spend/contracts";
 import { fetchSavingsGoal, upsertSavingsGoal } from "./api.js";
 import { formatMinorAsCurrency } from "./formatMoney.js";
 import { minorToMajorInput, parseMajorCurrencyToMinor } from "./moneyInput.js";
+import { PanelMessage } from "./PanelMessage.js";
 
 function toDateInputValue(iso: string): string {
   return iso.slice(0, 10);
@@ -27,6 +28,7 @@ export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsG
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [reloadToken, setReloadToken] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -43,6 +45,7 @@ export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsG
         setTargetDate(toDateInputValue(response.targetDate));
       } catch (err) {
         if (cancelled) return;
+        setGoal(null);
         setError(err instanceof Error ? err.message : "Failed to load savings goal.");
       } finally {
         if (!cancelled) setLoading(false);
@@ -51,7 +54,7 @@ export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsG
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [reloadToken]);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
@@ -78,6 +81,7 @@ export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsG
     }
 
     setSaving(true);
+    setStatusMessage("Saving goal…");
     try {
       const updated = await upsertSavingsGoal({
         name: name.trim(),
@@ -93,6 +97,7 @@ export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsG
       setStatusMessage("Savings goal saved.");
       onGoalSaved?.();
     } catch (err) {
+      setStatusMessage(null);
       setError(err instanceof Error ? err.message : "Failed to save savings goal.");
     } finally {
       setSaving(false);
@@ -105,16 +110,38 @@ export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsG
       <h2 id="goal-heading" className="panel-title">
         Savings goal
       </h2>
-      {loading ? <p role="status">Loading savings goal…</p> : null}
+      {loading ? (
+        <PanelMessage tone="status" testId="goal-loading">
+          Loading savings goal…
+        </PanelMessage>
+      ) : null}
       {error ? (
-        <p role="alert" className="error" data-testid="goal-error">
-          {error}
-        </p>
+        <div className="feedback-banner">
+          <PanelMessage tone="error" testId="goal-error">
+            {error}
+          </PanelMessage>
+          {!saving ? (
+            <button
+              type="button"
+              className="retry-button"
+              data-testid="goal-retry"
+              onClick={() => setReloadToken((value) => value + 1)}
+            >
+              Retry
+            </button>
+          ) : null}
+        </div>
       ) : null}
       {statusMessage ? (
-        <p role="status" className="success" data-testid="goal-status">
+        <PanelMessage tone={saving ? "status" : "success"} testId="goal-status">
           {statusMessage}
-        </p>
+        </PanelMessage>
+      ) : null}
+
+      {!loading && !goal && !error ? (
+        <PanelMessage tone="empty" testId="goal-empty">
+          No savings goal loaded yet.
+        </PanelMessage>
       ) : null}
 
       {goal ? (

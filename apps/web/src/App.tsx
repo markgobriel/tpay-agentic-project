@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type {
   AccountResponse,
   MonthlyAnalyticsResponse,
@@ -8,6 +8,7 @@ import { fetchAccount, fetchMonthlyAnalytics, fetchTransactions } from "./api.js
 import { CategoryBreakdown } from "./CategoryBreakdown.js";
 import { DemoGuide } from "./DemoGuide.js";
 import { formatMinorAsCurrency } from "./formatMoney.js";
+import { PanelMessage } from "./PanelMessage.js";
 import { RecommendationsPanel } from "./RecommendationsPanel.js";
 import { SavingsGoalPanel } from "./SavingsGoalPanel.js";
 
@@ -20,7 +21,12 @@ export function App() {
   const [transactions, setTransactions] = useState<TransactionResponse[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [reloadToken, setReloadToken] = useState(0);
   const [recommendationsRefreshKey, setRecommendationsRefreshKey] = useState(0);
+
+  const retryDashboard = useCallback(() => {
+    setReloadToken((value) => value + 1);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -40,6 +46,9 @@ export function App() {
         setTransactions(transactionsResponse.transactions);
       } catch (err) {
         if (cancelled) return;
+        setAccount(null);
+        setAnalytics(null);
+        setTransactions([]);
         setError(err instanceof Error ? err.message : "Failed to load dashboard.");
       } finally {
         if (!cancelled) setLoading(false);
@@ -49,7 +58,7 @@ export function App() {
     return () => {
       cancelled = true;
     };
-  }, [month]);
+  }, [month, reloadToken]);
 
   return (
     <main className="shell" data-testid="app-shell">
@@ -60,11 +69,18 @@ export function App() {
 
       <DemoGuide />
 
-      {loading ? <p role="status">Loading account…</p> : null}
+      {loading ? (
+        <PanelMessage tone="status" testId="dashboard-loading">
+          Loading account and monthly summary…
+        </PanelMessage>
+      ) : null}
       {error ? (
-        <p role="alert" className="error">
-          {error}
-        </p>
+        <div className="feedback-banner" data-testid="dashboard-error">
+          <PanelMessage tone="error">{error}</PanelMessage>
+          <button type="button" className="retry-button" onClick={retryDashboard}>
+            Retry
+          </button>
+        </div>
       ) : null}
 
       <section className="overview" aria-label="Financial overview">
@@ -80,7 +96,13 @@ export function App() {
             <p className="muted">Current balance</p>
           </section>
         ) : (
-          <section className="panel" aria-hidden="true" />
+          <section className="panel" data-testid="balance-placeholder" aria-busy={loading}>
+            <p className="panel-kicker">Account</p>
+            <h1 className="panel-title">Account</h1>
+            <PanelMessage tone={loading ? "status" : "empty"} testId="balance-empty">
+              {loading ? "Loading balance…" : "Balance unavailable until the account loads."}
+            </PanelMessage>
+          </section>
         )}
 
         <section className="panel" aria-labelledby="month-heading" data-testid="month-panel">
@@ -125,7 +147,11 @@ export function App() {
                 </dd>
               </div>
             </dl>
-          ) : null}
+          ) : (
+            <PanelMessage tone={loading ? "status" : "empty"} testId="month-empty">
+              {loading ? "Loading monthly position…" : "No monthly summary for this selection yet."}
+            </PanelMessage>
+          )}
         </section>
       </section>
 
@@ -140,27 +166,53 @@ export function App() {
       />
 
       <div className="secondary-stack">
-        {analytics && analytics.categorySpending.length > 0 ? (
-          <section className="panel" aria-labelledby="categories-heading">
-            <p className="panel-kicker">Breakdown</p>
-            <h2 id="categories-heading" className="panel-title">
-              Spending by category
-            </h2>
+        <section
+          className="panel"
+          aria-labelledby="categories-heading"
+          data-testid="categories-panel"
+        >
+          <p className="panel-kicker">Breakdown</p>
+          <h2 id="categories-heading" className="panel-title">
+            Spending by category
+          </h2>
+          {loading ? (
+            <PanelMessage tone="status" testId="categories-loading">
+              Loading category spending…
+            </PanelMessage>
+          ) : null}
+          {!loading && analytics && analytics.categorySpending.length > 0 ? (
             <CategoryBreakdown
               categories={analytics.categorySpending}
               currencyCode={account?.currencyCode ?? "USD"}
             />
-          </section>
-        ) : null}
+          ) : null}
+          {!loading && (!analytics || analytics.categorySpending.length === 0) ? (
+            <PanelMessage tone="empty" testId="categories-empty">
+              No category spending for this month.
+            </PanelMessage>
+          ) : null}
+        </section>
 
-        <section className="panel" aria-labelledby="transactions-heading">
+        <section
+          className="panel"
+          aria-labelledby="transactions-heading"
+          data-testid="transactions-panel"
+        >
           <p className="panel-kicker">Activity</p>
           <h2 id="transactions-heading" className="panel-title">
             Transaction history
           </h2>
-          {transactions.length === 0 && !loading ? (
-            <p className="muted">No transactions yet.</p>
-          ) : (
+          {loading ? (
+            <PanelMessage tone="status" testId="transactions-loading">
+              Loading transactions…
+            </PanelMessage>
+          ) : null}
+          {!loading && transactions.length === 0 ? (
+            <PanelMessage tone="empty" testId="transactions-empty">
+              No transactions yet.
+            </PanelMessage>
+          ) : null}
+          {!loading && transactions.length > 0 ? (
             <div className="table-wrap">
               <table className="transactions">
                 <thead>
@@ -187,7 +239,7 @@ export function App() {
                 </tbody>
               </table>
             </div>
-          )}
+          ) : null}
         </section>
       </div>
     </main>

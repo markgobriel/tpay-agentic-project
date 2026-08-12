@@ -33,3 +33,10 @@ For every entry, record:
 - **Safeguard added:** dismissible DemoGuide with factual mock/goal/discretionary copy and Playwright assert of dismiss persistence.
 - **Enforced by:** `apps/web/src/DemoGuide.tsx`, `e2e/first-use-guide.spec.ts`, `npm run validate`.
 - **Scope:** presentation/onboarding only; no finance math changes.
+
+### EVOLVE-003 — state feedback evidence
+
+- **Observed evidence:** RELEASE_READINESS required deliberate loading/empty/error feedback; panels had uneven placeholders and weak recoverable errors.
+- **Safeguard added:** shared PanelMessage tones, dashboard/goal/recommendations Retry paths, goal save pending/success status, Playwright mocked failure + save status coverage.
+- **Enforced by:** `apps/web/src/PanelMessage.tsx`, `App.tsx`, `SavingsGoalPanel.tsx`, `RecommendationsPanel.tsx`, `e2e/state-feedback.spec.ts`, `npm run validate`.
+- **Scope:** UX reliability for demos; no domain formula changes.

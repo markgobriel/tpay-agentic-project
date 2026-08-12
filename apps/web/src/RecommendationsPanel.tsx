@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { RecommendationsResponse } from "@save-and-spend/contracts";
 import { fetchRecommendations } from "./api.js";
 import { formatMinorAsCurrency } from "./formatMoney.js";
+import { PanelMessage } from "./PanelMessage.js";
 
 export interface RecommendationsPanelProps {
   currencyCode?: string;
@@ -16,6 +17,7 @@ export function RecommendationsPanel({
   const [plan, setPlan] = useState<RecommendationsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [reloadToken, setReloadToken] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -28,6 +30,7 @@ export function RecommendationsPanel({
         setPlan(response);
       } catch (err) {
         if (cancelled) return;
+        setPlan(null);
         setError(err instanceof Error ? err.message : "Failed to load recommendations.");
       } finally {
         if (!cancelled) setLoading(false);
@@ -36,7 +39,7 @@ export function RecommendationsPanel({
     return () => {
       cancelled = true;
     };
-  }, [refreshKey]);
+  }, [refreshKey, reloadToken]);
 
   return (
     <section className="panel" aria-labelledby="recommendations-heading">
@@ -48,11 +51,25 @@ export function RecommendationsPanel({
         Rule-based insights from mock spending — not professional financial advice. Essentials are
         never cut.
       </p>
-      {loading ? <p role="status">Loading recommendations…</p> : null}
+      {loading ? (
+        <PanelMessage tone="status" testId="recommendations-loading">
+          Loading recommendations…
+        </PanelMessage>
+      ) : null}
       {error ? (
-        <p role="alert" className="error" data-testid="recommendations-error">
-          {error}
-        </p>
+        <div className="feedback-banner">
+          <PanelMessage tone="error" testId="recommendations-error">
+            {error}
+          </PanelMessage>
+          <button
+            type="button"
+            className="retry-button"
+            data-testid="recommendations-retry"
+            onClick={() => setReloadToken((value) => value + 1)}
+          >
+            Retry
+          </button>
+        </div>
       ) : null}
 
       {plan ? (
@@ -85,9 +102,9 @@ export function RecommendationsPanel({
           </dl>
 
           {plan.recommendations.length === 0 ? (
-            <p className="muted" data-testid="rec-empty">
+            <PanelMessage tone="empty" testId="rec-empty">
               No discretionary cuts needed for the current gap.
-            </p>
+            </PanelMessage>
           ) : (
             <ol className="recommendation-list" data-testid="rec-list">
               {plan.recommendations.map((line) => (
@@ -110,6 +127,12 @@ export function RecommendationsPanel({
             </ol>
           )}
         </div>
+      ) : null}
+
+      {!loading && !plan && !error ? (
+        <PanelMessage tone="empty" testId="recommendations-empty">
+          Recommendations are unavailable for this view.
+        </PanelMessage>
       ) : null}
     </section>
   );
