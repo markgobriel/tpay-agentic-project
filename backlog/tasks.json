@@ -144,6 +144,36 @@
       "browserValidation": true,
       "dependsOn": ["DESIGN-001"],
       "notes": "Completed EVOLVE-001 from IDEA-001: CategoryBreakdown CSS bars (role=meter) + integer categorySharePercent (presentation-only); mobile stacks amount/share under name so 390px keeps $ and % visible; e2e/category-visualization.spec.ts + evidence under .agent/evidence/EVOLVE-001/; no domain/API math changes; no new deps. npm run validate PASS (4 e2e). Verifier PASS after mobile amount fix."
+    },
+    {
+      "id": "EVOLVE-002",
+      "priority": 110,
+      "status": "done",
+      "title": "Add first-use demo guidance for the mock finance workflow",
+      "acceptanceCriteria": [
+        "A dismissible first-use guide explains the mock/seeded account, goal workflow, and discretionary recommendation limits without presenting personal financial advice.",
+        "The guide does not obscure the primary balance/monthly hierarchy after dismiss, and dismissal persists for the browser session storage key used by the app.",
+        "Desktop and mobile Playwright flows assert guide content, dismiss behavior, screenshots, and console/network/overflow checks.",
+        "npm run validate passes and a read-only verifier reviews the change against PRODUCT_EVOLUTION and EXPERIENCE contracts."
+      ],
+      "browserValidation": true,
+      "dependsOn": ["EVOLVE-001"],
+      "notes": "Completed EVOLVE-002 from IDEA-002: DemoGuide dismissible walkthrough (localStorage save-spend-demo-guide-dismissed); non-advice mock/goal/discretionary copy; e2e/first-use-guide.spec.ts + .agent/evidence/EVOLVE-002/; npm run validate PASS (5 e2e). Verifier PASS."
+    },
+    {
+      "id": "EVOLVE-003",
+      "priority": 120,
+      "status": "todo",
+      "title": "Strengthen loading, empty, and error feedback on the dashboard",
+      "acceptanceCriteria": [
+        "Dashboard panels show deliberate loading, empty, and recoverable error feedback for account/analytics/transactions/goal/recommendations without inventing finance values.",
+        "Saving the goal communicates pending and success/failure states with accessible status messaging.",
+        "Desktop and mobile Playwright flows cover loading/error/empty or mocked failure paths where practical, capture screenshots, and check console/network/overflow for the happy path.",
+        "npm run validate passes and a read-only verifier reviews against PRODUCT_EVOLUTION, EXPERIENCE, and RELEASE_READINESS state-feedback expectations."
+      ],
+      "browserValidation": true,
+      "dependsOn": ["EVOLVE-002"],
+      "notes": "Promoted from IDEA-003 after EVOLVE-002. Prefer refining existing panels over new dependencies."
     }
   ]
 }

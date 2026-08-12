@@ -6,6 +6,7 @@ import type {
 } from "@save-and-spend/contracts";
 import { fetchAccount, fetchMonthlyAnalytics, fetchTransactions } from "./api.js";
 import { CategoryBreakdown } from "./CategoryBreakdown.js";
+import { DemoGuide } from "./DemoGuide.js";
 import { formatMinorAsCurrency } from "./formatMoney.js";
 import { RecommendationsPanel } from "./RecommendationsPanel.js";
 import { SavingsGoalPanel } from "./SavingsGoalPanel.js";
@@ -56,6 +57,8 @@ export function App() {
         <p className="brand">Save &amp; Spend</p>
         <p className="lede">Balance, monthly position, and a calm plan for your goal.</p>
       </header>
+
+      <DemoGuide />
 
       {loading ? <p role="status">Loading account…</p> : null}
       {error ? (

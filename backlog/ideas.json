@@ -9,8 +9,8 @@
     "productFit": "Must remain within docs/PRODUCT_EVOLUTION.md."
   },
   "lastDiscovery": {
-    "at": "2026-08-12T08:37:00Z",
-    "summary": "Scored IDEA-001 highest for immediate monthly-story clarity in demos; promoted to EVOLVE-001. IDEA-002/003 remain candidates after visualization lands."
+    "at": "2026-08-12T09:05:00Z",
+    "summary": "EVOLVE-002 done. Promoted IDEA-003 to EVOLVE-003 for loading/empty/error feedback required by RELEASE_READINESS. Will replenish idea pool after EVOLVE-003 if gate still open."
   },
   "candidates": [
     {
@@ -31,33 +31,35 @@
     },
     {
       "id": "IDEA-002",
-      "status": "candidate",
+      "status": "promoted",
+      "promotedTaskId": "EVOLVE-002",
       "title": "Improve first-use guidance and demo narrative",
       "hypothesis": "Lightweight explanation of the mock account, goal workflow, and recommendation logic could reduce ambiguity for first-time viewers.",
       "scores": {
         "userImpact": 4,
         "presentationValue": 5,
-        "evidence": 3,
+        "evidence": 4,
         "risk": 2,
         "productFit": 5
       },
       "source": "Initial post-MVP product-evolution seed",
-      "notes": "Must not resemble financial advice or obscure the primary financial summary."
+      "notes": "Promoted after EVOLVE-001: RELEASE_READINESS product clarity still needs a first-viewer narrative without advice tone."
     },
     {
       "id": "IDEA-003",
-      "status": "candidate",
+      "status": "promoted",
+      "promotedTaskId": "EVOLVE-003",
       "title": "Strengthen state feedback across the dashboard",
       "hypothesis": "More deliberate loading, saving, empty, and error feedback could make the product feel more dependable in a live demo.",
       "scores": {
-        "userImpact": 3,
-        "presentationValue": 3,
-        "evidence": 3,
+        "userImpact": 4,
+        "presentationValue": 4,
+        "evidence": 4,
         "risk": 2,
         "productFit": 5
       },
       "source": "Initial post-MVP product-evolution seed",
-      "notes": "Partial coverage exists; reassess after EVOLVE-001."
+      "notes": "Promoted to EVOLVE-003: RELEASE_READINESS still cites helpful empty/loading/error states as required for credible experience."
     }
   ]
 }

@@ -26,3 +26,10 @@ For every entry, record:
 - **Safeguard added:** CSS-only accessible category bars (`role="meter"`), integer share helper unit tests, stacked mobile meta so amount/share stay visible, and Playwright desktop/mobile screenshot plus bounding-box assertions.
 - **Enforced by:** `apps/web/src/CategoryBreakdown.tsx`, `categoryShare.test.ts`, `e2e/category-visualization.spec.ts`, `npm run validate`.
 - **Scope:** presentation clarity within the mock-finance envelope; no domain formula changes.
+
+### EVOLVE-002 — first-use demo guidance
+
+- **Observed evidence:** first-time viewers lacked an explicit mock-data / workflow narrative required by release-readiness product clarity.
+- **Safeguard added:** dismissible DemoGuide with factual mock/goal/discretionary copy and Playwright assert of dismiss persistence.
+- **Enforced by:** `apps/web/src/DemoGuide.tsx`, `e2e/first-use-guide.spec.ts`, `npm run validate`.
+- **Scope:** presentation/onboarding only; no finance math changes.

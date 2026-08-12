@@ -5,31 +5,31 @@
     "status": "approved",
     "approvedAt": "2026-08-11T14:41:14Z"
   },
-  "currentTaskId": "EVOLVE-001",
+  "currentTaskId": "EVOLVE-003",
   "currentPlan": [
-    "Mark EVOLVE-001 done after verifier PASS.",
-    "Reassess release readiness; promote IDEA-002 first-use guidance next."
+    "Strengthen loading/empty/error and goal-save feedback across panels.",
+    "Add Playwright evidence; validate; verify; reassess release readiness."
   ],
-  "iteration": 14,
+  "iteration": 16,
   "consecutiveFailures": 0,
   "strategyCount": 0,
   "lastFailure": null,
   "lastValidation": {
     "command": "npm run validate",
     "result": "pass",
-    "at": "2026-08-12T08:55:00Z"
+    "at": "2026-08-12T09:02:00Z"
   },
   "lastVerifier": {
     "result": "pass",
-    "at": "2026-08-12T08:56:00Z",
-    "notes": "PASS after mobile amount/share visibility fix; API-only shares; screenshots show $ and % on desktop and mobile."
+    "at": "2026-08-12T09:04:00Z",
+    "notes": "EVOLVE-002 PASS: dismissible non-advice demo guide with persistent dismiss."
   },
   "blocker": null,
   "completedAt": null,
   "autonomyMode": "product_evolution",
   "releaseReadiness": {
     "status": "in_progress",
-    "summary": "EVOLVE-001 landed category viz. Gate still needs stronger first-use narrative and deliberate loading/empty/error feedback (IDEA-002/003)."
+    "summary": "Building EVOLVE-003 deliberate loading/empty/error feedback for credible experience gate."
   },
   "hookPolicy": {
     "maxFollowupsPerRun": 12,
@@ -37,6 +37,8 @@
   },
   "evidence": [
     ".agent/evidence/EVOLVE-001/desktop-categories.png",
-    ".agent/evidence/EVOLVE-001/mobile-categories.png"
+    ".agent/evidence/EVOLVE-001/mobile-categories.png",
+    ".agent/evidence/EVOLVE-002/desktop-guide.png",
+    ".agent/evidence/EVOLVE-002/mobile-guide.png"
   ]
 }

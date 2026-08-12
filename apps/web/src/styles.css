@@ -80,6 +80,55 @@ input {
   color: var(--muted);
 }
 
+.demo-guide {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.05rem 1.15rem 1.15rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(10, 132, 255, 0.28);
+  background: linear-gradient(180deg, rgba(10, 132, 255, 0.1) 0%, rgba(255, 255, 255, 0.72) 70%);
+  box-shadow: var(--shadow);
+}
+
+.demo-guide-copy {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.demo-guide-steps {
+  margin: 0.55rem 0 0;
+  padding-left: 1.15rem;
+  color: var(--ink);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.demo-guide-steps li + li {
+  margin-top: 0.35rem;
+}
+
+.demo-guide-dismiss {
+  flex: 0 0 auto;
+  min-height: 44px;
+  min-width: 5.5rem;
+  padding: 0.55rem 1rem;
+  border: 0;
+  border-radius: 12px;
+  background: var(--action);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.demo-guide-dismiss:focus-visible {
+  outline: 3px solid rgba(10, 132, 255, 0.45);
+  outline-offset: 2px;
+}
+
 .overview {
   display: grid;
   gap: 1rem;
