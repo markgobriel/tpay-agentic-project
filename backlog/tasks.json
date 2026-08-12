@@ -231,6 +231,23 @@
         "EVOLVE-004"
       ],
       "notes": "Completed UX-001 from USABILITY-AUDIT-001/IDEA-008: calc-month labels, mismatch banner + Show pace month, honest gap>0 empty-cut copy, secondary Got it / primary Save goal, money helpers. Evidence .agent/evidence/UX-001/; npm run validate PASS; verifier PASS after EVOLVE-004 restore + August empty-cut mock."
+    },
+    {
+      "id": "UX-002",
+      "priority": 150,
+      "status": "done",
+      "title": "Show plain-language dollar explanations for cut suggestions",
+      "acceptanceCriteria": [
+        "Cut suggestion lines do not display the words 'minor units' or raw minor-unit integers in user-visible explanation text.",
+        "Each recommendation explanation uses plain language and the same currency formatting as the visible cut amounts (presentation-only from existing API minor fields).",
+        "Category names in recommendation headings are humanized (spaces, not underscores) without changing category ids used for logic/tests.",
+        "Desktop and mobile Playwright flows assert the plain-language copy with a behind-pace goal that yields discretionary cuts, capture screenshots, and check console/network/overflow; npm run validate passes; read-only verifier reviews evidence."
+      ],
+      "browserValidation": true,
+      "dependsOn": [
+        "UX-001"
+      ],
+      "notes": "Completed UX-002: presentation recommendationCopy helper; no minor-units in UI; e2e evidence; validate+verifier PASS."
     }
   ]
 }

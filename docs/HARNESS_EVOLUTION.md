@@ -55,6 +55,13 @@ For every entry, record:
 - **Enforced by:** `apps/web/src/App.tsx`, `SavingsGoalPanel.tsx`, `RecommendationsPanel.tsx`, `DemoGuide.tsx`, `formatYearMonth.ts`, `e2e/ux-001-pace-month.spec.ts`, `eslint.config.js`, `npm run validate`.
 - **Scope:** Presentation and guidance only; no domain formula or API contract changes.
 
+### UX-002 — plain-language recommendation explanations
+
+- **Observed evidence:** UX-001 self-review and recommendation screenshots showed user-visible “4500 minor units” domain strings beside already-formatted dollar cut amounts.
+- **Safeguard added:** Presentation helper builds currency explanations from existing API minor fields; Playwright asserts no “minor units” / raw minor integers in visible copy.
+- **Enforced by:** `apps/web/src/recommendationCopy.ts`, `recommendationCopy.test.ts`, `RecommendationsPanel.tsx`, `e2e/ux-002-recommendation-copy.spec.ts`, `npm run validate`.
+- **Scope:** Presentation copy only; recommendation math and API payloads unchanged.
+
 ### Live-preview continuity
 
 - **Observed evidence:** `scripts/e2e.sh` killed the same API/web ports and reset the same database used by the human's live preview, making the app disappear during autonomous validation.

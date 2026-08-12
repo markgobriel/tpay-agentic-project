@@ -9,8 +9,8 @@
     "productFit": "Must remain within docs/PRODUCT_EVOLUTION.md."
   },
   "lastDiscovery": {
-    "at": "2026-08-12T09:45:00Z",
-    "summary": "Novice audit USABILITY-AUDIT-001: HIGH month mismatch + false 'no cuts needed' copy; MEDIUM dual primary CTAs and missing money helpers. Promoted IDEA-008 to UX-001."
+    "at": "2026-08-12T10:00:00Z",
+    "summary": "Post-UX-001 audit: HIGH minor-units jargon in cut explanations; MEDIUM unscoped transaction history. Promoting IDEA-011 as UX-002."
   },
   "candidates": [
     {
@@ -168,6 +168,37 @@
       },
       "source": "USABILITY-AUDIT-001",
       "notes": "Presentation-only; defer until month/empty-state clarity ships."
+    },
+    {
+      "id": "IDEA-011",
+      "status": "promoted",
+      "promotedTaskId": "UX-002",
+      "title": "Replace minor-units jargon in cut suggestion explanations",
+      "hypothesis": "Novices cannot parse '4500 minor units'; plain-language dollar explanations matching visible cut amounts will make recommendations understandable.",
+      "scores": {
+        "userImpact": 5,
+        "presentationValue": 5,
+        "evidence": 5,
+        "risk": 1,
+        "productFit": 5
+      },
+      "source": "UX-001 self-review + live recommendation copy",
+      "notes": "Presentation-layer formatting of already-returned minor amounts; no formula change."
+    },
+    {
+      "id": "IDEA-012",
+      "status": "candidate",
+      "title": "Scope or label transaction history relative to selected month",
+      "hypothesis": "When Monthly position is empty for August but the table still lists July rows, users think activity belongs to the selected month.",
+      "scores": {
+        "userImpact": 4,
+        "presentationValue": 3,
+        "evidence": 4,
+        "risk": 2,
+        "productFit": 5
+      },
+      "source": "UX-001 self-review",
+      "notes": "Follow-up after UX-002."
     }
   ]
 }

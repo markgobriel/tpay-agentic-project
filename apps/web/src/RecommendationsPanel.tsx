@@ -4,6 +4,7 @@ import { fetchRecommendations } from "./api.js";
 import { formatMinorAsCurrency } from "./formatMoney.js";
 import { formatYearMonthLabel } from "./formatYearMonth.js";
 import { PanelMessage } from "./PanelMessage.js";
+import { formatRecommendationExplanation, humanizeCategoryLabel } from "./recommendationCopy.js";
 
 export interface RecommendationsPanelProps {
   currencyCode?: string;
@@ -123,16 +124,20 @@ export function RecommendationsPanel({
                 <li key={line.category}>
                   <div className="rec-line-head">
                     <strong>
-                      #{line.priority} {line.category}
+                      #{line.priority} {humanizeCategoryLabel(line.category)}
                     </strong>
                     <span data-testid={`rec-cut-${line.category}`}>
                       Cut {formatMinorAsCurrency(line.proposedReductionMinor, currencyCode)}
                     </span>
                   </div>
-                  <p className="muted">
-                    {formatMinorAsCurrency(line.currentSpendingMinor, currencyCode)} →{" "}
-                    {formatMinorAsCurrency(line.spendingAfterReductionMinor, currencyCode)}.{" "}
-                    {line.explanation}
+                  <p className="muted" data-testid={`rec-explain-${line.category}`}>
+                    {formatRecommendationExplanation(
+                      line.category,
+                      line.proposedReductionMinor,
+                      line.currentSpendingMinor,
+                      line.spendingAfterReductionMinor,
+                      currencyCode,
+                    )}
                   </p>
                 </li>
               ))}
