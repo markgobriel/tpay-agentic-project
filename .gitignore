@@ -11,6 +11,7 @@ test-results/
 !.env.example
 .agent/logs/
 .agent/evidence/
+.agent/*.pid
 *.db
 *.db-journal
 packages/db/dev.db*
