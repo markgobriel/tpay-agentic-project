@@ -38,3 +38,12 @@ For the visual/UX task and every later user-facing change, validate as a real us
 6. capture reproducible Playwright evidence and screenshots before declaring the work complete.
 
 The read-only verifier must compare screenshots and behavior against this document, not merely check that the app renders.
+
+## Control and content clarity
+
+- A first-time user must be able to distinguish buttons, editable fields, labels, helper text, values, status messages, and ordinary prose without relying on trial and error.
+- Primary buttons require a consistent filled treatment and action-oriented label; secondary actions require a consistent quieter treatment. Do not style static content like an action.
+- Inputs require persistent visible labels, clear boundaries, adequate internal spacing, visible focus, and nearby format/validation guidance. Placeholder text must not substitute for a label.
+- Button and field copy must describe the result in plain language. Avoid ambiguous labels such as “Submit,” unexplained abbreviations, and financial jargon where a clearer phrase exists.
+- Related labels, controls, errors, and helper text must remain visually grouped at desktop and mobile widths. Error styling must not rely on color alone.
+- Use `docs/USABILITY_LOOP.md` for repeated novice-user critique, task generation, evidence comparison, and the stricter completion standard.

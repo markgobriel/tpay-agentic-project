@@ -9,8 +9,8 @@
     "productFit": "Must remain within docs/PRODUCT_EVOLUTION.md."
   },
   "lastDiscovery": {
-    "at": "2026-08-12T09:20:00Z",
-    "summary": "After EVOLVE-003, seeded idea pool was exhausted. Replenished with operational docs (promoted), optional behind-pace demo seed, and a11y focus polish candidates. Gate still open on operational readiness."
+    "at": "2026-08-12T09:45:00Z",
+    "summary": "Novice audit USABILITY-AUDIT-001: HIGH month mismatch + false 'no cuts needed' copy; MEDIUM dual primary CTAs and missing money helpers. Promoted IDEA-008 to UX-001."
   },
   "candidates": [
     {
@@ -79,7 +79,7 @@
     },
     {
       "id": "IDEA-005",
-      "status": "deferred",
+      "status": "candidate",
       "title": "Make discretionary cut suggestions visible in the default demo path",
       "hypothesis": "Default on-pace seed hides the recommendation list; a documented or seeded behind-pace path could make that MVP capability easier to demo.",
       "scores": {
@@ -94,7 +94,7 @@
     },
     {
       "id": "IDEA-006",
-      "status": "deferred",
+      "status": "candidate",
       "title": "Polish focus order across new guide and retry controls",
       "hypothesis": "Explicit focus-visible and logical tab order on DemoGuide and Retry controls would strengthen accessibility evidence.",
       "scores": {
@@ -105,7 +105,69 @@
         "productFit": 5
       },
       "source": "Post-EVOLVE-003 discovery",
-      "notes": "Deferred: optional polish; not required for presentation-ready release per final verifier."
+      "notes": "Reopened; tab-order quirks on native month/date still observed in USABILITY-AUDIT-001."
+    },
+    {
+      "id": "IDEA-007",
+      "status": "promoted",
+      "title": "Audit and strengthen control, label, and content distinction",
+      "hypothesis": "A systematic novice-user audit can reveal ambiguous buttons, inputs, labels, helper text, hierarchy, and guidance that functional tests alone did not catch.",
+      "scores": {
+        "userImpact": 5,
+        "presentationValue": 5,
+        "evidence": 5,
+        "risk": 2,
+        "productFit": 5
+      },
+      "source": "Human-directed autonomous usability mission, 2026-08-12",
+      "notes": "Refined into UX-001 after live audit evidence (month clarity + empty-state honesty + CTA hierarchy).",
+      "promotedTaskId": "UX-001"
+    },
+    {
+      "id": "IDEA-008",
+      "status": "promoted",
+      "promotedTaskId": "UX-001",
+      "title": "Name the pace/recommendation month and fix false empty-cut copy",
+      "hypothesis": "Surfacing analyticsYearMonth and honest empty-gap messaging removes the July-vs-pace contradiction that blocks first-use comprehension.",
+      "scores": {
+        "userImpact": 5,
+        "presentationValue": 5,
+        "evidence": 5,
+        "risk": 2,
+        "productFit": 5
+      },
+      "source": "USABILITY-AUDIT-001",
+      "notes": "Promoted as UX-001."
+    },
+    {
+      "id": "IDEA-009",
+      "status": "candidate",
+      "title": "Field-adjacent goal validation and stronger input affordances",
+      "hypothesis": "Moving errors next to fields and strengthening input borders would reduce trial-and-error on goal edit.",
+      "scores": {
+        "userImpact": 4,
+        "presentationValue": 3,
+        "evidence": 4,
+        "risk": 2,
+        "productFit": 5
+      },
+      "source": "USABILITY-AUDIT-001",
+      "notes": "Follow-up after UX-001 if still medium severity."
+    },
+    {
+      "id": "IDEA-010",
+      "status": "candidate",
+      "title": "Distinguish essential vs discretionary in category breakdown",
+      "hypothesis": "Quiet visual distinction could connect category bars to recommendation eligibility without new math.",
+      "scores": {
+        "userImpact": 3,
+        "presentationValue": 4,
+        "evidence": 3,
+        "risk": 2,
+        "productFit": 5
+      },
+      "source": "USABILITY-AUDIT-001",
+      "notes": "Presentation-only; defer until month/empty-state clarity ships."
     }
   ]
 }

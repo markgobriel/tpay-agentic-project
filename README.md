@@ -72,11 +72,14 @@ npm run dev -w @save-and-spend/web
 
 Open the Vite URL printed in the web terminal (typically `http://127.0.0.1:5173`).
 
+For a continuously supervised live preview while the autonomous agent works, run `npm run preview:live`. The supervisor keeps the API on port 3001 and the hot-reloading web app on port 5173, restarting either if it is interrupted. Automated browser tests use isolated ports and an isolated test database, so they do not intentionally stop or reset the live preview.
+
 ### Demo tips
 
 - Data is **seeded mock finance only** (one Everyday Checking account, July 2026 activity, one Emergency Fund goal).
 - The dismissible **Demo walkthrough** explains the mock workflow; it is not financial advice.
-- Default seed is on-pace for the Emergency Fund. To see **discretionary cut suggestions**, raise the goal target or lower current saved until a savings gap appears, then save—the recommendations panel refreshes from the same rule-based engine (essentials are never cut).
+- Goal pace and cut suggestions use a **calculation month** (from `CALCULATION_DATE`, or today when unset). The dashboard month picker can differ—if it does, the UI explains the mismatch and offers to align Monthly position.
+- Default seed is on-pace for the Emergency Fund when `CALCULATION_DATE=2026-07-15…`. To see **discretionary cut suggestions**, raise the goal target or lower current saved until a savings gap appears, then save—the recommendations panel refreshes from the same rule-based engine (essentials are never cut). A gap with **$0 proposed cuts** means that calculation month has no discretionary spend to reduce, not that the gap is closed.
 
 ## Validation
 

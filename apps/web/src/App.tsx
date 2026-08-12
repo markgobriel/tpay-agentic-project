@@ -8,6 +8,7 @@ import { fetchAccount, fetchMonthlyAnalytics, fetchTransactions } from "./api.js
 import { CategoryBreakdown } from "./CategoryBreakdown.js";
 import { DemoGuide } from "./DemoGuide.js";
 import { formatMinorAsCurrency } from "./formatMoney.js";
+import { formatYearMonthLabel } from "./formatYearMonth.js";
 import { PanelMessage } from "./PanelMessage.js";
 import { RecommendationsPanel } from "./RecommendationsPanel.js";
 import { SavingsGoalPanel } from "./SavingsGoalPanel.js";
@@ -16,6 +17,7 @@ const DEFAULT_MONTH = "2026-07";
 
 export function App() {
   const [month, setMonth] = useState(DEFAULT_MONTH);
+  const [paceMonth, setPaceMonth] = useState<string | null>(null);
   const [account, setAccount] = useState<AccountResponse | null>(null);
   const [analytics, setAnalytics] = useState<MonthlyAnalyticsResponse | null>(null);
   const [transactions, setTransactions] = useState<TransactionResponse[]>([]);
@@ -27,6 +29,16 @@ export function App() {
   const retryDashboard = useCallback(() => {
     setReloadToken((value) => value + 1);
   }, []);
+
+  const handlePaceMonthChange = useCallback((yearMonth: string) => {
+    setPaceMonth(yearMonth);
+  }, []);
+
+  const showPaceMonth = useCallback(() => {
+    if (paceMonth) {
+      setMonth(paceMonth);
+    }
+  }, [paceMonth]);
 
   useEffect(() => {
     let cancelled = false;
@@ -60,6 +72,8 @@ export function App() {
     };
   }, [month, reloadToken]);
 
+  const monthMismatch = paceMonth !== null && paceMonth !== month;
+
   return (
     <main className="shell" data-testid="app-shell">
       <header className="hero">
@@ -77,7 +91,7 @@ export function App() {
       {error ? (
         <div className="feedback-banner" data-testid="dashboard-error">
           <PanelMessage tone="error">{error}</PanelMessage>
-          <button type="button" className="retry-button" onClick={retryDashboard}>
+          <button type="button" className="secondary-button" onClick={retryDashboard}>
             Retry
           </button>
         </div>
@@ -155,9 +169,28 @@ export function App() {
         </section>
       </section>
 
+      {monthMismatch && paceMonth ? (
+        <div className="mismatch-banner" data-testid="month-mismatch" role="status">
+          <p>
+            Goal pace and cut suggestions use <strong>{formatYearMonthLabel(paceMonth)}</strong>{" "}
+            spending. Monthly position above currently shows{" "}
+            <strong>{formatYearMonthLabel(month)}</strong>.
+          </p>
+          <button
+            type="button"
+            className="secondary-button"
+            data-testid="show-pace-month"
+            onClick={showPaceMonth}
+          >
+            Show {formatYearMonthLabel(paceMonth)} in monthly position
+          </button>
+        </div>
+      ) : null}
+
       <SavingsGoalPanel
         currencyCode={account?.currencyCode ?? "USD"}
         onGoalSaved={() => setRecommendationsRefreshKey((value) => value + 1)}
+        onPaceMonthChange={handlePaceMonthChange}
       />
 
       <RecommendationsPanel

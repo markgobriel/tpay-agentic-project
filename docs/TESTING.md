@@ -28,6 +28,8 @@ During Harness v1, only the structure and state checks exist. Product tasks may 
 
 Every user-facing task requires a browser validation pass before completion. Automated Playwright coverage is required for the primary flow and regression-prone behavior. The agent must inspect console errors and failed network requests; a visually rendered screen with an API failure is not a pass.
 
+Visual/UX work additionally requires screenshot evidence at both desktop and mobile sizes, keyboard/focus checks, and review against `docs/EXPERIENCE.md`. A passing DOM assertion alone is not visual validation.
+
 ## Test integrity
 
 - Test expected outcomes, boundary cases, invalid inputs, and the permanent rules in `DOMAIN_RULES.md`.

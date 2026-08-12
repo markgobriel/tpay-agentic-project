@@ -41,5 +41,15 @@ export default tseslint.config(
       globals: globals.node,
     },
   },
+  {
+    // One-shot Playwright audits embed browser evaluate callbacks in Node scripts.
+    files: ["scripts/usability-audit.mjs", "scripts/browser-*.mjs"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.browser,
+      },
+    },
+  },
   eslintConfigPrettier,
 );

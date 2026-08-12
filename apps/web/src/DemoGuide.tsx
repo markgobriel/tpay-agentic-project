@@ -30,18 +30,20 @@ export function DemoGuide() {
             bars.
           </li>
           <li>
-            Edit the savings goal to see required monthly savings and on-pace status update from the
-            same rules.
+            Edit the savings goal to see required monthly savings and on-pace status. Pace uses a
+            specific calculation month—check the label under Savings goal if it differs from the
+            month picker.
           </li>
           <li>
-            Check discretionary cut suggestions only when a savings gap exists—essentials are never
-            recommended for cuts. This is explainable mock math, not personal financial advice.
+            Cut suggestions only appear when that calculation month has discretionary spending to
+            reduce. A savings gap with $0 cuts means essentials-only or empty-month spending, not
+            that the gap is gone. This is explainable mock math, not personal financial advice.
           </li>
         </ol>
       </div>
       <button
         type="button"
-        className="demo-guide-dismiss"
+        className="secondary-button demo-guide-dismiss"
         data-testid="demo-guide-dismiss"
         onClick={() => {
           try {

@@ -31,13 +31,18 @@ try {
   const backlog = readJson("backlog/tasks.json");
   const unfinished = backlog.tasks.some((task) => ["todo", "in_progress"].includes(task.status));
   const validationFailed = state.lastValidation?.status === "failed";
+  const discoveryNeeded =
+    state.projectStatus === "active" &&
+    ["product_evolution", "usability_evolution"].includes(state.autonomyMode) &&
+    !unfinished &&
+    !validationFailed;
   const stoppedForSafety = ["awaiting_initial_review", "blocked", "complete"].includes(
     state.projectStatus,
   );
   const loopCount = Number(input.loop_count ?? 0);
   const maxHookFollowups = Number(state.hookPolicy?.maxFollowupsPerRun ?? 12);
 
-  if (stoppedForSafety || (!unfinished && !validationFailed)) {
+  if (stoppedForSafety) {
     emit({});
   } else if (loopCount >= maxHookFollowups) {
     emit({
@@ -46,8 +51,9 @@ try {
     });
   } else {
     emit({
-      followup_message:
-        "Continue the autonomous loop now: read state/backlog, take the highest-priority unblocked task or repair failing validation, run required tests and browser checks, obtain a read-only verifier review, update evidence/state, then proceed. Do not stop while work remains.",
+      followup_message: discoveryNeeded
+        ? "The backlog is empty, so begin the next autonomous product and usability discovery cycle now. Follow docs/USABILITY_LOOP.md: operate the app as a novice, write an evidence-backed self-critique, replenish and score the idea pool, promote the strongest in-scope issue into a testable task, then build, validate, browser-test, compare screenshots, independently verify, fix, commit, and repeat. Do not wait for a human to supply tasks. Mark complete only after the full release-readiness gate and two consecutive clean usability audits pass."
+        : "Continue the autonomous loop now: read state/backlog, take the highest-priority unblocked task or repair failing validation, run required tests and browser checks, obtain a read-only verifier review, update evidence/state, then proceed. Do not stop while work remains.",
     });
   }
 } catch (error) {

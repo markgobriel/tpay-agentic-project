@@ -2,12 +2,21 @@ import { useEffect, useState } from "react";
 import type { RecommendationsResponse } from "@save-and-spend/contracts";
 import { fetchRecommendations } from "./api.js";
 import { formatMinorAsCurrency } from "./formatMoney.js";
+import { formatYearMonthLabel } from "./formatYearMonth.js";
 import { PanelMessage } from "./PanelMessage.js";
 
 export interface RecommendationsPanelProps {
   currencyCode?: string;
   /** Bump to reload after goal changes. */
   refreshKey?: number;
+}
+
+function emptyRecommendationsMessage(plan: RecommendationsResponse): string {
+  if (plan.savingsGapMinor <= 0) {
+    return "No discretionary cuts needed for the current gap.";
+  }
+  const monthLabel = formatYearMonthLabel(plan.analyticsYearMonth);
+  return `A savings gap remains, but ${monthLabel} has no discretionary spending available to cut. The unresolved gap stays until that month has discretionary spend or the goal changes.`;
 }
 
 export function RecommendationsPanel({
@@ -63,7 +72,7 @@ export function RecommendationsPanel({
           </PanelMessage>
           <button
             type="button"
-            className="retry-button"
+            className="secondary-button"
             data-testid="recommendations-retry"
             onClick={() => setReloadToken((value) => value + 1)}
           >
@@ -74,6 +83,9 @@ export function RecommendationsPanel({
 
       {plan ? (
         <div data-testid="recommendations-panel">
+          <p className="calc-month" data-testid="rec-calc-month">
+            Suggestions use {formatYearMonthLabel(plan.analyticsYearMonth)} discretionary spending.
+          </p>
           <dl className="metrics rec-metrics">
             <div>
               <dt>Savings gap</dt>
@@ -103,7 +115,7 @@ export function RecommendationsPanel({
 
           {plan.recommendations.length === 0 ? (
             <PanelMessage tone="empty" testId="rec-empty">
-              No discretionary cuts needed for the current gap.
+              {emptyRecommendationsMessage(plan)}
             </PanelMessage>
           ) : (
             <ol className="recommendation-list" data-testid="rec-list">

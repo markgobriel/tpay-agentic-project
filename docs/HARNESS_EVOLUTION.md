@@ -47,3 +47,17 @@ For every entry, record:
 - **Safeguard added:** README Local run + demo tips; `.env.example` documents mock-only DATABASE_URL and optional CALCULATION_DATE.
 - **Enforced by:** `README.md`, `.env.example`, release-readiness verifier review.
 - **Scope:** operational documentation only; no product math changes.
+
+### UX-001 — pace-month clarity and honest empty-cut copy
+
+- **Observed evidence:** Novice audit `USABILITY-AUDIT-001` showed July monthly savings beside Behind-pace/$12,200 gap figures driven by an unnamed August `analyticsYearMonth`, plus copy claiming “No discretionary cuts needed” while the unresolved gap remained.
+- **Safeguard added:** Plain-language calculation-month labels, mismatch banner with one-click month align, gap>0 empty-recommendation honesty, secondary Got it / primary Save goal hierarchy, money format helper, Playwright regression coverage, and eslint browser globals for one-shot audit scripts.
+- **Enforced by:** `apps/web/src/App.tsx`, `SavingsGoalPanel.tsx`, `RecommendationsPanel.tsx`, `DemoGuide.tsx`, `formatYearMonth.ts`, `e2e/ux-001-pace-month.spec.ts`, `eslint.config.js`, `npm run validate`.
+- **Scope:** Presentation and guidance only; no domain formula or API contract changes.
+
+### Live-preview continuity
+
+- **Observed evidence:** `scripts/e2e.sh` killed the same API/web ports and reset the same database used by the human's live preview, making the app disappear during autonomous validation.
+- **Safeguard added:** supervised hot-reloading preview on ports 3001/5173 plus isolated E2E ports 3101/4173 and `.agent/test/e2e.db`.
+- **Enforced by:** `scripts/ensure-preview.sh`, `scripts/preview-supervisor.sh`, `scripts/run-autonomous.sh`, `scripts/e2e.sh`, and `apps/web/vite.config.ts`.
+- **Scope:** local development observability and test isolation only; no product or financial behavior changes.

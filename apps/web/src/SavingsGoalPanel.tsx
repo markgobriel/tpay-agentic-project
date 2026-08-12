@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import type { SavingsGoalResponse } from "@save-and-spend/contracts";
 import { fetchSavingsGoal, upsertSavingsGoal } from "./api.js";
 import { formatMinorAsCurrency } from "./formatMoney.js";
+import { formatYearMonthLabel } from "./formatYearMonth.js";
 import { minorToMajorInput, parseMajorCurrencyToMinor } from "./moneyInput.js";
 import { PanelMessage } from "./PanelMessage.js";
 
@@ -16,9 +17,15 @@ function toTargetDateIso(dateInput: string): string {
 export interface SavingsGoalPanelProps {
   currencyCode?: string;
   onGoalSaved?: () => void;
+  /** Notifies the dashboard which UTC month the pace math uses. */
+  onPaceMonthChange?: (yearMonth: string) => void;
 }
 
-export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsGoalPanelProps) {
+export function SavingsGoalPanel({
+  currencyCode = "USD",
+  onGoalSaved,
+  onPaceMonthChange,
+}: SavingsGoalPanelProps) {
   const [goal, setGoal] = useState<SavingsGoalResponse | null>(null);
   const [name, setName] = useState("");
   const [targetAmount, setTargetAmount] = useState("");
@@ -43,6 +50,7 @@ export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsG
         setTargetAmount(minorToMajorInput(response.targetAmountMinor));
         setCurrentSaved(minorToMajorInput(response.currentSavedMinor));
         setTargetDate(toDateInputValue(response.targetDate));
+        onPaceMonthChange?.(response.analyticsYearMonth);
       } catch (err) {
         if (cancelled) return;
         setGoal(null);
@@ -54,7 +62,7 @@ export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsG
     return () => {
       cancelled = true;
     };
-  }, [reloadToken]);
+  }, [reloadToken, onPaceMonthChange]);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
@@ -95,6 +103,7 @@ export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsG
       setCurrentSaved(minorToMajorInput(updated.currentSavedMinor));
       setTargetDate(toDateInputValue(updated.targetDate));
       setStatusMessage("Savings goal saved.");
+      onPaceMonthChange?.(updated.analyticsYearMonth);
       onGoalSaved?.();
     } catch (err) {
       setStatusMessage(null);
@@ -123,7 +132,7 @@ export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsG
           {!saving ? (
             <button
               type="button"
-              className="retry-button"
+              className="secondary-button"
               data-testid="goal-retry"
               onClick={() => setReloadToken((value) => value + 1)}
             >
@@ -145,37 +154,43 @@ export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsG
       ) : null}
 
       {goal ? (
-        <dl className="metrics goal-metrics" data-testid="goal-pace">
-          <div>
-            <dt>Current saved</dt>
-            <dd className="money" data-testid="goal-current-saved">
-              {formatMinorAsCurrency(goal.currentSavedMinor, currencyCode)}
-            </dd>
-          </div>
-          <div>
-            <dt>Required monthly</dt>
-            <dd className="money" data-testid="goal-required-monthly">
-              {formatMinorAsCurrency(goal.requiredMonthlySavingsMinor, currencyCode)}
-            </dd>
-          </div>
-          <div>
-            <dt>Savings gap</dt>
-            <dd className="money" data-testid="goal-gap">
-              {formatMinorAsCurrency(goal.savingsGapMinor, currencyCode)}
-            </dd>
-          </div>
-          <div>
-            <dt>Pace</dt>
-            <dd>
-              <span
-                className={`pace-pill ${goal.onPace ? "on-pace" : "behind-pace"}`}
-                data-testid="goal-on-pace"
-              >
-                {goal.onPace ? "On pace" : "Behind pace"}
-              </span>
-            </dd>
-          </div>
-        </dl>
+        <>
+          <p className="calc-month" data-testid="goal-calc-month">
+            Pace uses {formatYearMonthLabel(goal.analyticsYearMonth)} spending (this month&apos;s
+            savings versus what the goal needs each month).
+          </p>
+          <dl className="metrics goal-metrics" data-testid="goal-pace">
+            <div>
+              <dt>Current saved</dt>
+              <dd className="money" data-testid="goal-current-saved">
+                {formatMinorAsCurrency(goal.currentSavedMinor, currencyCode)}
+              </dd>
+            </div>
+            <div>
+              <dt>Required monthly</dt>
+              <dd className="money" data-testid="goal-required-monthly">
+                {formatMinorAsCurrency(goal.requiredMonthlySavingsMinor, currencyCode)}
+              </dd>
+            </div>
+            <div>
+              <dt>Savings gap</dt>
+              <dd className="money" data-testid="goal-gap">
+                {formatMinorAsCurrency(goal.savingsGapMinor, currencyCode)}
+              </dd>
+            </div>
+            <div>
+              <dt>Pace</dt>
+              <dd>
+                <span
+                  className={`pace-pill ${goal.onPace ? "on-pace" : "behind-pace"}`}
+                  data-testid="goal-on-pace"
+                >
+                  {goal.onPace ? "On pace" : "Behind pace"}
+                </span>
+              </dd>
+            </div>
+          </dl>
+        </>
       ) : null}
 
       <form className="goal-form" onSubmit={(event) => void onSubmit(event)} noValidate>
@@ -196,6 +211,7 @@ export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsG
             inputMode="decimal"
             value={targetAmount}
             onChange={(event) => setTargetAmount(event.target.value)}
+            aria-describedby="goal-amount-help"
             required
           />
         </label>
@@ -206,9 +222,13 @@ export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsG
             inputMode="decimal"
             value={currentSaved}
             onChange={(event) => setCurrentSaved(event.target.value)}
+            aria-describedby="goal-amount-help"
             required
           />
         </label>
+        <p id="goal-amount-help" className="field-help" data-testid="goal-amount-help">
+          Enter dollars and cents, like 1200.00. Do not include a $ sign.
+        </p>
         <label>
           Target date
           <input
@@ -219,7 +239,12 @@ export function SavingsGoalPanel({ currencyCode = "USD", onGoalSaved }: SavingsG
             required
           />
         </label>
-        <button data-testid="goal-save-button" type="submit" disabled={saving || loading}>
+        <button
+          data-testid="goal-save-button"
+          className="primary-button"
+          type="submit"
+          disabled={saving || loading}
+        >
           {saving ? "Saving…" : "Save goal"}
         </button>
       </form>

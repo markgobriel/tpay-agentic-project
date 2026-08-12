@@ -24,6 +24,8 @@ After every completed task, reassess the product and release-readiness evidence.
 5. Run the normal plan → build → test → browser-as-user → verifier → fix → harness-evolution loop.
 6. Repeat until the release-readiness gate passes.
 
+For user-facing work, the discovery and completion cycle must also satisfy `docs/USABILITY_LOOP.md`. A prior presentation-ready decision does not override newly observed usability evidence or a new human-directed usability mission.
+
 The human does not supply routine tasks. Each task completion must lead to the next ready task, a newly promoted agent-authored task, or a defensible `complete` decision backed by the full release-readiness gate. The loop may not stop merely because `backlog/tasks.json` or `backlog/ideas.json` is temporarily empty.
 
 Do not add features merely to increase feature count. Prefer changes that make the financial story clearer, the workflow easier, the UI more coherent, or the product more credible in a demo.

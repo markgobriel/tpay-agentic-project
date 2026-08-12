@@ -1,5 +1,5 @@
 ---
-description: TPay autonomous development and review-gate rules
+description: Save & Spend autonomous development and review-gate rules
 alwaysApply: true
 ---
 
@@ -7,8 +7,12 @@ Read `AGENTS.md` before doing any work. Treat it as the governing contract.
 
 Read `.agent/state.json` and `backlog/tasks.json` at the beginning and end of every turn. If projectStatus is `awaiting_initial_review`, do not implement product code; only answer review questions or improve the harness if explicitly asked.
 
-When projectStatus is `active`, follow the complete autonomous loop in `AGENTS.md`. Select the highest-priority task that is todo and unblocked. Do not stop after a single feature: plan, build, test, browser-validate where required, request a read-only verifier subagent, fix findings, update state, commit, and continue.
+When projectStatus is `active`, follow the complete autonomous loop in `AGENTS.md`. Select the highest-priority task that is todo and unblocked. Do not stop after a single feature: plan, build, test, browser-validate where required, request a read-only verifier subagent, perform the mandatory harness-evolution audit, fix findings, update state, commit, and continue.
+
+When `autonomyMode` is `usability_evolution`, also follow `docs/USABILITY_LOOP.md`. Operate and critique the UI as a novice user, create the next evidence-backed task yourself, and repeat until two consecutive independent audits are clean. Do not wait for the human to identify tasks or accept vague self-praise as review evidence.
 
 Run `npm run validate` before marking any task done. Never claim success if it fails. Never weaken tests or documented constraints to pass validation.
 
-Only ask the human for a harness-level decision or a genuine blocker that has exhausted the documented retry policy. Record the blocker with reproducible evidence before stopping.
+Autonomously strengthen engineering constraints, tests, validation, observability, documentation, and agent rules whenever evidence supports it. Record every such change in `docs/HARNESS_EVOLUTION.md`. Do not change protected product policy or weaken a guardrail; those require a genuine human decision.
+
+Only ask the human for a protected product-policy decision or a genuine blocker that has exhausted the documented retry policy. Record the blocker with reproducible evidence before stopping.

@@ -29,6 +29,6 @@ Save & Spend is a web-based, mock personal-finance application for one bank acco
 4. User sees required monthly savings, projected goal status, and any gap.
 5. If a gap exists, the user sees reductions limited to discretionary categories and totaling enough to close the feasible portion of that gap.
 
-## Definition of done
+## Release-ready definition of done
 
-The MVP is complete only when every task in `backlog/tasks.json` is done, every acceptance criterion is covered by automated evidence, `npm run validate` passes, and the browser E2E flow demonstrates the core user flow without console or network errors.
+The initial MVP is a baseline, not the automatic stopping point. The product is ready to deploy only when every task in `backlog/tasks.json` is done, every acceptance criterion is covered by automated evidence, `npm run validate` passes, browser E2E demonstrates the core user flow without console or network errors, and the release-readiness gate in `docs/RELEASE_READINESS.md` passes.
