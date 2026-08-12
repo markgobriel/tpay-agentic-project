@@ -5,6 +5,7 @@ import type {
   TransactionResponse,
 } from "@save-and-spend/contracts";
 import { fetchAccount, fetchMonthlyAnalytics, fetchTransactions } from "./api.js";
+import { CategoryBreakdown } from "./CategoryBreakdown.js";
 import { formatMinorAsCurrency } from "./formatMoney.js";
 import { RecommendationsPanel } from "./RecommendationsPanel.js";
 import { SavingsGoalPanel } from "./SavingsGoalPanel.js";
@@ -142,16 +143,10 @@ export function App() {
             <h2 id="categories-heading" className="panel-title">
               Spending by category
             </h2>
-            <ul className="category-list">
-              {analytics.categorySpending.map((row) => (
-                <li key={row.category}>
-                  <span>{row.category.replaceAll("_", " ")}</span>
-                  <span className="money">
-                    {formatMinorAsCurrency(row.amountMinor, account?.currencyCode)}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <CategoryBreakdown
+              categories={analytics.categorySpending}
+              currencyCode={account?.currencyCode ?? "USD"}
+            />
           </section>
         ) : null}
 

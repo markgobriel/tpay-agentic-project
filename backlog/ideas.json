@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Agent-owned candidate ideas for autonomous product evolution. Candidates are not commitments until promoted to backlog/tasks.json with acceptance criteria and validation evidence.",
+  "scoring": {
+    "userImpact": "How much clearer, more useful, or easier the mock finance workflow becomes.",
+    "presentationValue": "How much the change improves a credible demo or portfolio presentation.",
+    "evidence": "Support from user-flow observation, browser checks, test gaps, or established UX quality criteria.",
+    "risk": "Implementation, regression, and scope risk; lower is better.",
+    "productFit": "Must remain within docs/PRODUCT_EVOLUTION.md."
+  },
+  "lastDiscovery": {
+    "at": "2026-08-12T08:37:00Z",
+    "summary": "Scored IDEA-001 highest for immediate monthly-story clarity in demos; promoted to EVOLVE-001. IDEA-002/003 remain candidates after visualization lands."
+  },
+  "candidates": [
+    {
+      "id": "IDEA-001",
+      "status": "promoted",
+      "promotedTaskId": "EVOLVE-001",
+      "title": "Clarify monthly spending patterns with an accessible visual breakdown",
+      "hypothesis": "A compact, accessible category visualization could make the monthly story more immediately understandable than a list alone.",
+      "scores": {
+        "userImpact": 5,
+        "presentationValue": 5,
+        "evidence": 4,
+        "risk": 2,
+        "productFit": 5
+      },
+      "source": "Initial post-MVP product-evolution seed",
+      "notes": "Promoted: list-only category section still requires scanning; CSS bars keep risk low."
+    },
+    {
+      "id": "IDEA-002",
+      "status": "candidate",
+      "title": "Improve first-use guidance and demo narrative",
+      "hypothesis": "Lightweight explanation of the mock account, goal workflow, and recommendation logic could reduce ambiguity for first-time viewers.",
+      "scores": {
+        "userImpact": 4,
+        "presentationValue": 5,
+        "evidence": 3,
+        "risk": 2,
+        "productFit": 5
+      },
+      "source": "Initial post-MVP product-evolution seed",
+      "notes": "Must not resemble financial advice or obscure the primary financial summary."
+    },
+    {
+      "id": "IDEA-003",
+      "status": "candidate",
+      "title": "Strengthen state feedback across the dashboard",
+      "hypothesis": "More deliberate loading, saving, empty, and error feedback could make the product feel more dependable in a live demo.",
+      "scores": {
+        "userImpact": 3,
+        "presentationValue": 3,
+        "evidence": 3,
+        "risk": 2,
+        "productFit": 5
+      },
+      "source": "Initial post-MVP product-evolution seed",
+      "notes": "Partial coverage exists; reassess after EVOLVE-001."
+    }
+  ]
+}

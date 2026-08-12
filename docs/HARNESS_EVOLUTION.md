@@ -20,9 +20,9 @@ For every entry, record:
 - **Enforced by:** `AGENTS.md`, `docs/*.md`, `backlog/tasks.json`, `.agent/state.json`, `scripts/validate.sh`, and `.cursor/hooks/continue-loop.mjs`.
 - **Scope:** defines the development process; it does not implement or change a product capability.
 
-### DESIGN-001 — experience evidence gate
+### EVOLVE-001 — category visualization evidence
 
-- **Observed evidence:** visual UX work can pass functional E2E without proving hierarchy, invalid-input paths, overflow, or screenshot evidence against `docs/EXPERIENCE.md`.
-- **Safeguard added:** dedicated Playwright experience suite with desktop/mobile screenshots, invalid/valid goal flows, focus and overflow checks; screenshots under `.agent/evidence/DESIGN-001/`.
-- **Enforced by:** `e2e/design-experience.spec.ts`, `docs/EXPERIENCE.md`, `npm run test:e2e` / `scripts/validate.sh`.
-- **Scope:** strengthens user-experience validation; does not change financial formulas or API contracts.
+- **Observed evidence:** the monthly spending story still relied on a flat list; demos needed a faster visual read without adding chart dependencies. An early mobile screenshot hid amount/share when meta stayed side-by-side.
+- **Safeguard added:** CSS-only accessible category bars (`role="meter"`), integer share helper unit tests, stacked mobile meta so amount/share stay visible, and Playwright desktop/mobile screenshot plus bounding-box assertions.
+- **Enforced by:** `apps/web/src/CategoryBreakdown.tsx`, `categoryShare.test.ts`, `e2e/category-visualization.spec.ts`, `npm run validate`.
+- **Scope:** presentation clarity within the mock-finance envelope; no domain formula changes.
