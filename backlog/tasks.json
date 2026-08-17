@@ -404,7 +404,7 @@
     {
       "id": "DEPLOY-001",
       "priority": 290,
-      "status": "in_progress",
+      "status": "done",
       "title": "Deploy the verified product to Vercel",
       "acceptanceCriteria": [
         "One Vercel project serves the production Vite build and the existing Express API under /api without changing local-development routes or financial behavior.",
@@ -415,7 +415,7 @@
       ],
       "browserValidation": true,
       "dependsOn": ["CODEX-010"],
-      "notes": "Reopened after the first Git-triggered clean-clone deployment exposed build ordering: apps/api compiled before Prisma Client generation. The existing direct deployment and public alias remain healthy. Root build generation ordering and a regression assertion are being added before a fresh validation, verifier, commit, push, and Git-triggered deployment check."
+      "notes": "Completed from explicit user deployment authorization. Vercel project markgobriels-projects/save-and-spend serves https://tpay-harness-engineering.vercel.app/ with managed Neon PostgreSQL, applied migration, deterministic seed, and seven /api routes. A failed first Git-triggered clean clone exposed that apps/api compiled before Prisma Client generation; root build ordering and a regression contract now guarantee generation first. Fresh validation passed 69 tests across 19 files, 23 Playwright flows, both builds, and 34 architecture sources; fresh read-only verifier PASS confirmed scope and coverage. Git-triggered deployment dpl_3wvVaLc7GkcTwZ8WiDovrYgwWy5G reached Ready, and the canonical page plus every required API route returned 200. Desktop/mobile, goal-write, console/network, secret hygiene, and deployment runbook evidence pass."
     },
     {
       "id": "UX-004",

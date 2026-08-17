@@ -1,36 +1,32 @@
 {
   "schemaVersion": 1,
-  "projectStatus": "active",
+  "projectStatus": "complete",
   "initialReview": {
     "status": "approved",
     "approvedAt": "2026-08-11T14:41:14Z"
   },
-  "currentTaskId": "DEPLOY-001",
-  "currentPlan": [
-    "Generate Prisma Client before any workspace production build in a clean clone.",
-    "Run focused and full validation without weakening existing coverage.",
-    "Obtain a fresh verifier PASS, commit and push the fix, then verify the Git-triggered Vercel deployment and canonical public URL."
-  ],
+  "currentTaskId": null,
+  "currentPlan": [],
   "iteration": 41,
   "consecutiveFailures": 0,
   "strategyCount": 0,
-  "lastFailure": "Git-triggered Vercel clean clone compiled apps/api before Prisma Client generation; TypeScript could not resolve generated Prisma exports.",
+  "lastFailure": null,
   "lastValidation": {
     "command": "npm run validate",
     "result": "pass",
-    "at": "2026-08-17T08:25:42Z"
+    "at": "2026-08-17T08:33:52Z"
   },
   "lastVerifier": {
     "result": "pass",
-    "at": "2026-08-17T08:25:42Z",
-    "notes": "DEPLOY-001 PASS: public Vercel page and all required API routes return 200; desktop/mobile and goal-write evidence pass; 69 tests, 23 Playwright flows, both builds, 34 architecture sources, secret hygiene, scope containment, and unchanged coverage verified."
+    "at": "2026-08-17T08:33:52Z",
+    "notes": "DEPLOY-001 final PASS: clean-clone build ordering independently verified; 69 tests, 23 Playwright flows, both builds, and 34 architecture sources pass without product, domain, API, or coverage drift. Git-triggered Vercel deployment dpl_3wvVaLc7GkcTwZ8WiDovrYgwWy5G reached Ready and the canonical page plus all required API routes returned 200."
   },
   "blocker": null,
-  "completedAt": null,
+  "completedAt": "2026-08-17T08:35:30Z",
   "autonomyMode": "codex_evolution",
   "releaseReadiness": {
-    "status": "in_progress",
-    "summary": "The public product is healthy; DEPLOY-001 is correcting the clean-clone build ordering exposed by the first Git-triggered deployment."
+    "status": "complete",
+    "summary": "All 29 tasks pass. Save & Spend is publicly deployed at https://tpay-harness-engineering.vercel.app/ with managed PostgreSQL, reproducible clean-clone builds, fresh full validation, public desktop/mobile evidence, and verifier PASS."
   },
   "hookPolicy": {
     "maxFollowupsPerRun": 12,
