@@ -9,6 +9,8 @@ test-results/
 .env
 .env.*
 !.env.example
+.vercel/
+.playwright-cli/
 .agent/logs/
 .agent/evidence/
 .agent/*.pid

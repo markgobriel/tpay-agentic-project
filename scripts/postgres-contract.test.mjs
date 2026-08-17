@@ -52,4 +52,11 @@ describe("PostgreSQL persistence contract", () => {
     expect(prismaConfig).toContain("override: false");
     expect(`${e2e}\n${preview}`).not.toMatch(/sqlite3|file:.*\.db/);
   });
+
+  it("serializes browser files that share the isolated mutable goal", () => {
+    const playwrightConfig = read("playwright.config.ts");
+
+    expect(playwrightConfig).toContain("workers: 1");
+    expect(playwrightConfig).toContain("fullyParallel: false");
+  });
 });

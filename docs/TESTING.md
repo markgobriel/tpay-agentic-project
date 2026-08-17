@@ -19,6 +19,8 @@ Database and API integration tests start isolated stateless instances of Prisma'
 
 Environment-loader tests prove that the documented repository-root `.env` resolves consistently from source and build locations and never overrides an already exported deployment or test value.
 
+Vercel contract tests verify the production output directory, API route inventory, shared Express composition, SPA fallback, deterministic demo date, and production-only `/api` browser prefix. The final deployment additionally requires live public API and desktop/mobile browser checks because local validation cannot prove provider authentication, injected secrets, remote migration state, or CDN routing.
+
 During Harness v1, only the structure and state checks exist. Product tasks may add their appropriate stage, but must preserve this single entry point.
 
 ## Test levels

@@ -6,6 +6,9 @@ export default defineConfig({
   testDir: "./e2e",
   timeout: 60_000,
   fullyParallel: false,
+  // E2E files intentionally share one isolated seeded goal. Serialize workers
+  // so concurrent PUT flows cannot race or lock that single mutable record.
+  workers: 1,
   retries: 0,
   reporter: [["list"]],
   use: {

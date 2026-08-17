@@ -402,6 +402,22 @@
       "notes": "Completed from the post-redesign release audit: PostgreSQL is now the sole Prisma schema/migration/adapter contract; exact-pinned local Prisma Postgres instances isolate database, API, preview, and browser validation without Docker or credentials. Root .env behavior, continuation discovery, status wording, process identity, and supervisor shutdown are executable guardrails. Final npm run validate PASS (63 tests across 17 files, 23 browser flows, both builds, 33 architecture sources); npm audit reports 0 vulnerabilities across 518 dependencies; live desktop/mobile preview and restart health pass. Fresh verifier PASS after root-environment and lock-engine corrections. No finance/API/product-scope drift."
     },
     {
+      "id": "DEPLOY-001",
+      "priority": 290,
+      "status": "done",
+      "title": "Deploy the verified product to Vercel",
+      "acceptanceCriteria": [
+        "One Vercel project serves the production Vite build and the existing Express API under /api without changing local-development routes or financial behavior.",
+        "A managed PostgreSQL database is connected through environment variables, the checked-in migration is applied, and deterministic mock data is seeded without committing credentials.",
+        "Deployment configuration and automated policy/type tests prevent static-only, SPA-fallback, missing-route, or database-contract drift; npm run validate passes.",
+        "The production URL passes live health, account, analytics, goal, recommendation, transaction, desktop/mobile, console/network, and goal-update browser checks.",
+        "Deployment support and operating instructions are documented and committed; no unrelated push, paid plan, real banking integration, or protected-scope expansion occurs."
+      ],
+      "browserValidation": true,
+      "dependsOn": ["CODEX-010"],
+      "notes": "Completed from explicit user deployment authorization. Vercel project markgobriels-projects/save-and-spend serves the public https://tpay-harness-engineering.vercel.app/ alias with seven /api routes backed by a free Neon PostgreSQL integration. The checked-in migration and deterministic seed succeeded. Public page/API probes all returned 200; headed 1440x900 and 390x844 Chromium verified invalid and successful goal saves, preserved seed values, 12 transactions, exact mobile viewport width, zero console errors/warnings, and no failed app requests. Final npm run validate PASS: 69 tests across 19 files, 23 serial Playwright flows, both builds, and 34 architecture sources. Fresh read-only verifier PASS confirmed scope, hygiene, architecture, browser evidence, and unchanged test coverage. Deployment/runbook, env-ignore, generated-output lint, and shared-goal concurrency learnings are recorded in the harness evolution log."
+    },
+    {
       "id": "UX-004",
       "priority": 170,
       "status": "done",

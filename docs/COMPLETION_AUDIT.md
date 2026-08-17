@@ -1,5 +1,7 @@
 # Completion audit
 
+Production deployment addendum, 2026-08-17: the human-authorized Vercel deployment is public at [https://tpay-harness-engineering.vercel.app/](https://tpay-harness-engineering.vercel.app/). The checked-in PostgreSQL migration was applied to the connected free Neon database and the deterministic mock seed created one account, twelve transactions, and one goal. All public product/API routes returned HTTP 200; headed Chromium verified desktop and 390px layouts, the invalid and successful goal-save paths, 12 mobile transactions, exact viewport width without overflow, zero console errors/warnings, and no failed application requests.
+
 Audited on 2026-08-12 after commit `ffaf5ce` and CODEX-010's independent verifier pass.
 
 ## Release-gate evidence
@@ -14,8 +16,8 @@ Audited on 2026-08-12 after commit `ffaf5ce` and CODEX-010's independent verifie
 ## Remaining low-severity tradeoffs
 
 - The 390px page is approximately 4,604px tall because all twelve mock transactions remain visible. It is readable and overflow-free; collapsing or paginating this small fixed mock history would currently be preference-driven complexity.
-- The checked-in PostgreSQL migration executes through the PostgreSQL wire path in local integration and browser validation. A future authorized deployment should additionally smoke-test `prisma migrate deploy` against its selected managed PostgreSQL environment; that external environment and deployment action are intentionally outside this autonomous local scope.
-- Hosted CI and remote publication are not evidence of local product incompleteness. They run only after a human-authorized push; no deployment or push was performed by this completion audit.
+- The managed deployment uses Vercel Functions and a free Neon PostgreSQL integration. Provider ownership, quotas, protection settings, and credentials remain external operational concerns.
+- Hosted CI runs after a human-authorized push. The deployment was performed from the verified local checkout; publishing the local deployment-support commit to GitHub remains a separate action.
 
 ## Decision
 

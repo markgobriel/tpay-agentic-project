@@ -4,7 +4,7 @@ Save & Spend is a harness-engineering experiment for a mock personal-finance web
 
 ## Status
 
-The autonomous [release-readiness gate](docs/RELEASE_READINESS.md) is complete for local presentation and deployment handoff; the evidence and remaining low-severity tradeoffs are recorded in [the completion audit](docs/COMPLETION_AUDIT.md). The mock one-account app includes dashboard analytics, accessible category spending bars, savings-goal pace, discretionary recommendations, first-use demo guidance, deliberate loading/empty/error feedback, and Playwright-covered flows. No production deployment has occurred; external publication or deployment remains a human-authorized action. This repository is an npm workspaces modular monolith:
+The autonomous [release-readiness gate](docs/RELEASE_READINESS.md) is complete; the evidence and remaining low-severity tradeoffs are recorded in [the completion audit](docs/COMPLETION_AUDIT.md). The mock one-account app includes dashboard analytics, accessible category spending bars, savings-goal pace, discretionary recommendations, first-use demo guidance, deliberate loading/empty/error feedback, and Playwright-covered flows. The human-authorized production deployment is publicly available at [tpay-harness-engineering.vercel.app](https://tpay-harness-engineering.vercel.app/). This repository is an npm workspaces modular monolith:
 
 ```text
 apps/
@@ -174,6 +174,32 @@ npm run dev -w @save-and-spend/web
 Open the Vite URL printed in the web terminal (typically `http://127.0.0.1:5173`).
 
 The supervisor freezes the demo calculation date to `2026-07-15T12:00:00.000Z` unless `CALCULATION_DATE` is explicitly provided. Automated browser tests use isolated ports and an isolated stateless local PostgreSQL instance, so validation does not intentionally reset live preview data.
+
+## Vercel deployment
+
+Public production URL: [https://tpay-harness-engineering.vercel.app/](https://tpay-harness-engineering.vercel.app/)
+
+The repository deploys as one Vercel project:
+
+- `apps/web/dist` is the Vite static output;
+- the files under `api/` expose the existing Express application as Node.js Functions under `/api`;
+- `server/vercel-app.ts` composes the same Prisma-backed API without duplicating routes or financial logic; and
+- `vercel.json` preserves `/api` functions before applying the single-page-app fallback.
+
+Production requires a managed PostgreSQL connection in `DATABASE_URL`. Connect a Vercel Marketplace PostgreSQL integration, apply the checked-in migration, and seed the deterministic mock records before sending traffic. Set `CALCULATION_DATE=2026-07-15T12:00:00.000Z` for the stable portfolio demo. Never commit either value to the repository.
+
+The operational deployment sequence is:
+
+```bash
+vercel link
+vercel pull --yes --environment production
+DATABASE_URL="<direct unpooled PostgreSQL URL>" npm run db:migrate:deploy -w @save-and-spend/db
+DATABASE_URL="<direct unpooled PostgreSQL URL>" npm run db:seed -w @save-and-spend/db
+vercel build --prod
+vercel deploy --prebuilt --prod --yes
+```
+
+`vercel pull` is required before the provider-equivalent local build; without it, Vercel returns `project_settings_required`. The Vercel/marketplace dashboards remain the source of truth for project ownership, billing plan, database region, public-domain aliases, deployment protection, and secret rotation. Deployment is not part of `npm run validate`; validation remains local and deterministic.
 
 ### Demo tips
 

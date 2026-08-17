@@ -6,9 +6,10 @@ import type {
   TransactionsResponse,
   UpsertSavingsGoalRequest,
 } from "@save-and-spend/contracts";
+import { apiPath } from "./apiPath.js";
 
-async function getJson<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(path, init);
+async function getJson<T>(path: `/${string}`, init?: RequestInit): Promise<T> {
+  const response = await fetch(apiPath(path), init);
   if (!response.ok) {
     const body = (await response.json().catch(() => null)) as {
       error?: { message?: string; code?: string };

@@ -23,6 +23,8 @@ React web client -> REST API -> application/domain services -> Prisma -> Postgre
 
 Local development and validation use Prisma's exact-pinned local PostgreSQL runtime, powered by PGlite. This is a development/test convenience, not a second database contract: the authoritative Prisma provider, migration SQL, driver adapter, and connection protocol are PostgreSQL in every environment.
 
+The Vercel production topology keeps the same modular-monolith boundaries: Vite assets are served statically, thin `/api` Functions route into one shared Express composition, and Prisma uses an environment-injected managed PostgreSQL connection. Function entrypoints contain no domain calculations or duplicated resource behavior.
+
 ## Future module boundaries
 
 ```text

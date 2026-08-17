@@ -16,6 +16,8 @@ export default tseslint.config(
       "test-results/**",
       ".agent/**",
       ".cursor/**",
+      ".playwright-cli/**",
+      ".vercel/**",
       "prettier.config.cjs",
     ],
   },
@@ -37,8 +39,10 @@ export default tseslint.config(
   },
   {
     files: [
+      "api/**/*.{ts,tsx}",
       "apps/api/**/*.{ts,tsx}",
       "packages/**/*.{ts,tsx}",
+      "server/**/*.{ts,tsx}",
       "scripts/**/*.{js,mjs,cjs}",
       "packages/**/scripts/**/*.{js,mjs,cjs}",
     ],
