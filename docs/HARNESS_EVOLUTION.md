@@ -173,3 +173,10 @@ For every entry, record:
 - **Safeguard added:** browser files now run with one worker when using the shared isolated E2E database, preventing concurrent goal mutations while retaining every assertion, viewport, and browser flow.
 - **Enforced by:** `playwright.config.ts`, `scripts/postgres-contract.test.mjs`, `scripts/e2e.sh`, and `npm run validate`.
 - **Scope:** test isolation and determinism only; no test is skipped, weakened, retried, or behaviorally changed.
+
+### DEPLOY-001 — fresh-clone Prisma build ordering
+
+- **Observed evidence:** the direct prebuilt deployment passed because local validation had already generated Prisma Client. After the verified commit reached GitHub, Vercel's clean clone compiled `apps/api` before the database workspace generated Prisma Client, so TypeScript could not resolve `PrismaClient` or model exports.
+- **Safeguard added:** the root production build now generates Prisma Client before invoking workspace builds, making clean CI/Vercel builds independent of local generated state.
+- **Enforced by:** the root `build` script, `scripts/vercel-contract.test.mjs`, local validation, and a fresh Git-triggered Vercel deployment.
+- **Scope:** build ordering only; dependency versions, schema, API behavior, domain logic, and product scope are unchanged.

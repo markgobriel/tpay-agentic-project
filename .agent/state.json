@@ -1,16 +1,20 @@
 {
   "schemaVersion": 1,
-  "projectStatus": "complete",
+  "projectStatus": "active",
   "initialReview": {
     "status": "approved",
     "approvedAt": "2026-08-11T14:41:14Z"
   },
-  "currentTaskId": null,
-  "currentPlan": [],
+  "currentTaskId": "DEPLOY-001",
+  "currentPlan": [
+    "Generate Prisma Client before any workspace production build in a clean clone.",
+    "Run focused and full validation without weakening existing coverage.",
+    "Obtain a fresh verifier PASS, commit and push the fix, then verify the Git-triggered Vercel deployment and canonical public URL."
+  ],
   "iteration": 41,
   "consecutiveFailures": 0,
   "strategyCount": 0,
-  "lastFailure": null,
+  "lastFailure": "Git-triggered Vercel clean clone compiled apps/api before Prisma Client generation; TypeScript could not resolve generated Prisma exports.",
   "lastValidation": {
     "command": "npm run validate",
     "result": "pass",
@@ -22,11 +26,11 @@
     "notes": "DEPLOY-001 PASS: public Vercel page and all required API routes return 200; desktop/mobile and goal-write evidence pass; 69 tests, 23 Playwright flows, both builds, 34 architecture sources, secret hygiene, scope containment, and unchanged coverage verified."
   },
   "blocker": null,
-  "completedAt": "2026-08-17T08:25:42Z",
+  "completedAt": null,
   "autonomyMode": "codex_evolution",
   "releaseReadiness": {
-    "status": "complete",
-    "summary": "All 29 tasks pass. Save & Spend is publicly deployed at https://tpay-harness-engineering.vercel.app/ with managed PostgreSQL, fresh full validation, public desktop/mobile evidence, and verifier PASS."
+    "status": "in_progress",
+    "summary": "The public product is healthy; DEPLOY-001 is correcting the clean-clone build ordering exposed by the first Git-triggered deployment."
   },
   "hookPolicy": {
     "maxFollowupsPerRun": 12,

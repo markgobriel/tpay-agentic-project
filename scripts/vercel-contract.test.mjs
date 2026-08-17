@@ -12,6 +12,11 @@ describe("Vercel deployment contract", () => {
     expect(config.outputDirectory).toBe("apps/web/dist");
     expect(config.functions["api/**/*.ts"].maxDuration).toBe(30);
     expect(config.rewrites).toEqual([{ source: "/(.*)", destination: "/index.html" }]);
+
+    const manifest = JSON.parse(read("package.json"));
+    expect(manifest.scripts.build).toMatch(
+      /^npm run db:generate -w @save-and-spend\/db && npm run build --workspaces/,
+    );
   });
 
   it("exposes every browser dependency through the shared Express application", () => {

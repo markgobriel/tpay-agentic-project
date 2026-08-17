@@ -18,7 +18,7 @@
     "typecheck": "tsc -b && tsc --noEmit -p tsconfig.vercel.json",
     "test": "vitest run",
     "test:e2e": "bash scripts/e2e.sh",
-    "build": "npm run build --workspaces --if-present",
+    "build": "npm run db:generate -w @save-and-spend/db && npm run build --workspaces --if-present",
     "validate": "bash scripts/validate.sh"
   },
   "devDependencies": {
